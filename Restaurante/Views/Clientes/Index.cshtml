@@ -1,0 +1,74 @@
+@{
+  ViewData["Title"] = "Clientes";
+}
+
+<body class="color-fondo-body">
+<section class="container-administracion">
+<h1 class="titulos">Clientes</h1>
+<!-- Button trigger modal -->
+<div>
+    <button type="button" class="Btn" data-bs-toggle="modal" data-bs-target="#ModalCliente">
+      <div class="sign">+</div>
+      <div class="text">Agregar</div>
+    </button>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="ModalCliente" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="ModalTitulo" >Nuevo Cliente</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form action="">
+            <input type="hidden" id="ClienteID" value="0" />
+
+            <label for="Nombre" class="form-label">Nombre</label>
+            <input type="text" class="form-control" id="Nombre">
+
+            <label for="Apellido" class="form-label">Apellido</label>
+            <input type="text" class="form-control" id="Apellido">
+
+            <label for="Email" class="form-label">Email</label>
+            <input type="email" class="form-control" id="Email">
+
+            <label for="Telefono" class="form-label">Telefono</label>
+            <input type="number" class="form-control" id="Telefono">
+
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" onclick="LimpiarModal();" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-primary" onclick="GuardarCliente()" id="btnGuardarLocalidad">Guardar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="tbl-administracion" style="overflow: hidden; border-radius: 20px;">
+  <table class="table table-dark table-striped" style="border-radius: 20px; overflow: hidden; width: 100%;">
+    <thead>
+      <tr>
+        <th style="background-color: #241199;">Nombre</th>
+        <th style="background-color: #241199;">Apellido</th>
+        <th style="background-color: #241199;">Email</th>
+        <th style="background-color: #241199;">Telefono</th>
+        <th style="width: 150px; background-color: #241199;">Editar</th>
+        <th style="width: 110px; background-color: #241199;">Eliminar</th>
+      </tr>
+    </thead>
+    <tbody id="tbody-clientes"></tbody>
+  </table>
+</div>
+
+</section>
+
+
+@section Scripts {
+  <script src="~/js/clientes-1.0.0.js"></script>}
+
+</body>
