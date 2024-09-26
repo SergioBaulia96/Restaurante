@@ -1,0 +1,72 @@
+@{
+    ViewData["Title"] = "Mesas";
+}
+
+<body>
+    <section class="container-administracion">
+        <h1 class="titulos">Mesas</h1>
+        <!-- Button trigger modal -->
+        <div>
+            <button type="button" class="Btn" data-bs-toggle="modal" data-bs-target="#ModalMesa">
+                <div class="sign">+</div>
+                <div class="text">Agregar</div>
+            </button>
+        </div>
+
+
+        <!-- Modal -->
+        <div class="modal fade" id="ModalMesa" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="ModalTitulo">Nueva Mesa</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="">
+                            <input type="hidden" id="MesaID" value="0" />
+
+                            <label for="Numero" class="form-label">Numero</label>
+                            <input type="number" class="form-control" id="Numero">
+
+                            <label for="Capacidad" class="form-label">Capacidad</label>
+                            <input type="number" class="form-control" id="Capacidad">
+
+                            <label for="Disponible" class="form-label">Disponible</label>
+                            <input type="checkbox" class="form-check-input" id="Disponible">
+
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" onclick="LimpiarModal();" class="btn btn-secondary"
+                            data-bs-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-primary" onclick="GuardarMesa()">Guardar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="tbl-administracion" style="overflow: hidden; border-radius: 20px;">
+            <table class="table table-dark table-striped" style="border-radius: 20px; overflow: hidden; width: 100%;">
+                <thead>
+                    <tr>
+                        <th style="background-color: #019a4e; text-align: center;">Numero</th>
+                        <th style="background-color: #019a4e; text-align: center;">Capacidad</th>
+                        <th style="background-color: #019a4e; text-align: center;">Estado</th>
+                        <th style="width: 150px; background-color: #019a4e;">Editar</th>
+                        <th style="width: 150px; background-color: #019a4e;">Eliminar</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody-mesas"></tbody>
+            </table>
+        </div>
+
+    </section>
+
+
+    @section Scripts {
+        <script src="~/js/mesas-1.0.0.js"></script>
+    }
+
+</body>

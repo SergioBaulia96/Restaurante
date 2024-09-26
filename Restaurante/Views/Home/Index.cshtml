@@ -2,7 +2,61 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<link rel="stylesheet" href="~/css/inicio.css" asp-append-version="true" />
+
+
+
+<div class="card-body">
+    <div class="row">
+        <div class="col-md-4 mb-4 col-sm-12">
+            <div class="card custom-card d-flex align-items-center">
+                <div class="card-body text-center">
+                    <a class="text-decoration-none d-block text-gray" asp-area="" asp-controller="Clientes" asp-action="Index">
+                    <i class="lni lni-user d-block" style="font-size: 3em;"></i>
+                    <span class="titulo-card d-block mt-2">Clientes</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4 col-sm-12">
+          <div class="card custom-card d-flex align-items-center">
+            <div class="card-body text-center">
+              <a class="text-decoration-none d-block text-gray" asp-area="" asp-controller="Meseros" asp-action="Index">
+              <i class="lni lni-users d-block" style="font-size: 3em;"></i>
+              <span class="titulo-card d-block mt-2">Meseros</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4 mb-4 col-sm-12">
+          <div class="card custom-card d-flex align-items-center">
+            <div class="card-body text-center">
+              <a class="text-decoration-none d-block text-gray" asp-area="" asp-controller="Mesas" asp-action="Index">
+              <i class="lni lni-airtable d-block" style="font-size: 3em;"></i>
+              <span class="titulo-card d-block mt-2">Mesas</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-4 mb-4 col-sm-12">
+          <div class="card custom-card d-flex align-items-center">
+            <div class="card-body text-center">
+              
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4 mb-4 col-sm-12">
+            <div class="card custom-card d-flex align-items-center">
+                <div class="card-body text-center">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
