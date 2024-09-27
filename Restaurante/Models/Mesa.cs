@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace Restaurante.Models
-{
+namespace Restaurante.Models;
+
     public class Mesa
     {
         [Key]
@@ -13,4 +13,4 @@ namespace Restaurante.Models
         public virtual ICollection<Pedido> Pedidos { get; set; }
         public virtual ICollection<Reservacion> Reservaciones { get; set; }
     }
-}
+

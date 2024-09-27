@@ -1,8 +1,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace Restaurante.Models
-{
+namespace Restaurante.Models;
     public class Mesero
     {
         [Key]
@@ -12,4 +11,4 @@ namespace Restaurante.Models
         public string? Telefono { get; set; }
         public virtual ICollection<Pedido> Pedidos { get; set; }
     }
-}
+

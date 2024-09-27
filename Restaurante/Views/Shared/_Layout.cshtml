@@ -49,6 +49,18 @@
                                     <span class="titulo-navbar">Mesas</span>
                                 </a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link mx-lg-2" asp-area="" asp-controller="Menus" asp-action="Index">
+                                    <i class="lni lni-menu"></i>
+                                    <span class="titulo-navbar">Menus</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link mx-lg-2" asp-area="" asp-controller="Menus" asp-action="Platos">
+                                    <i class="lni lni-airtable"></i>
+                                    <span class="titulo-navbar">Platos</span>
+                                </a>
+                            </li>
                     </div>
                 </div>
                 <a class="login-button  " style="font-weight: 600; color: #363738;" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index","Home", new { area = "" })">Logout</a>
