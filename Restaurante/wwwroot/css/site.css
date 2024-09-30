@@ -2,6 +2,7 @@
 
 html {
   font-size: 14px;
+  scrollbar-color:#00c763 #f7f7f8;
 }
 
 @media (min-width: 768px) {
@@ -25,6 +26,7 @@ body {
   font-family: "Poppins", sans-serif;
   font-weight: 500;
   font-style: normal;
+  background: var(--bs-dark-bg-subtle);
 }
 
 .edit-button {
@@ -235,6 +237,7 @@ body {
   padding: 0.5rem;
   box-shadow: 0 6px 12px rgba(5, 5, 5, 0.7);
 }
+
 .avatar {
   height: 40px;
   width: 40px;
@@ -303,3 +306,79 @@ body {
       visibility: visible;
   }
 }
+
+/* Fondo de carga */
+.loading-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Fondo traslúcido */
+  display: flex; /* Mostrar por defecto */
+  align-items: center;
+  justify-content: center;
+  z-index: 9999; /* Asegura que esté en la parte superior */
+}
+
+/* Spinner de carga */
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 5px solid rgba(255, 255, 255, 0.3); /* Parte del borde semitransparente */
+  border-top: 5px solid #00c763; /* Parte del borde que gira */
+  border-radius: 50%;
+  animation: spin 1s linear infinite; /* Animación para girar */
+}
+
+/* Animación de giro */
+@keyframes spin {
+  0% {
+      transform: rotate(0deg);
+  }
+  100% {
+      transform: rotate(360deg);
+  }
+}
+
+
+/*FOOTER*/
+.custom-footer {
+    background-color: #3c3d3e;
+    color: #00c763;
+    padding: 10px 0;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    border-top: 3px solid #00c763;
+}
+
+.custom-footer .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.custom-footer .social-links {
+    margin-top: 0;
+}
+
+.custom-footer .social-links a {
+    margin-left: 15px;
+    color: #00c763; /* Color de las letras */
+    font-size: 24px; /* Tamaño del icono */
+    transition: color 0.3s;
+}
+
+.custom-footer .social-links a:hover {
+    color: #ffffff; /* Color al pasar el cursor */
+}
+
+.custom-footer i {
+    transition: transform 0.3s;
+}
+
+.custom-footer a:hover i {
+    transform: scale(1.2); /* Aumenta el tamaño del icono al pasar el cursor */
+}
+

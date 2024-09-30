@@ -19,84 +19,110 @@
     {
     <header>
 <nav class="navbar navbar-expand-lg fixed-top">
-            <div class="container-fluid">
-                <a class="navbar-brand me-auto" style="color:#fafafa" href="#">Rousen</a>
-                <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar"
-                    aria-labelledby="offcanvasNavbarLabel">
-                    <div class="offcanvas-header" style="background-color: #363738;">
-                        <h5 class="offcanvas-title" style="color: #fafafa;"  id="offcanvasNavbarLabel">Restaurante</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-                    </div>
-                    <div class="offcanvas-body" style="background-color: #363738;">
-                        <ul class="navbar-nav justify-content-center flex-grow-1 pe-3">
-                            <li class="nav-item">
-                                <a class="nav-link mx-lg-2" asp-area="" asp-controller="home" asp-action="Index">
-                                    <i class="lni lni-home"></i>
-                                    <span class="titulo-navbar">Home</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link mx-lg-2" asp-area="" asp-controller="Clientes" asp-action="Index">
-                                    <i class="lni lni-user"></i>
-                                    <span class="titulo-navbar">Clientes</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link mx-lg-2" asp-area="" asp-controller="Meseros" asp-action="Index">
-                                    <i class="lni lni-users"></i>
-                                    <span class="titulo-navbar">Meseros</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link mx-lg-2" asp-area="" asp-controller="Mesas" asp-action="Index">
-                                    <i class="lni lni-airtable"></i>
-                                    <span class="titulo-navbar">Mesas</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link mx-lg-2" asp-area="" asp-controller="Menus" asp-action="Index">
-                                    <i class="lni lni-menu"></i>
-                                    <span class="titulo-navbar">Menus</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link mx-lg-2" asp-area="" asp-controller="Menus" asp-action="Platos">
-                                    <i class="lni lni-airtable"></i>
-                                    <span class="titulo-navbar">Platos</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link mx-lg-2" asp-area="" asp-controller="Pedidos" asp-action="Index">
-                                    <i class="lni lni-airtable"></i>
-                                    <span class="titulo-navbar">Pedidos</span>
-                                </a>
-                            </li>
-                    </div>
-                </div>
-                <a class="login-button  " style="font-weight: 600; color: #363738;" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index","Home", new { area = "" })">Logout</a>
-            <button class="navbar-toggler pe-3" style="color: #fafafa;" type="button" data-bs-toggle="offcanvas"
-                data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
-                <i class="lni lni-angle-double-right"></i>
-            </button>
+    <div class="container-fluid">
+        <!-- Logo en lugar del nombre -->
+        <a class="navbar-brand me-auto" asp-area="" asp-controller="Home" asp-action="Index">
+            <img src="~/img/LogoRedondo.png" alt="" style="height: 70px;"/>
+        </a>
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar"
+            aria-labelledby="offcanvasNavbarLabel">
+            <div class="offcanvas-header" style="background-color: #363738;">
+                <h5 class="offcanvas-title" style="color: #fafafa;" id="offcanvasNavbarLabel">Restaurante</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
             </div>
-        </nav>
-    </header>
-    }
-    <div class="container">
+            <div class="offcanvas-body" style="background-color: #363738;">
+                <ul class="navbar-nav justify-content-center flex-grow-1 pe-3">
+                    <li class="nav-item">
+                        <a class="nav-link mx-lg-2" asp-area="" asp-controller="home" asp-action="Index">
+                            <i class="lni lni-home"></i>
+                            <span class="titulo-navbar">Home</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link mx-lg-2" asp-area="" asp-controller="Clientes" asp-action="Index">
+                            <i class="lni lni-user"></i>
+                            <span class="titulo-navbar">Clientes</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link mx-lg-2" asp-area="" asp-controller="Meseros" asp-action="Index">
+                            <i class="lni lni-users"></i>
+                            <span class="titulo-navbar">Meseros</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link mx-lg-2" asp-area="" asp-controller="Mesas" asp-action="Index">
+                            <i class="lni lni-airtable"></i>
+                            <span class="titulo-navbar">Mesas</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link mx-lg-2" asp-area="" asp-controller="Menus" asp-action="Index">
+                            <i class="lni lni-menu"></i>
+                            <span class="titulo-navbar">Menus</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link mx-lg-2" asp-area="" asp-controller="Menus" asp-action="Platos">
+                            <i class="lni lni-airtable"></i>
+                            <span class="titulo-navbar">Platos</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link mx-lg-2" asp-area="" asp-controller="Pedidos" asp-action="Index">
+                            <i class="lni lni-airtable"></i>
+                            <span class="titulo-navbar">Pedidos</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <a class="login-button" style="font-weight: 600; color: #363738;" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index","Home", new { area = "" })">Salir</a>
+        <button class="navbar-toggler pe-3" style="color: #fafafa;" type="button" data-bs-toggle="offcanvas"
+                data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+            <i class="lni lni-angle-double-right"></i>
+        </button>
+    </div>
+</nav>
+</header>
+    
+    
+
+<div class="loading-background" id="loadingBackground">
+        <div class="spinner" id="spinner"></div>
+    </div>
+
+<footer class="custom-footer">
+    <div class="container d-flex justify-content-between align-items-center">
+        <p>&copy; 2024 - Restaurante</p>
+        <div class="social-links">
+            <a href="https://facebook.com" target="_blank" aria-label="Facebook" class="social-icon">
+                <i class="lni lni-facebook-original"></i>
+            </a>
+            <a href="https://twitter.com" target="_blank" aria-label="Twitter" class="social-icon">
+                <i class="lni lni-twitter-original"></i>
+            </a>
+            <a href="https://instagram.com" target="_blank" aria-label="Instagram" class="social-icon">
+                <i class="lni lni-instagram-original"></i>
+            </a>
+            <a href="https://wa.me/tuNumeroTelefono" target="_blank" aria-label="WhatsApp" class="social-icon">
+                <i class="lni lni-whatsapp"></i>
+            </a>
+        </div>
+    </div>
+</footer>
+}
+
+<div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
-
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2024 - Restaurante - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
     
+    <script src="~/js/script.js"></script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/site.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
