@@ -2,17 +2,33 @@
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
 
+    <style>
+        .custom-dropdown{
+            background-color: #363738 !important;
+        }
+        .custom-dropdown .dropdown-item:hover {
+        background-color: #00c763;
+        color: white; 
+        }
+        .nav-item.dropdown:hover > .nav-link {
+        color: #00c763 !important;
+        }
+    </style>
+
 <ul class="navbar-nav">
 @if (SignInManager.IsSignedIn(User))
 {
-    <li class="nav-item">
-        <a  class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity?.Name!</a>
-    </li>
-    <li class="nav-item">
-        <form  class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-            <button  type="submit" class="nav-link btn btn-link text-dark">Logout</button>
+    <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle text-white" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"
+        aria-haspopup="true" aria-expanded="false"><i class="lni lni-happy"></i> Cuenta</a>
+    <div class="dropdown-menu dropdown-menu-end bg-dark custom-dropdown" aria-labelledby="navbarDropdown">
+        <a class="dropdown-item text-white" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage"><i class="fa-solid fa-address-card"></i> Mi Cuenta</a>
+        <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout"
+            asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+            <button type="submit" class="dropdown-item text-white"><i class="fa-solid fa-right-from-bracket text-white"></i> Cerrar Sesión</button>
         </form>
-    </li>
+    </div>
+</li>
 }
 else
 {

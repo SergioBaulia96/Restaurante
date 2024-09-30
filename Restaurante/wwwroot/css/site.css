@@ -346,11 +346,13 @@ body {
 .custom-footer {
     background-color: #3c3d3e;
     color: #00c763;
+    position: absolute;
     padding: 10px 0;
-    position: fixed;
     bottom: 0;
     width: 100%;
     border-top: 3px solid #00c763;
+    z-index: 9999;
+    margin-top: auto;
 }
 
 .custom-footer .container {
@@ -381,4 +383,5 @@ body {
 .custom-footer a:hover i {
     transform: scale(1.2); /* Aumenta el tamaño del icono al pasar el cursor */
 }
+
 
