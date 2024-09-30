@@ -3,7 +3,23 @@
 body{
     font-family: 'Poppins', sans-serif;
     font-weight: 500;
+    
 }
+
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('LogoCuadrado.png');
+    background-repeat: repeat;
+    background-size: 140px;
+    opacity: 0.6; /* Ajusta la transparencia (0 a 1) */
+    z-index: -1; /* Mantiene la imagen detrás del contenido */
+}
+
 .bg-custom {
     background-color: #313437;
 }
@@ -29,3 +45,5 @@ body{
     opacity: 0.9;
     color: aliceblue; /* Efecto al pasar el mouse */
 }
+
+

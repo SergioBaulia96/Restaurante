@@ -8,46 +8,50 @@
 <link rel="stylesheet" href="~/css/login.css" asp-append-version="true" />
 
 <h1>@ViewData["Title"]</h1>
-<div class="row">
-    <div class="col-md-4">
-        <section class="bg-custom p-4 rounded shadow">
-            <form id="account" method="post">
-                <h2 class="text-center text-light">ROUSEN</h2>
-                <hr class="bg-light" />
-                <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
-                
-                <div class="form-floating mb-3">
-                    <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" style="background-color: #313437; color: #00c763;" />
-                    <label asp-for="Input.Email" class="form-label text-light">Email</label>
-                    <span asp-validation-for="Input.Email" class="text-danger"></span>
-                </div>
-                
-                <div class="form-floating mb-3">
-                    <input asp-for="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" placeholder="password" style="background-color: #313437; color: #00c763;" />
-                    <label asp-for="Input.Password" class="form-label text-light">Contraseña</label>
-                    <span asp-validation-for="Input.Password" class="text-danger"></span>
-                </div>
-                
-                <div class="checkbox mb-3">
-                    <label asp-for="Input.RememberMe" class="form-label text-light">
-                        <input class="form-check-input" asp-for="Input.RememberMe" />
-                        @Html.DisplayNameFor(m => m.Input.RememberMe)
-                    </label>
-                </div>
-                
-                <div>
-                    <button id="login-submit" type="submit" class="w-100 btn btn-lg btn-custom" style="background-color: #00c763; border: none;">Iniciar Sesión</button>
-                </div>
-                
-                <div>
-                    <p class="text-custom">
-                        <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl" class="text-decoration-none" style="color: #00c763;">Registrarse</a>
-                    </p>
-                </div>
-            </form>
-        </section>
+<div class="container d-flex justify-content-center align-items-center min-vh-80">
+    <!-- Fila para contener la imagen y el formulario -->
+    <div class="row shadow-lg w-100" style="max-width: 700px; height: 450px; border-radius: 20px; overflow: hidden;">
+        <!-- Columna para la imagen -->
+        <div class="col-md-6 p-0 d-none d-md-block">
+            <img src="~/img/login.jpg" alt="Imagen de Login" class="img-fluid h-100 rounded-start" style="object-fit: cover;">
+        </div>
+
+        <!-- Columna para el formulario -->
+        <div class="col-md-6 bg-custom d-flex align-items-center p-4">
+            <section class="w-100">
+                <form id="account" method="post" class="w-100">
+                    <h2 class="text-center text-light">¡BIENVENIDO!</h2>
+                    <hr class="bg-light" />
+                    <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+                    
+                    <div class="form-floating mb-3">
+                        <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" style="background-color: #313437; color: #00c763;" />
+                        <label asp-for="Input.Email" class="form-label text-light">Email</label>
+                        <span asp-validation-for="Input.Email" class="text-danger"></span>
+                    </div>
+                    
+                    <div class="form-floating mb-3">
+                        <input asp-for="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" placeholder="password" style="background-color: #313437; color: #00c763;" />
+                        <label asp-for="Input.Password" class="form-label text-light">Contraseña</label>
+                        <span asp-validation-for="Input.Password" class="text-danger"></span>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <button id="login-submit" type="submit" class="w-100 btn btn-lg btn-custom" style="background-color: #00c763; border: none;">Iniciar Sesión</button>
+                    </div>
+                    
+                    <div class="text-center">
+                        <p class="text-custom mb-0">
+                            <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl" class="text-decoration-none" style="color: #00c763;">Registrarse</a>
+                        </p>
+                    </div>
+                </form>
+            </section>
+        </div>
     </div>
 </div>
+
+
 
 
 @section Scripts {
