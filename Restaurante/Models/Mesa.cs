@@ -7,7 +7,7 @@ namespace Restaurante.Models;
     {
         [Key]
         public int MesaID { get; set; }
-        public int Numero { get; set; }
+        public string? Numero { get; set; }
         public int Capacidad { get; set; }
         public bool Disponible { get; set; } = true;
         public virtual ICollection<Pedido> Pedidos { get; set; }

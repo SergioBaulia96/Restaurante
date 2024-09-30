@@ -1,10 +1,12 @@
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Restaurante.Data;
 using Restaurante.Models;
 
 namespace Restaurante.Controllers;
 
+[Authorize]
 public class MesasController : Controller
 {
     private ApplicationDbContext _context;
@@ -31,9 +33,11 @@ public class MesasController : Controller
         return Json(listadoMesas);
     }
 
-        public JsonResult GuardarMesa (int MesaID, int Numero, int Capacidad, bool Disponible)
+        public JsonResult GuardarMesa (int MesaID, string Numero, int Capacidad, bool Disponible)
     {
         string resultado = "";
+
+        Numero = Numero.ToUpper();
 
         if(MesaID == 0)
         {

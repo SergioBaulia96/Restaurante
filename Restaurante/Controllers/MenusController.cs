@@ -1,4 +1,5 @@
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Restaurante.Data;
@@ -6,6 +7,7 @@ using Restaurante.Models;
 
 namespace Restaurante.Controllers;
 
+[Authorize]
 public class MenusController : Controller
 {
     private ApplicationDbContext _context;
@@ -141,6 +143,9 @@ public class MenusController : Controller
         )
     {
         string resultado = "";
+
+        NombrePlato = NombrePlato.ToUpper();
+
         if (PlatoID == 0)
         {
             if (MenuID > 0)
@@ -169,6 +174,7 @@ public class MenusController : Controller
                 editarPlato.Disponible = Disponible;
 
                 _context.SaveChanges();
+                resultado = "Plato Editado";
             }
         }
         return Json(resultado);

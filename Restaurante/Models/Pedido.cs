@@ -11,7 +11,7 @@ namespace Restaurante.Models;
         public int PedidoID { get; set; }
         public int MesaID { get; set; }
         public int MeseroID { get; set; }
-        public int? ClienteID { get; set; }
+        public int ClienteID { get; set; }
         public DateTime FechaPedido { get; set; } = DateTime.Now;
         public Estado Estado { get; set; }
         
@@ -31,5 +31,20 @@ namespace Restaurante.Models;
         EnPreparación = 1,
         Servido,
         Cancelado,
+    }
+
+    public class VistaPedido
+    {
+        public int PedidoID { get; set; }
+        public int MesaID { get; set; }
+        public int MeseroID { get; set; }
+        public int ClienteID { get; set; }
+        public string? NumeroMesa { get; set; }
+        public string? NombreMesero {get ; set;}
+        public string? NombreCliente {get; set; }
+        public string? FechaPedido { get; set; }
+        public string? Estado { get; set; }
+        public string? Total {get; set;}
+
     }
 
