@@ -80,11 +80,14 @@ public class PedidosController : Controller
                 MesaID = p.MesaID,
                 Estado = Enum.GetName(typeof(Estado), p.Estado),
                 NombreCliente = cliente.Nombre,
+                ApellidoCliente = cliente.Apellido,
                 NombreMesero = mesero.Nombre,
+                ApellidoMesero = mesero.Apellido,
                 NumeroMesa = mesa.Numero,
-                FechaPedido = p.FechaPedido.ToString("dd/MM/yyyy HH:mm"),
+                FechaPedido = p.FechaPedido.ToString("yyyy-MM-ddTHH:mm"),
                 Total = p.Total.ToString("C", new System.Globalization.CultureInfo("es-AR"))
             };
+
             pedidosMostrar.Add(pedidoMostrar);
         }
 
@@ -103,49 +106,46 @@ public class PedidosController : Controller
         return Json(pedidosPorID.ToList());
     }
 
-        public JsonResult GuardarPedido(
-        int? PedidoID,
-        int ClienteID,
-        int MeseroID,
-        int MesaID,
-        Estado Estado,
-        DateTime FechaPedido
-        )
+        public JsonResult GuardarPedido(int? PedidoID, int ClienteID, int MeseroID, int MesaID, Estado Estado, DateTime FechaPedido)
+{
+    string resultado = "Error al guardar el pedido";
+    bool exito = false;
+    string estadoTexto = Estado.ToString().Replace("_", " ");
+    if (PedidoID == 0)
     {
-        string resultado = "";
-        if (PedidoID == 0)
+        if (ClienteID > 0 && MesaID > 0 && MeseroID > 0)
         {
-            if (ClienteID > 0 && MesaID > 0 && MeseroID > 0)
+            var pedido = new Pedido
             {
-                var pedido = new Pedido
-                {
-                    ClienteID = ClienteID,
-                    MeseroID = MeseroID,
-                    MesaID = MesaID,
-                    Estado = Estado,
-                    FechaPedido = FechaPedido,
-                    
-                };
-                _context.Add(pedido);
-                _context.SaveChanges();
-            }
+                ClienteID = ClienteID,
+                MeseroID = MeseroID,
+                MesaID = MesaID,
+                Estado = Estado,
+                FechaPedido = FechaPedido,
+            };
+            _context.Add(pedido);
+            _context.SaveChanges();
+            exito = true;
+            resultado = "Pedido guardado con éxito";
         }
-        else
-        {
-            var editarPedido = _context.Pedidos.Where(e => e.PedidoID == PedidoID).SingleOrDefault();
-            if (editarPedido != null)
-            {
-                editarPedido.ClienteID = ClienteID;
-                editarPedido.MeseroID = MeseroID;
-                editarPedido.MesaID = MesaID;
-                editarPedido.Estado = Estado;
-                editarPedido.FechaPedido = FechaPedido;
-
-                _context.SaveChanges();
-            }
-        }
-        return Json(resultado);
     }
+    else
+    {
+        var editarPedido = _context.Pedidos.Where(e => e.PedidoID == PedidoID).SingleOrDefault();
+        if (editarPedido != null)
+        {
+            editarPedido.ClienteID = ClienteID;
+            editarPedido.MeseroID = MeseroID;
+            editarPedido.MesaID = MesaID;
+            editarPedido.Estado = Estado;
+            editarPedido.FechaPedido = FechaPedido;
+            _context.SaveChanges();
+            exito = true;
+            resultado = "Pedido actualizado con éxito";
+        }
+    }
+    return Json(new { exito, mensaje = resultado });
+}
 
         public JsonResult EliminarPedido(int PedidoID)
     {

@@ -28,7 +28,8 @@ namespace Restaurante.Models;
 
     public enum Estado
     {
-        EnPreparación = 1,
+        Preparando = 1,
+        Listo,
         Servido,
         Cancelado,
     }
@@ -41,7 +42,9 @@ namespace Restaurante.Models;
         public int ClienteID { get; set; }
         public string? NumeroMesa { get; set; }
         public string? NombreMesero {get ; set;}
+        public string? ApellidoMesero { get; set; }
         public string? NombreCliente {get; set; }
+        public string? ApellidoCliente { get; set; }
         public string? FechaPedido { get; set; }
         public string? Estado { get; set; }
         public string? Total {get; set;}
