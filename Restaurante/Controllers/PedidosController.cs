@@ -155,4 +155,10 @@ public class PedidosController : Controller
 
         return Json(true);
     }
+
+    public IActionResult DetallePedido()
+    {
+        return View();
+    }
+
 }

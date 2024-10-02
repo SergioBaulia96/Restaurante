@@ -221,12 +221,7 @@ body {
 .Btn:active {
   transform: translate(2px ,2px);
 }
-/* 
-.tbl-administracion{
-  width:900px;
-  margin-left: 300px;
-  border-radius: 50%;
-} */
+
 
 /*NAVBAR*/
 .navbar {

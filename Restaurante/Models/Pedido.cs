@@ -12,14 +12,9 @@ namespace Restaurante.Models;
         public int MesaID { get; set; }
         public int MeseroID { get; set; }
         public int ClienteID { get; set; }
-        public DateTime FechaPedido { get; set; } = DateTime.Now;
+        public DateTime FechaPedido { get; set; }
         public Estado Estado { get; set; }
-        
-        [NotMapped]
-        public decimal Total
-        {
-            get { return DetallesPedidos?.Sum(d => d.Subtotal) ?? 0; }
-        }
+        public decimal Total { get; set; }
         public virtual Cliente Clientes { get; set; }
         public virtual Mesero Meseros { get; set; }
         public virtual Mesa Mesas { get; set; }

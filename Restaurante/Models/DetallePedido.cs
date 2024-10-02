@@ -11,15 +11,12 @@ public class DetallePedido
     public int PlatoID { get; set; }
     public int Cantidad { get; set; }
     public decimal PrecioUnitario { get; set; }
-    
-    [NotMapped] // No se almacenará en la base de datos
-    public decimal Subtotal 
-    {
-        get { return Cantidad * PrecioUnitario; }
-    }
+
+    // Subtotal calculado automáticamente
+    public decimal Subtotal => Cantidad * PrecioUnitario;
+
     public virtual Pedido Pedidos { get; set; }
     public virtual Plato Platos { get; set; }
-
 }
 
 public class VistaDetallePedido
@@ -28,7 +25,6 @@ public class VistaDetallePedido
     public int PedidoID { get; set; }
     public int PlatoID { get; set; }
     public int Cantidad { get; set; }
-    public decimal PrecioUnitario { get; set; }
     public string? FechaPedido { get; set; }
     public string? EstadoPedido {get ; set;}
     public decimal? TotalPedido {get; set;}
