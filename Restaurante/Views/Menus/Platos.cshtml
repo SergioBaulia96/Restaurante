@@ -28,15 +28,31 @@
 
                             <label for="MenuID" class="form-label">Menus</label>
                             @Html.DropDownList("MenuID", null, htmlAttributes: new { @class = "form-control" })
+                            <span id="errorMensajeTipoMenu"
+                                style="color:red; display:none; font-size: 15px; padding-left: 4px;">
+                                <i class="lni lni-warning pe-1"></i>Debe seleccionar un tipo de menu.
+                            </span>
 
                             <label for="NombrePlato" class="form-label">Nombre</label>
                             <input type="text" class="form-control" id="NombrePlato">
+                            <span id="errorMensajeNombre"
+                                style="color:red; display:none; font-size: 15px; padding-left: 4px;">
+                                <i class="lni lni-warning pe-1"></i>Debe ingresar un nombre.
+                            </span>
 
                             <label for="Descripcion" class="form-label">Descripcion</label>
                             <input type="text" class="form-control" id="Descripcion">
+                            <span id="errorMensajeDescripcion"
+                                style="color:red; display:none; font-size: 15px; padding-left: 4px;">
+                                <i class="lni lni-warning pe-1"></i>Debe ingresar una descripcion.
+                            </span>
 
                             <label for="Precio" class="form-label">Precio</label>
                             <input type="number" class="form-control" id="Precio">
+                            <span id="errorMensajePrecio"
+                                style="color:red; display:none; font-size: 15px; padding-left: 4px;">
+                                <i class="lni lni-warning pe-1"></i>Debe ingresar un precio.
+                            </span>
 
                             <label for="Disponible" class="form-label">Disponible</label>
                             <input type="checkbox" class="form-check-input" id="Disponible">

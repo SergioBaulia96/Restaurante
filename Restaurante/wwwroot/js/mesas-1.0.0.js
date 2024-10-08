@@ -43,6 +43,8 @@ function LimpiarModal(){
     document.getElementById("Numero").value = "";
     document.getElementById("Capacidad").value = "";
     document.getElementById("Disponible").value = "";
+    document.getElementById("errorMensajeNombre").style.display = "none"
+    document.getElementById("errorMensajeCapacidad").style.display = "none"
 }
 
 function NuevaMesa(){
@@ -54,6 +56,27 @@ function GuardarMesa(){
     let numero = document.getElementById("Numero").value;
     let capacidad = document.getElementById("Capacidad").value;
     let disponible = document.getElementById("Disponible").checked;
+    let isValid = true;
+
+    if (numero === "") {
+        document.getElementById("errorMensajeNombre").style.display = "block";
+        isValid = false;
+    } else {
+        document.getElementById("errorMensajeNombre").style.display = "none";
+    }
+
+    if (capacidad === "") {
+        document.getElementById("errorMensajeCapacidad").style.display = "block";
+        isValid = false;
+    } else {
+        document.getElementById("errorMensajeCapacidad").style.display = "none";
+    }
+
+    if (!isValid) {
+        return;  // Detener la ejecución aquí si isValid es false
+    }
+
+
 
 
     $.ajax({

@@ -20,7 +20,6 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="ModalTitulo" >Nuevo Cliente</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <form action="">
@@ -28,12 +27,24 @@
 
             <label for="Nombre" class="form-label">Nombre</label>
             <input type="text" class="form-control" id="Nombre">
+            <span id="errorMensajeNombre"
+                style="color:red; display:none; font-size: 15px; padding-left: 4px;">
+                <i class="lni lni-warning pe-1"></i>Debe ingresar un nombre
+            </span>
 
             <label for="Apellido" class="form-label">Apellido</label>
             <input type="text" class="form-control" id="Apellido">
+            <span id="errorMensajeApellido"
+                style="color:red; display:none; font-size: 15px; padding-left: 4px;">
+                <i class="lni lni-warning pe-1"></i>Debe ingresar un apellido
+            </span>
 
             <label for="Telefono" class="form-label">Telefono</label>
             <input type="number" class="form-control" id="Telefono">
+            <span id="errorMensajeTelefono"
+                style="color:red; display:none; font-size: 15px; padding-left: 4px;">
+                <i class="lni lni-warning pe-1"></i>Debe ingresar un numero de telefono
+            </span>
 
         </form>
       </div>

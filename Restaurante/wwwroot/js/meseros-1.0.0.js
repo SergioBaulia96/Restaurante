@@ -42,6 +42,9 @@ function LimpiarModal(){
     document.getElementById("Nombre").value = "";
     document.getElementById("Apellido").value = "";
     document.getElementById("Telefono").value = "";
+    document.getElementById("errorMensajeNombre").style.display = "none"
+    document.getElementById("errorMensajeApellido").style.display = "none"
+    document.getElementById("errorMensajeTelefono").style.display = "none"
 }
 
 function NuevoMesero(){
@@ -53,6 +56,32 @@ function GuardarMesero(){
     let nombre = document.getElementById("Nombre").value;
     let apellido = document.getElementById("Apellido").value;
     let telefono = document.getElementById("Telefono").value;
+    let isValid = true;
+
+    if (nombre === "") {
+        document.getElementById("errorMensajeNombre").style.display = "block";
+        isValid = false;
+    } else {
+        document.getElementById("errorMensajeNombre").style.display = "none";
+    }
+
+    if (apellido === "") {
+        document.getElementById("errorMensajeApellido").style.display = "block";
+        isValid = false;
+    } else {
+        document.getElementById("errorMensajeApellido").style.display = "none";
+    }
+
+    if (telefono === "") {
+        document.getElementById("errorMensajeTelefono").style.display = "block";
+        isValid = false;
+    } else {
+        document.getElementById("errorMensajeTelefono").style.display = "none";
+    }
+
+    if (!isValid) {
+        return;  // Detener la ejecución aquí si isValid es false
+    }
 
 
     $.ajax({

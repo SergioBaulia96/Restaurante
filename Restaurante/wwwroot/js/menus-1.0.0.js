@@ -38,6 +38,7 @@ function ListadoMenus()
 function LimpiarModal(){
     document.getElementById("MenuID").value = 0;
     document.getElementById("Nombre").value = "";
+    document.getElementById("errorMensajeNombre").style.display = "none"
 }
 
 function NuevoMenu(){
@@ -47,6 +48,18 @@ function NuevoMenu(){
 function GuardarMenu(){
     let menuID = document.getElementById("MenuID").value;
     let nombre = document.getElementById("Nombre").value;
+    let isValid = true;
+
+    if (nombre === "") {
+        document.getElementById("errorMensajeNombre").style.display = "block";
+        isValid = false;
+    } else {
+        document.getElementById("errorMensajeNombre").style.display = "none";
+    }
+
+    if (!isValid) {
+        return;  // Detener la ejecución aquí si isValid es false
+    }
 
 
     $.ajax({

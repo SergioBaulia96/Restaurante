@@ -23,21 +23,36 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form action="">
+                <form action="">
             <input type="hidden" id="ClienteID" value="0" />
 
             <label for="Nombre" class="form-label">Nombre</label>
             <input type="text" class="form-control" id="Nombre">
+            <span id="errorMensajeNombre"
+                style="color:red; display:none; font-size: 15px; padding-left: 4px;">
+                <i class="lni lni-warning pe-1"></i>Debe ingresar un nombre
+            </span>
 
             <label for="Apellido" class="form-label">Apellido</label>
             <input type="text" class="form-control" id="Apellido">
+            <span id="errorMensajeApellido"
+                style="color:red; display:none; font-size: 15px; padding-left: 4px;">
+                <i class="lni lni-warning pe-1"></i>Debe ingresar un apellido
+            </span>
 
             <label for="Email" class="form-label">Email</label>
             <input type="email" class="form-control" id="Email">
+            <span id="errorMensajeEmail"
+                style="color:red; display:none; font-size: 15px; padding-left: 4px;">
+                <i class="lni lni-warning pe-1"></i>Debe ingresar un email
+            </span>
 
             <label for="Telefono" class="form-label">Telefono</label>
             <input type="number" class="form-control" id="Telefono">
-
+            <span id="errorMensajeTelefono"
+                style="color:red; display:none; font-size: 15px; padding-left: 4px;">
+                <i class="lni lni-warning pe-1"></i>Debe ingresar un numero de telefono
+            </span>
         </form>
       </div>
       <div class="modal-footer">

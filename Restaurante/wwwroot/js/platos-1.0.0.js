@@ -48,6 +48,10 @@ function LimpiarModal(){
     document.getElementById("Descripcion").value = "";
     document.getElementById("Precio").value = "";
     document.getElementById("Disponible").value = "";
+    document.getElementById("errorMensajeTipoMenu").style.display = "none"
+    document.getElementById("errorMensajeNombre").style.display = "none"
+    document.getElementById("errorMensajeDescripcion").style.display = "none"
+    document.getElementById("errorMensajePrecio").style.display = "none"
 }
 
 function NuevoPlato(){
@@ -61,6 +65,40 @@ function GuardarPlato(){
     let descripcion = document.getElementById("Descripcion").value;
     let precio = document.getElementById("Precio").value;
     let disponible = document.getElementById("Disponible").checked;
+    let isValid = true;
+
+    if (menuID === "0") {
+        document.getElementById("errorMensajeTipoMenu").style.display = "block";
+        isValid = false;
+    } else {
+        document.getElementById("errorMensajeTipoMenu").style.display = "none";
+    }
+
+    if (nombrePlato === "") {
+        document.getElementById("errorMensajeNombre").style.display = "block";
+        isValid = false;
+    } else {
+        document.getElementById("errorMensajeNombre").style.display = "none";
+    }
+
+    if (descripcion === "") {
+        document.getElementById("errorMensajeDescripcion").style.display = "block";
+        isValid = false;
+    } else {
+        document.getElementById("errorMensajeDescripcion").style.display = "none";
+    }
+
+    if (precio === "") {
+        document.getElementById("errorMensajePrecio").style.display = "block";
+        isValid = false;
+    } else {
+        document.getElementById("errorMensajePrecio").style.display = "none";
+    }
+
+    if (!isValid) {
+        return;  // Detener la ejecución aquí si isValid es false
+    }
+    
 
 
     $.ajax({

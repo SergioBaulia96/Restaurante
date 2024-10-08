@@ -44,6 +44,10 @@ function LimpiarModal(){
     document.getElementById("Apellido").value = "";
     document.getElementById("Email").value = "";
     document.getElementById("Telefono").value = "";
+    document.getElementById("errorMensajeNombre").style.display = "none"
+    document.getElementById("errorMensajeApellido").style.display = "none"
+    document.getElementById("errorMensajeEmail").style.display = "none"
+    document.getElementById("errorMensajeTelefono").style.display = "none"
 }
 
 function NuevoCliente(){
@@ -56,6 +60,39 @@ function GuardarCliente(){
     let apellido = document.getElementById("Apellido").value;
     let email = document.getElementById("Email").value;
     let telefono = document.getElementById("Telefono").value;
+    let isValid = true;
+
+    if (nombre === "") {
+        document.getElementById("errorMensajeNombre").style.display = "block";
+        isValid = false;
+    } else {
+        document.getElementById("errorMensajeNombre").style.display = "none";
+    }
+
+    if (apellido === "") {
+        document.getElementById("errorMensajeApellido").style.display = "block";
+        isValid = false;
+    } else {
+        document.getElementById("errorMensajeApellido").style.display = "none";
+    }
+
+    if (telefono === "") {
+        document.getElementById("errorMensajeTelefono").style.display = "block";
+        isValid = false;
+    } else {
+        document.getElementById("errorMensajeTelefono").style.display = "none";
+    }
+
+    if (email === "") {
+        document.getElementById("errorMensajeEmail").style.display = "block";
+        isValid = false;
+    } else {
+        document.getElementById("errorMensajeEmail").style.display = "none";
+    }
+
+    if (!isValid) {
+        return;  // Detener la ejecución aquí si isValid es false
+    }
 
 
     $.ajax({
