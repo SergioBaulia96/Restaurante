@@ -15,44 +15,53 @@
 
 
         <!-- Modal -->
-        <div class="modal fade" id="ModalMesa" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="ModalTitulo">Nueva Mesa</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form action="">
-                            <input type="hidden" id="MesaID" value="0" />
+<div class="modal fade" id="ModalMesa" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content shadow-lg border-0">
+      <div class="modal-header text-white" style="background-color: #00c763;">
+        <h5 class="modal-title" id="ModalTitulo">Nueva Mesa</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body p-4">
+        <form action="" class="needs-validation" novalidate>
+          <input type="hidden" id="MesaID" value="0" />
 
-                            <label for="Numero" class="form-label">Numero</label>
-                            <input type="text" class="form-control" id="Numero">
-                            <span id="errorMensajeNombre"
-                                style="color:red; display:none; font-size: 15px; padding-left: 4px;">
-                                <i class="lni lni-warning pe-1"></i>Debe ingresar un numero de Mesa.
-                            </span>
+          <div class="mb-3">
+            <label for="Numero" class="form-label">Número</label>
+            <input type="text" class="form-control shadow-sm" id="Numero" placeholder="Ingrese el número de mesa" required>
+            <span id="errorMensajeNombre"
+                  style="color:red; display:none; font-size: 15px; padding-left: 4px;">
+                  <i class="lni lni-warning pe-1"></i>Debe ingresar un número de mesa.
+            </span>
+          </div>
 
-                            <label for="Capacidad" class="form-label">Capacidad</label>
-                            <input type="number" class="form-control" id="Capacidad">
-                            <span id="errorMensajeCapacidad"
-                                style="color:red; display:none; font-size: 15px; padding-left: 4px;">
-                                <i class="lni lni-warning pe-1"></i>Debe ingresar la Capacidad.
-                            </span>
+          <div class="mb-3">
+            <label for="Capacidad" class="form-label">Capacidad</label>
+            <input type="number" class="form-control shadow-sm" id="Capacidad" placeholder="Ingrese la capacidad" required>
+            <span id="errorMensajeCapacidad"
+                  style="color:red; display:none; font-size: 15px; padding-left: 4px;">
+                  <i class="lni lni-warning pe-1"></i>Debe ingresar la capacidad.
+            </span>
+          </div>
 
-                            <label for="Disponible" class="form-label">Disponible</label>
-                            <input type="checkbox" class="form-check-input" id="Disponible">
+          <div class="form-check mb-3">
+            <input type="checkbox" class="form-check-input" id="Disponible">
+            <label class="form-check-label" for="Disponible">Disponible</label>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer border-0">
+        <button type="button" onclick="LimpiarModal();" class="btn btn-secondary" data-bs-dismiss="modal">
+          <i class="lni lni-close"></i> Cancelar
+        </button>
+        <button type="button" class="btn text-white" style="background-color: #00c763;" onclick="GuardarMesa()">
+          <i class="lni lni-save"></i> Guardar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
 
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" onclick="LimpiarModal();" class="btn btn-secondary"
-                            data-bs-dismiss="modal">Cancelar</button>
-                        <button type="button" class="btn btn-primary" onclick="GuardarMesa()">Guardar</button>
-                    </div>
-                </div>
-            </div>
-        </div>
 
 
         <div class="tbl-administracion" style="overflow: hidden; border-radius: 20px;">

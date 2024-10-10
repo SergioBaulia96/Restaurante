@@ -16,52 +16,65 @@
 
 <!-- Modal -->
 <div class="modal fade" id="ModalCliente" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="ModalTitulo" >Nuevo Cliente</h5>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content shadow-lg border-0">
+      <div class="modal-header text-white" style="background-color: #00c763;">
+        <h5 class="modal-title" id="ModalTitulo">Nuevo Cliente</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="modal-body">
-                <form action="">
-            <input type="hidden" id="ClienteID" value="0" />
+      <div class="modal-body p-4">
+        <form action="" class="needs-validation" novalidate>
+          <input type="hidden" id="ClienteID" value="0" />
 
+          <div class="mb-3">
             <label for="Nombre" class="form-label">Nombre</label>
-            <input type="text" class="form-control" id="Nombre">
+            <input type="text" class="form-control shadow-sm" id="Nombre" placeholder="Ingrese el nombre" required>
             <span id="errorMensajeNombre"
-                style="color:red; display:none; font-size: 15px; padding-left: 4px;">
-                <i class="lni lni-warning pe-1"></i>Debe ingresar un nombre
+                  style="color:red; display:none; font-size: 15px; padding-left: 4px;">
+                  <i class="lni lni-warning pe-1"></i>Debe ingresar un nombre
             </span>
+          </div>
 
+          <div class="mb-3">
             <label for="Apellido" class="form-label">Apellido</label>
-            <input type="text" class="form-control" id="Apellido">
+            <input type="text" class="form-control shadow-sm" id="Apellido" placeholder="Ingrese el apellido" required>
             <span id="errorMensajeApellido"
-                style="color:red; display:none; font-size: 15px; padding-left: 4px;">
-                <i class="lni lni-warning pe-1"></i>Debe ingresar un apellido
+                  style="color:red; display:none; font-size: 15px; padding-left: 4px;">
+                  <i class="lni lni-warning pe-1"></i>Debe ingresar un apellido
             </span>
+          </div>
 
+          <div class="mb-3">
             <label for="Email" class="form-label">Email</label>
-            <input type="email" class="form-control" id="Email">
+            <input type="email" class="form-control shadow-sm" id="Email" placeholder="Ingrese el email" required>
             <span id="errorMensajeEmail"
-                style="color:red; display:none; font-size: 15px; padding-left: 4px;">
-                <i class="lni lni-warning pe-1"></i>Debe ingresar un email
+                  style="color:red; display:none; font-size: 15px; padding-left: 4px;">
+                  <i class="lni lni-warning pe-1"></i>Debe ingresar un email
             </span>
+          </div>
 
-            <label for="Telefono" class="form-label">Telefono</label>
-            <input type="number" class="form-control" id="Telefono">
+          <div class="mb-3">
+            <label for="Telefono" class="form-label">Teléfono</label>
+            <input type="number" class="form-control shadow-sm" id="Telefono" placeholder="Ingrese el número de teléfono" required>
             <span id="errorMensajeTelefono"
-                style="color:red; display:none; font-size: 15px; padding-left: 4px;">
-                <i class="lni lni-warning pe-1"></i>Debe ingresar un numero de telefono
+                  style="color:red; display:none; font-size: 15px; padding-left: 4px;">
+                  <i class="lni lni-warning pe-1"></i>Debe ingresar un número de teléfono
             </span>
+          </div>
         </form>
       </div>
-      <div class="modal-footer">
-        <button type="button" onclick="LimpiarModal();" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-        <button type="button" class="btn btn-primary" onclick="GuardarCliente()" id="btnGuardarLocalidad">Guardar</button>
+      <div class="modal-footer border-0">
+        <button type="button" onclick="LimpiarModal();" class="btn btn-secondary" data-bs-dismiss="modal">
+          <i class="lni lni-close"></i> Cancelar
+        </button>
+        <button type="button" class="btn text-white" style="background-color: #00c763;" onclick="GuardarCliente()" id="btnGuardarLocalidad">
+          <i class="lni lni-save"></i> Guardar
+        </button>
       </div>
     </div>
   </div>
 </div>
+
 
 
 <div class="tbl-administracion" style="overflow: hidden; border-radius: 20px;">
