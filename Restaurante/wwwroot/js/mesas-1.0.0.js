@@ -90,15 +90,35 @@ function GuardarMesa(){
         type: 'POST',
         dataType: 'json',
         success: function(resultado){
-            if(resultado != "") {
-                alert(resultado)
+            // Mostrar alerta dependiendo del resultado
+            if (resultado === "La mesa ya existe.") {
+                MostrarAlerta('danger', resultado); // Alerta de error
+            } else {
+                MostrarAlerta('success', resultado); // Alerta de éxito
+                ListadoMesas();
+                $("#ModalMesa").modal("hide");
             }
-            ListadoMesas();
         },
         error: function(xhr, status){
             console.log('Problemas al guardar Mesa');
         },
     });
+}
+
+function MostrarAlerta(tipo, mensaje) {
+    let alertHtml = `
+        <div class="alert alert-${tipo} alert-dismissible fade show" role="alert">
+            ${mensaje}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    `;
+
+    document.getElementById("alertContainer").innerHTML = alertHtml;
+
+    // Opción para hacer que la alerta desaparezca después de unos segundos
+    setTimeout(function () {
+        document.getElementById("alertContainer").innerHTML = "";
+    }, 5000); // Ocultar después de 5 segundos
 }
 
 function ModalEditar(MesaID){

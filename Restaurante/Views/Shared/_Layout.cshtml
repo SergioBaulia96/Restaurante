@@ -22,13 +22,13 @@
     <div class="container-fluid">
         <!-- Logo en lugar del nombre -->
         <a class="navbar-brand me-auto" asp-area="" asp-controller="Home" asp-action="Index">
-            <img src="~/img/LogoRedondo.png" alt="" style="height: 70px;"/>
+            <img src="~/img/LogoRedondo.png" alt="" style="height: 70px; padding-bottom: 5px;"/>
         </a>
         <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar"
             aria-labelledby="offcanvasNavbarLabel">
             <div class="offcanvas-header" style="background-color: #363738;">
-                <h5 class="offcanvas-title" style="color: #fafafa;" id="offcanvasNavbarLabel">Restaurante</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                <h5 class="offcanvas-title" style="color: #fafafa;" id="offcanvasNavbarLabel">Rouse</h5>
+                <button type="button" class="btn-close" style="color: #fafafa;" data-bs-dismiss="offcanvas" aria-label="Close"></button>
             </div>
             <div class="offcanvas-body" style="background-color: #363738;">
                 <ul class="navbar-nav justify-content-center flex-grow-1 pe-3">
@@ -84,6 +84,10 @@
             </div>
         </div>
         <partial name="_LoginPartial"/>
+        <button class="navbar-toggler pe-3" style="color: #fafafa; margin: 10px;" type="button" data-bs-toggle="offcanvas"
+                data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+            <i class="lni lni-angle-double-right"></i>
+        </button>
     </div>
 </nav>
 </header>

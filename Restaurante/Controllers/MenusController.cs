@@ -34,36 +34,50 @@ public class MenusController : Controller
         return Json(listadoMenus);
     }
 
-        public JsonResult GuardarMenu (int MenuID, string Nombre)
+    public JsonResult GuardarMenu(int MenuID, string Nombre)
+{
+    string resultado = "";
+    
+    Nombre = Nombre.ToUpper();
+    
+    // Verificar si ya existe un menú con el mismo nombre
+    var menuExistente = _context.Menus
+        .Where(m => m.Nombre == Nombre && m.MenuID != MenuID) // Excluir el menú actual si está en modo de edición
+        .SingleOrDefault();
+
+    if (menuExistente != null)
     {
-        string resultado = "";
-
-        Nombre = Nombre.ToUpper();
-
-        if(MenuID == 0)
-        {
-            var nuevoMenu = new Menu
-            {
-                Nombre = Nombre,
-                
-            };
-            _context.Add(nuevoMenu);
-            _context.SaveChanges();
-            resultado = "Menu Guardado";
-        }
-        else
-        {
-            var editarMenu = _context.Menus.Where(e => e.MenuID == MenuID).SingleOrDefault();
-            
-            if(editarMenu != null)
-            {
-                editarMenu.Nombre = Nombre;
-                _context.SaveChanges();
-                resultado = "Menu Editado";
-            }
-        }
-        return Json(resultado);
+        // Si ya existe un menú con ese nombre, devolver un mensaje de error
+        return Json("El nombre del menú ya existe.");
     }
+    
+    if (MenuID == 0)
+    {
+        // Guardar un nuevo menú
+        var nuevoMenu = new Menu
+        {
+            Nombre = Nombre,
+        };
+        _context.Add(nuevoMenu);
+        _context.SaveChanges();
+        resultado = "Menú guardado exitosamente";
+    }
+    else
+    {
+        // Editar un menú existente
+        var editarMenu = _context.Menus.Where(e => e.MenuID == MenuID).SingleOrDefault();
+        
+        if (editarMenu != null)
+        {
+            editarMenu.Nombre = Nombre;
+            _context.SaveChanges();
+            resultado = "Menú editado exitosamente";
+        }
+    }
+    
+    return Json(resultado);
+}
+
 
     public JsonResult EliminarMenu(int MenuID)
     {

@@ -39,6 +39,17 @@ public class MesasController : Controller
 
         Numero = Numero.ToUpper();
 
+        // Verificar si ya existe un menú con el mismo nombre
+    var mesaExistente = _context.Mesas
+        .Where(m => m.Numero == Numero && m.MesaID != MesaID) // Excluir el menú actual si está en modo de edición
+        .SingleOrDefault();
+
+    if (mesaExistente != null)
+    {
+        // Si ya existe un menú con ese nombre, devolver un mensaje de error
+        return Json("La mesa ya existe.");
+    }
+
         if(MesaID == 0)
         {
             var nuevaMesa = new Mesa
@@ -50,7 +61,7 @@ public class MesasController : Controller
             };
             _context.Add(nuevaMesa);
             _context.SaveChanges();
-            resultado = "Mesa Guardado";
+            resultado = "Mesa Guardada";
         }
         else
         {
@@ -70,7 +81,7 @@ public class MesasController : Controller
 
     public JsonResult EliminarMesa(int MesaID)
     {
-        var eliminarMesa = _context.Meseros.Find(MesaID);
+        var eliminarMesa = _context.Mesas.Find(MesaID);
         _context.Remove(eliminarMesa);
         _context.SaveChanges();
 

@@ -45,7 +45,7 @@ function NuevoMenu(){
     $("#tituloModal").text("Nueva Mesa");
 }
 
-function GuardarMenu(){
+function GuardarMenu() {
     let menuID = document.getElementById("MenuID").value;
     let nombre = document.getElementById("Nombre").value;
     let isValid = true;
@@ -61,26 +61,47 @@ function GuardarMenu(){
         return;  // Detener la ejecución aquí si isValid es false
     }
 
-
     $.ajax({
         url: '../../Menus/GuardarMenu',
         data: {
-            menuID : menuID,
-            nombre : nombre
+            menuID: menuID,
+            nombre: nombre
         },
         type: 'POST',
         dataType: 'json',
-        success: function(resultado){
-            if(resultado != "") {
-                alert(resultado)
+        success: function(resultado) {
+            // Mostrar alerta dependiendo del resultado
+            if (resultado === "El nombre del menú ya existe.") {
+                MostrarAlerta('danger', resultado); // Alerta de error
+            } else {
+                MostrarAlerta('success', resultado); // Alerta de éxito
+                ListadoMenus();
+                $("#ModalMenu").modal("hide");
             }
-            ListadoMenus();
         },
-        error: function(xhr, status){
+        error: function(xhr, status) {
             console.log('Problemas al guardar Menu');
-        },
+        }
     });
 }
+
+// Función para mostrar la alerta
+function MostrarAlerta(tipo, mensaje) {
+    let alertHtml = `
+        <div class="alert alert-${tipo} alert-dismissible fade show" role="alert">
+            ${mensaje}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    `;
+
+    document.getElementById("alertContainer").innerHTML = alertHtml;
+
+    // Opción para hacer que la alerta desaparezca después de unos segundos
+    setTimeout(function () {
+        document.getElementById("alertContainer").innerHTML = "";
+    }, 5000); // Ocultar después de 5 segundos
+}
+
 
 function ModalEditar(MenuID){
     $.ajax({
