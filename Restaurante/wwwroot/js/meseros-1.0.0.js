@@ -95,10 +95,23 @@ function GuardarMesero(){
         type: 'POST',
         dataType: 'json',
         success: function(resultado){
-            if(resultado != "") {
-                alert(resultado)
+            if (resultado === "") {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: resultado,
+                });
+            } else {
+                Swal.fire({
+                    icon: 'success',
+                    title: '¡Mesero guardado!',
+                    text: 'Los datos del mesero se han guardado correctamente.',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+                ListadoMeseros();
+                $("#ModalMesero").modal("hide");
             }
-            ListadoMeseros();
         },
         error: function(xhr, status){
             console.log('Problemas al guardar Mesero');
@@ -130,11 +143,20 @@ function ModalEditar(MeseroID){
 
 function ValidarEliminacion(MeseroID)
 {
-    var elimina = confirm("¿Esta seguro que desea eliminar?");
-    if(elimina == true)
-        {
+    Swal.fire({
+        title: '¿Estás seguro?',
+        text: "No podrás revertir esta acción",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí, eliminar',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
             EliminarMesero(MeseroID);
         }
+    });
 }
 
 function EliminarMesero(MeseroID){
@@ -144,7 +166,14 @@ function EliminarMesero(MeseroID){
         type: 'POST',
         dataType: 'json',
         success: function(EliminarMesero){
-            ListadoMeseros()
+            Swal.fire({
+                icon: 'success',
+                title: '¡Eliminado!',
+                text: 'El mesero ha sido eliminado correctamente.',
+                showConfirmButton: false,
+                timer: 1500
+            });
+            ListadoMeseros();
         },
         error: function(xhr, status){
             console.log('Problemas al eliminar Mesero');

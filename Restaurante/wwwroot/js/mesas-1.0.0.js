@@ -51,13 +51,14 @@ function NuevaMesa(){
     $("#tituloModal").text("Nueva Mesa");
 }
 
-function GuardarMesa(){
+function GuardarMesa() {
     let mesaID = document.getElementById("MesaID").value;
     let numero = document.getElementById("Numero").value;
     let capacidad = document.getElementById("Capacidad").value;
     let disponible = document.getElementById("Disponible").checked;
     let isValid = true;
 
+    // Validación del campo "Número"
     if (numero === "") {
         document.getElementById("errorMensajeNombre").style.display = "block";
         isValid = false;
@@ -65,6 +66,7 @@ function GuardarMesa(){
         document.getElementById("errorMensajeNombre").style.display = "none";
     }
 
+    // Validación del campo "Capacidad"
     if (capacidad === "") {
         document.getElementById("errorMensajeCapacidad").style.display = "block";
         isValid = false;
@@ -76,50 +78,47 @@ function GuardarMesa(){
         return;  // Detener la ejecución aquí si isValid es false
     }
 
-
-
-
+    // Enviar la solicitud AJAX
     $.ajax({
         url: '../../Mesas/GuardarMesa',
         data: {
-            mesaID : mesaID,
-            numero : numero,
-            capacidad : capacidad,
-            disponible : disponible
+            mesaID: mesaID,
+            numero: numero,
+            capacidad: capacidad,
+            disponible: disponible
         },
         type: 'POST',
         dataType: 'json',
-        success: function(resultado){
-            // Mostrar alerta dependiendo del resultado
+        success: function(resultado) {
+            // Si ya existe una mesa con el mismo número, mostrar una alerta de error
             if (resultado === "La mesa ya existe.") {
-                MostrarAlerta('danger', resultado); // Alerta de error
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: resultado
+                });
             } else {
-                MostrarAlerta('success', resultado); // Alerta de éxito
-                ListadoMesas();
-                $("#ModalMesa").modal("hide");
+                // Mostrar una alerta de éxito con SweetAlert2
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Mesa Guardada',
+                    text: resultado,
+                    showConfirmButton: false,
+                    timer: 1500
+                }).then(() => {
+                    // Refrescar la tabla de mesas
+                    ListadoMesas();
+                    // Cerrar el modal
+                    $("#ModalMesa").modal("hide");
+                });
             }
         },
-        error: function(xhr, status){
+        error: function(xhr, status) {
             console.log('Problemas al guardar Mesa');
-        },
+        }
     });
 }
 
-function MostrarAlerta(tipo, mensaje) {
-    let alertHtml = `
-        <div class="alert alert-${tipo} alert-dismissible fade show" role="alert">
-            ${mensaje}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    `;
-
-    document.getElementById("alertContainer").innerHTML = alertHtml;
-
-    // Opción para hacer que la alerta desaparezca después de unos segundos
-    setTimeout(function () {
-        document.getElementById("alertContainer").innerHTML = "";
-    }, 5000); // Ocultar después de 5 segundos
-}
 
 function ModalEditar(MesaID){
     $.ajax({
@@ -145,11 +144,20 @@ function ModalEditar(MesaID){
 
 function ValidarEliminacion(MesaID)
 {
-    var elimina = confirm("¿Esta seguro que desea eliminar?");
-    if(elimina == true)
-        {
+    Swal.fire({
+        title: '¿Estás seguro?',
+        text: "No podrás revertir esta acción",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí, eliminar',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
             EliminarMesa(MesaID);
         }
+    });
 }
 
 function EliminarMesa(MesaID){
@@ -159,10 +167,17 @@ function EliminarMesa(MesaID){
         type: 'POST',
         dataType: 'json',
         success: function(EliminarMesa){
-            ListadoMesas()
+            Swal.fire({
+                icon: 'success',
+                title: '¡Eliminado!',
+                text: 'La mesa ha sido eliminado correctamente.',
+                showConfirmButton: false,
+                timer: 1500
+            });
+            ListadoMesas();
         },
-        error: function(xhr, status){
-            console.log('Problemas al eliminar Mesa');
+        error: function(xhr, status) {
+            console.log('Problemas al eliminar Menu');
         }
     });
 }

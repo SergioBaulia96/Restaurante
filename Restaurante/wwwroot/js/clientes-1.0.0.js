@@ -54,7 +54,7 @@ function NuevoCliente(){
     $("#tituloModal").text("Nuevo Cliente");
 }
 
-function GuardarCliente(){
+function GuardarCliente() {
     let clienteID = document.getElementById("ClienteID").value;
     let nombre = document.getElementById("Nombre").value;
     let apellido = document.getElementById("Apellido").value;
@@ -62,6 +62,7 @@ function GuardarCliente(){
     let telefono = document.getElementById("Telefono").value;
     let isValid = true;
 
+    // Validaciones
     if (nombre === "") {
         document.getElementById("errorMensajeNombre").style.display = "block";
         isValid = false;
@@ -91,43 +92,56 @@ function GuardarCliente(){
     }
 
     if (!isValid) {
-        return;  // Detener la ejecución aquí si isValid es false
+        return;  // Detener la ejecución si isValid es false
     }
 
-
+    // Envío de datos por AJAX
     $.ajax({
         url: '../../Clientes/GuardarCliente',
         data: {
-            clienteID : clienteID,
-            nombre : nombre,
-            apellido : apellido,
-            email : email,
-            telefono : telefono
+            clienteID: clienteID,
+            nombre: nombre,
+            apellido: apellido,
+            email: email,
+            telefono: telefono
         },
         type: 'POST',
         dataType: 'json',
-        success: function(resultado){
-            if(resultado != "") {
-                alert(resultado)
+        success: function (resultado) {
+            if (resultado === "El cliente ya existe.") {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: resultado,
+                });
+            } else {
+                Swal.fire({
+                    icon: 'success',
+                    title: '¡Cliente guardado!',
+                    text: 'Los datos del cliente se han guardado correctamente.',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+                ListadoClientes();
+                $("#ModalCliente").modal("hide");
             }
-            ListadoClientes();
         },
-        error: function(xhr, status){
+        error: function (xhr, status) {
             console.log('Problemas al guardar Cliente');
         },
     });
 }
 
-function ModalEditar(ClienteID){
+function ModalEditar(ClienteID) {
     $.ajax({
         url: '../../Clientes/ListadoClientes',
-        data: { clienteID : ClienteID },
+        data: { clienteID: ClienteID },
         type: 'POST',
         dataType: 'json',
-        success: function(listadoClientes){
+        success: function (listadoClientes) {
             let listadoCliente = listadoClientes[0];
-            
-            document.getElementById("ClienteID").value = ClienteID
+
+            document.getElementById("ClienteID").value = ClienteID;
             $("#tituloModal").text("Editar Cliente");
             document.getElementById("Nombre").value = listadoCliente.nombre;
             document.getElementById("Apellido").value = listadoCliente.apellido;
@@ -135,31 +149,47 @@ function ModalEditar(ClienteID){
             document.getElementById("Telefono").value = listadoCliente.telefono;
             $("#ModalCliente").modal("show");
         },
-        error: function(xhr, status){
+        error: function (xhr, status) {
             console.log('Problemas al cargar Cliente');
         }
     });
 }
 
-function ValidarEliminacion(ClienteID)
-{
-    var elimina = confirm("¿Esta seguro que desea eliminar?");
-    if(elimina == true)
-        {
+
+function ValidarEliminacion(ClienteID) {
+    Swal.fire({
+        title: '¿Estás seguro?',
+        text: "No podrás revertir esta acción",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí, eliminar',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
             EliminarCliente(ClienteID);
         }
+    });
 }
 
-function EliminarCliente(ClienteID){
+function EliminarCliente(ClienteID) {
     $.ajax({
         url: '../../Clientes/EliminarCliente',
-        data: { ClienteID: ClienteID },
+        data: { clienteID: ClienteID },
         type: 'POST',
         dataType: 'json',
-        success: function(EliminarClub){
-            ListadoClientes()
+        success: function(EliminarCliente) {
+            Swal.fire({
+                icon: 'success',
+                title: '¡Eliminado!',
+                text: 'El cliente ha sido eliminado correctamente.',
+                showConfirmButton: false,
+                timer: 1500
+            });
+            ListadoClientes();
         },
-        error: function(xhr, status){
+        error: function(xhr, status) {
             console.log('Problemas al eliminar Cliente');
         }
     });

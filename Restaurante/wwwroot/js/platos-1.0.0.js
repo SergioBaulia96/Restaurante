@@ -114,11 +114,23 @@ function GuardarPlato(){
         type: 'POST',
         dataType: 'json',
         success: function(resultado){
-            if(resultado != "") {
-                alert(resultado)
+            if (resultado === "El plato ya existe.") {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: resultado,
+                });
+            } else {
+                Swal.fire({
+                    icon: 'success',
+                    title: '¡Plato guardado!',
+                    text: 'Los datos del plato se han guardado correctamente.',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+                ListadoPlatos();
+                $("#ModalPlato").modal("hide");
             }
-            ListadoPlatos();
-            
         },
         error: function(xhr, status){
             console.log('Problemas al guardar Plato');
@@ -138,7 +150,7 @@ function ModalEditar(PlatoID){
             document.getElementById("PlatoID").value = PlatoID
             $("#tituloModal").text("Editar Plato");
             document.getElementById("MenuID").value = listadoPlato.menuID;
-            document.getElementById("NombrePlato").value = listadoPlato.nombrePlato;
+            document.getElementById("NombrePlato").value = listadoPlato.nombre;
             document.getElementById("Descripcion").value = listadoPlato.descripcion;
             document.getElementById("Precio").value = listadoPlato.precio;
             document.getElementById("Disponible").value = listadoPlato.disponible;
@@ -152,11 +164,20 @@ function ModalEditar(PlatoID){
 
 function ValidarEliminacion(PlatoID)
 {
-    var elimina = confirm("¿Esta seguro que desea eliminar?");
-    if(elimina == true)
-        {
+    Swal.fire({
+        title: '¿Estás seguro?',
+        text: "No podrás revertir esta acción",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí, eliminar',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
             EliminarPlato(PlatoID);
         }
+    });
 }
 
 function EliminarPlato(PlatoID){
@@ -166,7 +187,14 @@ function EliminarPlato(PlatoID){
         type: 'POST',
         dataType: 'json',
         success: function(EliminarPlato){
-            ListadoPlatos()
+            Swal.fire({
+                icon: 'success',
+                title: '¡Eliminado!',
+                text: 'El plato ha sido eliminado correctamente.',
+                showConfirmButton: false,
+                timer: 1500
+            });
+            ListadoPlatos();
         },
         error: function(xhr, status){
             console.log('Problemas al eliminar Plato');

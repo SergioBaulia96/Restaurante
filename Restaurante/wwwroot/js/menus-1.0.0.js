@@ -70,13 +70,27 @@ function GuardarMenu() {
         type: 'POST',
         dataType: 'json',
         success: function(resultado) {
-            // Mostrar alerta dependiendo del resultado
+            // Si el nombre del menú ya existe, mostrar alerta de error
             if (resultado === "El nombre del menú ya existe.") {
-                MostrarAlerta('danger', resultado); // Alerta de error
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: resultado
+                });
             } else {
-                MostrarAlerta('success', resultado); // Alerta de éxito
-                ListadoMenus();
-                $("#ModalMenu").modal("hide");
+                // Mostrar alerta de éxito con SweetAlert2
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Éxito',
+                    text: resultado,
+                    showConfirmButton: false,
+                    timer: 1500
+                }).then(() => {
+                    // Refrescar la tabla de menús
+                    ListadoMenus();
+                    // Cerrar el modal
+                    $("#ModalMenu").modal("hide");
+                });
             }
         },
         error: function(xhr, status) {
@@ -84,24 +98,6 @@ function GuardarMenu() {
         }
     });
 }
-
-// Función para mostrar la alerta
-function MostrarAlerta(tipo, mensaje) {
-    let alertHtml = `
-        <div class="alert alert-${tipo} alert-dismissible fade show" role="alert">
-            ${mensaje}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    `;
-
-    document.getElementById("alertContainer").innerHTML = alertHtml;
-
-    // Opción para hacer que la alerta desaparezca después de unos segundos
-    setTimeout(function () {
-        document.getElementById("alertContainer").innerHTML = "";
-    }, 5000); // Ocultar después de 5 segundos
-}
-
 
 function ModalEditar(MenuID){
     $.ajax({
@@ -123,25 +119,40 @@ function ModalEditar(MenuID){
     });
 }
 
-function ValidarEliminacion(MenuID)
-{
-    var elimina = confirm("¿Esta seguro que desea eliminar?");
-    if(elimina == true)
-        {
+function ValidarEliminacion(MenuID) {
+    Swal.fire({
+        title: '¿Estás seguro?',
+        text: "No podrás revertir esta acción",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí, eliminar',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
             EliminarMenu(MenuID);
         }
+    });
 }
 
-function EliminarMenu(MenuID){
+function EliminarMenu(MenuID) {
     $.ajax({
         url: '../../Menus/EliminarMenu',
         data: { menuID: MenuID },
         type: 'POST',
         dataType: 'json',
-        success: function(EliminarMenu){
-            ListadoMenus()
+        success: function(EliminarMenu) {
+            Swal.fire({
+                icon: 'success',
+                title: '¡Eliminado!',
+                text: 'El menú ha sido eliminado correctamente.',
+                showConfirmButton: false,
+                timer: 1500
+            });
+            ListadoMenus();
         },
-        error: function(xhr, status){
+        error: function(xhr, status) {
             console.log('Problemas al eliminar Menu');
         }
     });
