@@ -1,0 +1,80 @@
+@{
+  ViewData["Title"] = "Detalle Pedido";
+  var mesa = (Mesa)@ViewBag.Mesa;
+  var cliente = (Cliente)@ViewBag.Cliente;
+  var mozo = (Mesero)@ViewBag.Mesero;
+}
+
+<body>
+  <section class="container mt-4">
+    <h1 class="mb-4">Detalle del pedido @ViewBag.PedidoID</h1>
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <p><strong>Fecha:</strong> @ViewBag.Fecha</p>
+        <p><strong>Mesa:</strong> @mesa?.Numero</p>
+        <p><strong>Cantidad de Comensales:</strong> @mesa?.Capacidad</p>
+      </div>
+      <div class="col-md-6">
+        <p><strong>Mozo:</strong> @mozo?.NombreCompleto</p>
+        <p><strong>Cliente:</strong> @cliente?.NombreCompleto</p>
+      </div>
+    </div>
+
+    <!-- Botón para abrir el modal -->
+    <div class="text-end">
+      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#agregarPlatoModal">
+        <i class="lni lni-plus"></i> Agregar Plato
+      </button>
+    </div>
+
+  <!-- Modal para agregar plato -->
+  <div class="modal fade" id="agregarPlatoModal" tabindex="-1" aria-labelledby="agregarPlatoModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="agregarPlatoModalLabel">Agregar Plato</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="formAgregarPlato">
+            <!-- Select de Tipos de Menú -->
+            <div class="mb-3">
+              <label for="tipoMenu" class="form-label">Tipo de Menú</label>
+              <select class="form-select" id="tipoMenu" required>
+                <option value="">Seleccione un tipo de menú</option>
+                <!-- Los tipos de menú se llenarán aquí dinámicamente -->
+              </select>
+            </div>
+
+            <!-- Select de Platos -->
+            <div class="mb-3">
+              <label for="plato" class="form-label">Plato</label>
+              <select class="form-select" id="plato" required>
+                <option value="">Seleccione un plato</option>
+                <!-- Los platos se llenarán aquí dinámicamente -->
+              </select>
+            </div>
+
+            <div class="mb-3">
+              <label for="cantidadPlato" class="form-label">Cantidad</label>
+              <input type="number" class="form-control" id="cantidadPlato" required>
+            </div>
+            <div class="mb-3">
+              <label for="precioUnitarioPlato" class="form-label">Precio Unitario</label>
+              <input type="number" step="0.01" class="form-control" id="precioUnitarioPlato" readonly>
+            </div>
+            <button type="submit" class="btn btn-success">Agregar</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+
+
+
+
+@section Scripts {
+        <script src="~/js/detallespedidos-1.0.0.js"></script>
+    }

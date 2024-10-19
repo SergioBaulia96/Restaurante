@@ -40,10 +40,10 @@ public class PedidosController : Controller
         var mesas = _context.Mesas.ToList();
 
         clientes.Add(new Cliente { ClienteID = 0, Apellido = "[CLIENTE...]"});
-        ViewBag.ClienteID = new SelectList(clientes.OrderBy(c => c.Apellido), "ClienteID", "Apellido");
+        ViewBag.ClienteID = new SelectList(clientes.OrderBy(c => c.NombreCompleto), "ClienteID", "NombreCompleto");
 
         meseros.Add(new Mesero { MeseroID = 0, Apellido = "[MESERO...]" });
-        ViewBag.MeseroID = new SelectList(meseros.OrderBy(c => c.Apellido), "MeseroID", "Apellido");
+        ViewBag.MeseroID = new SelectList(meseros.OrderBy(c => c.NombreCompleto), "MeseroID", "NombreCompleto");
 
         mesas.Add(new Mesa { MesaID = 0, Numero = "[MESA...]" });
         ViewBag.MesaID = new SelectList(mesas.OrderBy(c => c.Numero), "MesaID", "Numero");
@@ -156,9 +156,32 @@ public class PedidosController : Controller
         return Json(true);
     }
 
-    public IActionResult DetallePedido()
+    public IActionResult DetallePedido(int id)
     {
+        var pedido = _context.Pedidos.Find(id);
+
+        if (pedido == null)
+        {
+            return Redirect("/Pedidos");
+        }
+
+        ViewBag.PedidoID = pedido?.PedidoID;
+
+        ViewBag.Fecha = pedido?.FechaPedido.ToString("yyyy-MM-ddTHH:mm");
+        ViewBag.Cliente = _context.Clientes.Find(pedido?.ClienteID);
+        ViewBag.Mesero = _context.Meseros.Find(pedido?.MeseroID);
+        ViewBag.Mesa = _context.Mesas.Find(pedido?.MesaID);
+
         return View();
     }
+
+    public JsonResult ListadoDetalle(int PedidoID)
+    {
+        var detallePedido = _context.DetallesPedidos.Where(d => d.PedidoID == PedidoID).ToList();
+
+        return Json(detallePedido);
+    }
+
+
 
 }

@@ -102,6 +102,8 @@ public class MenusController : Controller
         return View();
     }
 
+
+
     public JsonResult ListadoPlatos(int? id)
     {
         List<VistaPlato> platosMostrar = new List<VistaPlato>();

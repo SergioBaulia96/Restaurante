@@ -21,6 +21,8 @@ function ListadoPedidos()
 
             tabla += `
             <tr>
+                <td><a type="button" class="btn btn-success" href="/Pedidos/DetallePedido/${pedidos.pedidoID}" title="Ver Detalle">
+                <i class="lni lni-eye"></i> Detalle</a>
                 <td style="text-align: center;">${pedidos.nombreCliente} ${pedidos.apellidoCliente}</td>
                 <td style="text-align: center;">${pedidos.nombreMesero} ${pedidos.apellidoMesero}</td>
                 <td style="text-align: center;">${pedidos.numeroMesa}</td>
