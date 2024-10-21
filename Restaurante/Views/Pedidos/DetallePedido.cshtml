@@ -7,70 +7,114 @@
 
 <body>
   <section class="container mt-4">
-    <h1 class="mb-4">Detalle del pedido @ViewBag.PedidoID</h1>
-    <div class="row mb-3">
-      <div class="col-md-6">
-        <p><strong>Fecha:</strong> @ViewBag.Fecha</p>
-        <p><strong>Mesa:</strong> @mesa?.Numero</p>
-        <p><strong>Cantidad de Comensales:</strong> @mesa?.Capacidad</p>
+    <!-- Título centrado del pedido -->
+    <h1 class="text-center mb-4">Detalle del Pedido #@ViewBag.PedidoID</h1>
+
+    <!-- Información del pedido en formato de tarjetas -->
+    <div class="row">
+      <!-- Primera tarjeta: Información del pedido -->
+      <div class="col-md-6 mb-4">
+        <div class="card h-100 shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title">Información del Pedido</h5>
+            <p class="card-text"><strong>Fecha:</strong> @ViewBag.Fecha</p>
+            <p class="card-text"><strong>Mesa:</strong> @mesa?.Numero</p>
+            <p class="card-text"><strong>Cantidad de Comensales:</strong> @mesa?.Capacidad</p>
+          </div>
+        </div>
       </div>
-      <div class="col-md-6">
-        <p><strong>Mozo:</strong> @mozo?.NombreCompleto</p>
-        <p><strong>Cliente:</strong> @cliente?.NombreCompleto</p>
+
+      <!-- Segunda tarjeta: Información del cliente y mozo -->
+      <div class="col-md-6 mb-4">
+        <div class="card h-100 shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title">Información del Cliente y Mozo</h5>
+            <p class="card-text"><strong>Mosero:</strong> @mozo?.NombreCompleto</p>
+            <p class="card-text"><strong>Cliente:</strong> @cliente?.NombreCompleto</p>
+          </div>
+        </div>
       </div>
     </div>
+  </section>
 
-    <!-- Botón para abrir el modal -->
-    <div class="text-end">
-      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#agregarPlatoModal">
-        <i class="lni lni-plus"></i> Agregar Plato
-      </button>
-    </div>
-
-  <!-- Modal para agregar plato -->
-  <div class="modal fade" id="agregarPlatoModal" tabindex="-1" aria-labelledby="agregarPlatoModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="agregarPlatoModalLabel">Agregar Plato</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+  <div>
+        <button type="button" class="Btn" data-bs-toggle="modal" data-bs-target="#ModalDetalle">
+                <div class="sign">+</div>
+                <div class="text">Agregar</div>
+            </button>
         </div>
-        <div class="modal-body">
-          <form id="formAgregarPlato">
-            <!-- Select de Tipos de Menú -->
-            <div class="mb-3">
-              <label for="tipoMenu" class="form-label">Tipo de Menú</label>
-              <select class="form-select" id="tipoMenu" required>
-                <option value="">Seleccione un tipo de menú</option>
-                <!-- Los tipos de menú se llenarán aquí dinámicamente -->
-              </select>
-            </div>
 
-            <!-- Select de Platos -->
-            <div class="mb-3">
-              <label for="plato" class="form-label">Plato</label>
-              <select class="form-select" id="plato" required>
-                <option value="">Seleccione un plato</option>
-                <!-- Los platos se llenarán aquí dinámicamente -->
-              </select>
-            </div>
 
-            <div class="mb-3">
-              <label for="cantidadPlato" class="form-label">Cantidad</label>
-              <input type="number" class="form-control" id="cantidadPlato" required>
-            </div>
-            <div class="mb-3">
-              <label for="precioUnitarioPlato" class="form-label">Precio Unitario</label>
-              <input type="number" step="0.01" class="form-control" id="precioUnitarioPlato" readonly>
-            </div>
-            <button type="submit" class="btn btn-success">Agregar</button>
-          </form>
-        </div>
+        <!-- Modal -->
+<div class="modal fade" id="ModalDetalle" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content shadow-lg border-0">
+      <div class="modal-header text-white" style="background-color: #00c763;">
+        <h5 class="modal-title" id="ModalTitulo">Agregar Plato</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body p-4">
+        <form action="" class="needs-validation" novalidate>
+          <input type="hidden" id="PlatoID" value="0" />
+
+          <div class="mb-3">
+            <label for="MenuID" class="form-label"></label>
+            @Html.DropDownList("MenuID", null, htmlAttributes: new { @class = "form-control shadow-sm" })
+            <span id="errorMensajeTipoMenu"
+                  style="color:red; display:none; font-size: 15px; padding-left: 4px;">
+                  <i class="lni lni-warning pe-1"></i>Debe seleccionar un tipo de menú.
+            </span>
+          </div>
+
+          <div class="mb-3">
+            <label for="PlatoID" class="form-label"></label>
+            @Html.DropDownList("PlatoID", null, htmlAttributes: new { @class = "form-control shadow-sm" })
+            <span id="errorMensajePlato"
+                  style="color:red; display:none; font-size: 15px; padding-left: 4px;">
+                  <i class="lni lni-warning pe-1"></i>Debe seleccionar un plato.
+            </span>
+          </div>
+
+          <div class="mb-3">
+            <label for="Cantidad" class="form-label"></label>
+            <input type="number" class="form-control shadow-sm" id="Cantidad" placeholder="Ingrese el Cantidad" required>
+            <span id="errorMensajeCantidad"
+                  style="color:red; display:none; font-size: 15px; padding-left: 4px;">
+                  <i class="lni lni-warning pe-1"></i>Debe ingresar una cantidad.
+            </span>
+          </div>
+
+        </form>
+      </div>
+      <div class="modal-footer border-0">
+        <button type="button" onclick="LimpiarModal();" class="btn btn-secondary" data-bs-dismiss="modal">
+          <i class="lni lni-close"></i> Cancelar
+        </button>
+        <button type="button" class="btn text-white" style="background-color: #00c763;" onclick="GuardarDetalle()">
+          <i class="lni lni-save"></i> Guardar
+        </button>
       </div>
     </div>
   </div>
+</div>
 
+
+        <div class="tbl-administracion" style="overflow: hidden; border-radius: 20px;">
+            <table class="table table-dark table-striped" style="border-radius: 20px; overflow: hidden; width: 100%;">
+                <thead>
+                    <tr>
+                        <th style="background-color: #019a4e; text-align: center;">Plato</th>
+                        <th style="background-color: #019a4e; text-align: center;">Cantidad</th>
+                        <th style="background-color: #019a4e; text-align: center;">Precio</th>
+                        <th style="background-color: #019a4e; text-align: center;">Subtotal</th>
+                        <th style="width: 150px; background-color: #019a4e;">Eliminar</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody-detallespedidos"></tbody>
+            </table>
+        </div>
 </body>
+
 
 
 

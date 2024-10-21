@@ -172,6 +172,24 @@ public class PedidosController : Controller
         ViewBag.Mesero = _context.Meseros.Find(pedido?.MeseroID);
         ViewBag.Mesa = _context.Mesas.Find(pedido?.MesaID);
 
+        var selectListItems = new List<SelectListItem>
+        {
+            new SelectListItem { Value = "0", Text = "[SELECCIONE...]"}
+        };
+
+        ViewBag.MenuID = selectListItems.OrderBy(t => t.Text).ToList();
+        ViewBag.PlatoID = selectListItems.OrderBy(t => t.Text).ToList();
+
+        var menus = _context.Menus.ToList();
+        var platos = _context.Platos.ToList();
+
+        menus.Add(new Menu { MenuID = 0, Nombre = "[MENUS...]" });
+        ViewBag.MenuID = new SelectList(menus.OrderBy(c => c.Nombre), "MenuID", "Nombre");
+
+        platos.Add(new Plato { PlatoID = 0, Nombre = "[PLATOS...]" });
+        ViewBag.PlatoID = new SelectList(platos.OrderBy(c => c.Nombre), "PlatoID", "Nombre");
+
+
         return View();
     }
 
@@ -181,6 +199,67 @@ public class PedidosController : Controller
 
         return Json(detallePedido);
     }
+
+    public JsonResult ListadoDetallesPedido(int PedidoID)
+{
+    List<VistaDetallePedido> detallesMostrar = new List<VistaDetallePedido>();
+    var detallesPedidos = _context.DetallesPedidos.Where(d => d.PedidoID == PedidoID).ToList(); // Filtrar por PedidoID
+
+    var platos = _context.Platos.ToList();
+
+    foreach (var d in detallesPedidos)
+    {
+        var plato = platos.Where(t => t.PlatoID == d.PlatoID).Single();
+        var detalleMostrar = new VistaDetallePedido
+        {
+            DetallePedidoID = d.DetallePedidoID,
+            PlatoID = d.PlatoID,
+            NombrePlato = plato.Nombre,
+            Cantidad = d.Cantidad,
+            PedidoID = d.PedidoID,
+            PrecioPlato = plato.Precio,
+            Subtotal = d.Cantidad * plato.Precio
+        };
+        detallesMostrar.Add(detalleMostrar);
+    }
+    return Json(detallesMostrar);
+}
+
+
+    public JsonResult GuardarDetalle(int DetallePedidoID, int PlatoID, string NombrePlato, int Cantidad, decimal PrecioPlato, decimal Subtotal, int PedidoID)
+{
+    string resultado = "Error al guardar el detalle del pedido";
+    if (DetallePedidoID == 0)
+    {
+        if (PlatoID > 0 && NombrePlato.Length > 0 && Cantidad > 0 && PrecioPlato > 0)
+        {
+            var detalle = new DetallePedido
+            {
+                PlatoID = PlatoID,
+                Cantidad = Cantidad,
+                PrecioUnitario = PrecioPlato,
+                PedidoID = PedidoID // Asegurarse de asignar el PedidoID
+            };
+            _context.Add(detalle);
+            _context.SaveChanges();
+            resultado = "Detalle de Pedido Guardado";
+        }
+    }
+    return Json(resultado);
+}
+
+public JsonResult EliminarDetalle(int DetallePedidoID)
+{
+    var detalle = _context.DetallesPedidos.Find(DetallePedidoID);
+    if (detalle != null)
+    {
+        _context.Remove(detalle);
+        _context.SaveChanges();
+        return Json(new { exito = true, mensaje = "Detalle eliminado con éxito" });
+    }
+    return Json(new { exito = false, mensaje = "Error al eliminar el detalle" });
+}
+
 
 
 
