@@ -193,74 +193,75 @@ public class PedidosController : Controller
         return View();
     }
 
-    public JsonResult ListadoDetalle(int PedidoID)
-    {
-        var detallePedido = _context.DetallesPedidos.Where(d => d.PedidoID == PedidoID).ToList();
-
-        return Json(detallePedido);
-    }
-
-    public JsonResult ListadoDetallesPedido(int PedidoID)
+    // Listar los detalles del pedido
+public JsonResult ListadoDetalle(int PedidoID)
 {
-    List<VistaDetallePedido> detallesMostrar = new List<VistaDetallePedido>();
-    var detallesPedidos = _context.DetallesPedidos.Where(d => d.PedidoID == PedidoID).ToList(); // Filtrar por PedidoID
-
-    var platos = _context.Platos.ToList();
-
-    foreach (var d in detallesPedidos)
-    {
-        var plato = platos.Where(t => t.PlatoID == d.PlatoID).Single();
-        var detalleMostrar = new VistaDetallePedido
+    var detalles = _context.DetallesPedidos
+        .Where(d => d.PedidoID == PedidoID)
+        .Select(d => new 
         {
-            DetallePedidoID = d.DetallePedidoID,
-            PlatoID = d.PlatoID,
-            NombrePlato = plato.Nombre,
-            Cantidad = d.Cantidad,
-            PedidoID = d.PedidoID,
-            PrecioPlato = plato.Precio,
-            Subtotal = d.Cantidad * plato.Precio
-        };
-        detallesMostrar.Add(detalleMostrar);
-    }
-    return Json(detallesMostrar);
+            d.DetallePedidoID,
+            d.Cantidad,
+            d.Subtotal,
+            Plato = d.Platos.Nombre,  // Nombre del plato
+            PrecioPlato = d.PrecioUnitario
+        }).ToList();
+
+    return Json(detalles);
 }
 
-
-    public JsonResult GuardarDetalle(int DetallePedidoID, int PlatoID, string NombrePlato, int Cantidad, decimal PrecioPlato, decimal Subtotal, int PedidoID)
-{
-    string resultado = "Error al guardar el detalle del pedido";
-    if (DetallePedidoID == 0)
-    {
-        if (PlatoID > 0 && NombrePlato.Length > 0 && Cantidad > 0 && PrecioPlato > 0)
-        {
-            var detalle = new DetallePedido
-            {
-                PlatoID = PlatoID,
-                Cantidad = Cantidad,
-                PrecioUnitario = PrecioPlato,
-                PedidoID = PedidoID // Asegurarse de asignar el PedidoID
-            };
-            _context.Add(detalle);
-            _context.SaveChanges();
-            resultado = "Detalle de Pedido Guardado";
-        }
-    }
-    return Json(resultado);
-}
-
+// Eliminar un detalle del pedido
 public JsonResult EliminarDetalle(int DetallePedidoID)
 {
     var detalle = _context.DetallesPedidos.Find(DetallePedidoID);
     if (detalle != null)
     {
-        _context.Remove(detalle);
+        _context.DetallesPedidos.Remove(detalle);
         _context.SaveChanges();
-        return Json(new { exito = true, mensaje = "Detalle eliminado con éxito" });
+        return Json(new { exito = true });
     }
-    return Json(new { exito = false, mensaje = "Error al eliminar el detalle" });
+
+    return Json(new { exito = false });
 }
 
 
+
+   public JsonResult GuardarDetalle(int PedidoID, int PlatoID, int Cantidad)
+{
+    string resultado = "Error al guardar el detalle del pedido";
+    bool exito = false;
+
+    // Buscar el plato para obtener su precio
+    var plato = _context.Platos.SingleOrDefault(p => p.PlatoID == PlatoID);
+    
+    if (plato != null && Cantidad > 0)
+    {
+        var detalle = new DetallePedido
+        {
+            PedidoID = PedidoID,
+            PlatoID = PlatoID,
+            Cantidad = Cantidad,
+            PrecioUnitario = plato.Precio,
+            Subtotal = plato.Precio * Cantidad
+        };
+
+        _context.DetallesPedidos.Add(detalle);
+        _context.SaveChanges();
+
+        exito = true;
+        resultado = "Detalle del pedido guardado exitosamente";
+    }
+
+    return Json(new { exito, mensaje = resultado });
+}
+
+public JsonResult CalcularSubtotal(int PedidoID)
+{
+    var detalles = _context.DetallesPedidos.Where(d => d.PedidoID == PedidoID).ToList();
+    var subtotal = detalles.Sum(d => d.Subtotal);
+
+    return Json(new { subtotal });
+}
 
 
 }

@@ -11,10 +11,7 @@ public class DetallePedido
     public int PlatoID { get; set; }
     public int Cantidad { get; set; }
     public decimal PrecioUnitario { get; set; }
-    public decimal Subtotal
-    {
-        get { return Cantidad * PrecioUnitario; }
-    }
+    public decimal Subtotal { get; set; }
 
     public virtual Pedido Pedidos { get; set; }
     public virtual Plato Platos { get; set; }
