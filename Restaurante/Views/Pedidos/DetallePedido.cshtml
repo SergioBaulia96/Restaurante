@@ -29,7 +29,7 @@
         <div class="card h-100 shadow-sm">
           <div class="card-body">
             <h5 class="card-title">Información del Cliente y Mozo</h5>
-            <p class="card-text"><strong>Mosero:</strong> @mozo?.NombreCompleto</p>
+            <p class="card-text"><strong>Mesero:</strong> @mozo?.NombreCompleto</p>
             <p class="card-text"><strong>Cliente:</strong> @cliente?.NombreCompleto</p>
           </div>
         </div>
@@ -55,7 +55,7 @@
       </div>
       <div class="modal-body p-4">
         <form action="" class="needs-validation" novalidate>
-          <input type="hidden" id="PlatoID" value="0" />
+          <input type="hidden" id="PedidoID" value="@ViewBag.PedidoID" />
 
           <div class="mb-3">
             <label for="MenuID" class="form-label"></label>

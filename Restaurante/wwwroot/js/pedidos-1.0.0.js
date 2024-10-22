@@ -9,7 +9,7 @@ function ListadoPedidos()
         dataType: 'json',
         success: function(listadoPedidos) {
             if (listadoPedidos && listadoPedidos.length > 0) {
-                $("#ModalPedido").modal("hide");
+                $("#modalPedido").modal("hide");
                 LimpiarModal();
         
                 let tabla = '';
@@ -55,10 +55,13 @@ function LimpiarModal(){
     document.getElementById("MesaID").value = 0;
     document.getElementById("Estado").value = 0;
     document.getElementById("FechaPedido").value = "";
+    document.getElementById("EditarCampos").style.display = "none";
 }
 
 function NuevoPedido(){
     $("#tituloModal").text("Nuevo Pedido");
+    LimpiarModal();
+    $("#modalPedido").modal("show");
 }
 
 function GuardarPedido() {
@@ -67,6 +70,33 @@ function GuardarPedido() {
     let mesaID = document.getElementById("MesaID").value;
     let estado = document.getElementById("Estado").value;
     let fechaPedido = document.getElementById("FechaPedido").value;
+    let isValid = true;
+
+    // Validaciones
+    if (clienteID === "0") {
+        document.getElementById("errorMensajeCliente").style.display = "block";
+        isValid = false;
+    } else {
+        document.getElementById("errorMensajeCliente").style.display = "none";
+    }
+
+    if (meseroID === "0") {
+        document.getElementById("errorMensajeMesero").style.display = "block";
+        isValid = false;
+    } else {
+        document.getElementById("errorMensajeMesero").style.display = "none";
+    }
+
+    if (mesaID === "0") {
+        document.getElementById("errorMensajeMesa").style.display = "block";
+        isValid = false;
+    } else {
+        document.getElementById("errorMensajeMesa").style.display = "none";
+    }
+
+    if (!isValid) {
+        return;  // Detener la ejecución si isValid es false
+    }
 
     $.ajax({
         url: '../../Pedidos/GuardarPedido',
@@ -110,7 +140,10 @@ function ModalEditar(PedidoID){
             document.getElementById("MesaID").value = listadoPedido.mesaID;
             document.getElementById("Estado").value = listadoPedido.estado;
             document.getElementById("FechaPedido").value = listadoPedido.fechaPedido;
-            $("#ModalPedido").modal("show");
+
+            // Mostramos los campos solo si estamos editando
+            document.getElementById("EditarCampos").style.display = "block";
+            $("#modalPedido").modal("show");
         },
         error: function(xhr, status){
             console.log('Problemas al cargar Pedido');

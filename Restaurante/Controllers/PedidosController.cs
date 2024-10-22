@@ -110,7 +110,8 @@ public class PedidosController : Controller
 {
     string resultado = "Error al guardar el pedido";
     bool exito = false;
-    string estadoTexto = Estado.ToString().Replace("_", " ");
+
+    DateTime fechaActual = DateTime.Now;
     if (PedidoID == 0)
     {
         if (ClienteID > 0 && MesaID > 0 && MeseroID > 0)
@@ -120,8 +121,8 @@ public class PedidosController : Controller
                 ClienteID = ClienteID,
                 MeseroID = MeseroID,
                 MesaID = MesaID,
-                Estado = Estado,
-                FechaPedido = FechaPedido,
+                Estado = Estado.Preparando,
+                FechaPedido = fechaActual,
             };
             _context.Add(pedido);
             _context.SaveChanges();
@@ -138,7 +139,7 @@ public class PedidosController : Controller
             editarPedido.MeseroID = MeseroID;
             editarPedido.MesaID = MesaID;
             editarPedido.Estado = Estado;
-            editarPedido.FechaPedido = FechaPedido;
+            editarPedido.FechaPedido = fechaActual;
             _context.SaveChanges();
             exito = true;
             resultado = "Pedido actualizado con éxito";
@@ -150,6 +151,9 @@ public class PedidosController : Controller
         public JsonResult EliminarPedido(int PedidoID)
     {
         var pedido = _context.Pedidos.Find(PedidoID);
+        var detalles = _context.DetallesPedidos.Where( d=> d.PedidoID == PedidoID).ToList();
+
+        _context.DetallesPedidos.RemoveRange(detalles);
         _context.Remove(pedido);
         _context.SaveChanges();
 
@@ -167,7 +171,7 @@ public class PedidosController : Controller
 
         ViewBag.PedidoID = pedido?.PedidoID;
 
-        ViewBag.Fecha = pedido?.FechaPedido.ToString("yyyy-MM-ddTHH:mm");
+        ViewBag.Fecha = pedido?.FechaPedido.ToString("dd/MM/yyyy hh:mm tt");
         ViewBag.Cliente = _context.Clientes.Find(pedido?.ClienteID);
         ViewBag.Mesero = _context.Meseros.Find(pedido?.MeseroID);
         ViewBag.Mesa = _context.Mesas.Find(pedido?.MesaID);
@@ -216,6 +220,11 @@ public JsonResult EliminarDetalle(int DetallePedidoID)
     var detalle = _context.DetallesPedidos.Find(DetallePedidoID);
     if (detalle != null)
     {
+        var pedido = _context.Pedidos.Find(detalle.PedidoID);
+        if (pedido != null)
+        {
+            pedido.Total -= detalle.Subtotal;
+        }
         _context.DetallesPedidos.Remove(detalle);
         _context.SaveChanges();
         return Json(new { exito = true });
@@ -226,7 +235,7 @@ public JsonResult EliminarDetalle(int DetallePedidoID)
 
 
 
-   public JsonResult GuardarDetalle(int PedidoID, int PlatoID, int Cantidad)
+    public JsonResult GuardarDetalle(int PedidoID, int PlatoID, int Cantidad)
 {
     string resultado = "Error al guardar el detalle del pedido";
     bool exito = false;
@@ -236,14 +245,22 @@ public JsonResult EliminarDetalle(int DetallePedidoID)
     
     if (plato != null && Cantidad > 0)
     {
+        var pedido = _context.Pedidos.Find(PedidoID);
+        if (pedido == null)
+        {
+            return Json(new { exito = false, mensaje = "No se encontro el pedido"});
+        }
+
         var detalle = new DetallePedido
         {
-            PedidoID = PedidoID,
+            PedidoID = pedido.PedidoID,
             PlatoID = PlatoID,
             Cantidad = Cantidad,
             PrecioUnitario = plato.Precio,
             Subtotal = plato.Precio * Cantidad
         };
+
+        pedido.Total += detalle.Subtotal;
 
         _context.DetallesPedidos.Add(detalle);
         _context.SaveChanges();
