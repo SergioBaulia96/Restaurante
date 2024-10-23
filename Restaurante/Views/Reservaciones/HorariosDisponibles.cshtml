@@ -1,0 +1,41 @@
+@model Restaurante.Models.VistaReservacion
+
+<h2>Horarios disponibles para @Model.FechaSeleccionada.ToShortDateString()</h2>
+
+<!-- Mostrar los horarios disponibles -->
+<h3>Horarios</h3>
+<ul>
+    @foreach (var horario in Model.HorariosDisponibles)
+    {
+        <li>
+            @Html.ActionLink(horario, "ConfirmarReservacion", new { fecha = Model.FechaSeleccionada, horario = horario })
+        </li>
+    }
+</ul>
+
+
+<!-- Mostrar las mesas disponibles -->
+<h3>Mesas Disponibles</h3>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Número de Mesa</th>
+            <th>Capacidad</th>
+            <th>Disponible</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var mesa in Model.Mesas)
+        {
+            <tr>
+                <td>@mesa.Numero</td>
+                <td>@mesa.Capacidad</td>
+                <td>@(mesa.Disponible ? "Sí" : "No")</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    <script src="~/js/reservaciones.js"></script>
+}

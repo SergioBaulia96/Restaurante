@@ -16,3 +16,10 @@ namespace Restaurante.Models;
         public virtual Mesa Mesas { get; set; }
     }
 
+public class VistaReservacion
+{
+    public IEnumerable<Mesa> Mesas { get; set; }
+    public List<string> HorariosDisponibles { get; set; }
+    public DateTime FechaSeleccionada { get; set; }
+}
+
