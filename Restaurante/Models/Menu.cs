@@ -12,3 +12,11 @@ namespace Restaurante.Models;
         public virtual ICollection<Plato> Platos { get; set; }
     }
 
+
+    public class VistaMenu
+    {
+        public int MenuID { get; set; }
+        public string? Nombre { get; set; }
+        public List<VistaPlato> ListadoPlatos { get; set; }
+    }
+

@@ -1,0 +1,33 @@
+@{
+    ViewData["Title"] = "Listado";
+}
+
+<body>
+
+<section class="container-encabezado">
+    <h1 class="titulos">Listado de Menús</h1>
+</section>
+
+<div class="tbl-administracion" style="overflow: hidden; border-radius: 20px;">
+    <table class="table table-dark table-striped" style="border-radius: 20px; overflow: hidden; width: 100%;">
+        <thead>
+            <tr>
+                <th style="background-color: #019a4e;">Tipo Menu</th>
+                <th style="background-color: #019a4e;">Plato</th>
+                <th style="background-color: #019a4e;">Descripcion</th>
+                <th style="background-color: #019a4e; width:120px;">Precio</th>
+                <th style="background-color: #019a4e;">Estado</th>
+            </tr>
+        </thead>
+        <tbody id="tbody-listadoPlatos"></tbody>
+    </table>
+</div>
+
+
+
+@section Scripts 
+    {
+        <script src="~/js/listadoPlatos-1.0.0.js"></script>
+    }
+
+</body>

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using Restaurante.Data;
 using Restaurante.Models;
 
@@ -203,5 +204,47 @@ public class MenusController : Controller
         _context.SaveChanges();
 
         return Json(true);
+    }
+
+    public IActionResult Listados()
+    {
+        return View();
+    }
+
+    public JsonResult ListadosPlatos()
+    {
+        List<VistaMenu> menusMostrar = new List<VistaMenu>();
+
+        var platos = _context.Platos.Include(p => p.Menus).ToList();
+
+        foreach (var p in platos.OrderBy(n => n.Nombre))
+        {
+            var menuMostrar = menusMostrar.Where(m => m.MenuID == p.MenuID).SingleOrDefault();
+            if (menuMostrar == null)
+            {
+                menuMostrar = new VistaMenu
+                {
+                    MenuID = p.MenuID,
+                    Nombre = p.Menus.Nombre,
+                    ListadoPlatos = new List<VistaPlato>()
+                };
+                menusMostrar.Add(menuMostrar);
+            }
+
+            var platoMostrar = menuMostrar.ListadoPlatos.Where(l => l.PlatoID == p.PlatoID).SingleOrDefault();
+            if (platoMostrar == null)
+            {
+                platoMostrar = new VistaPlato
+                {
+                    PlatoID = p.PlatoID,
+                    NombrePlato = p.Nombre,
+                    Precio = p.Precio,
+                    Descripcion = p.Descripcion,
+                    Disponible = p.Disponible
+                };
+                menuMostrar.ListadoPlatos.Add(platoMostrar);
+            }
+        }
+        return Json(menusMostrar);
     }
 }

@@ -29,6 +29,21 @@ body {
   background: var(--bs-dark-bg-subtle);
 }
 
+.custom-dropdown {
+  background-color: #363738;
+  width: 200px;
+  text-align: center;
+}
+
+.custom-dropdown .dropdown-item {
+  color: #fafafa;
+}
+
+.custom-dropdown .dropdown-item:hover {
+  background-color: #00c763;
+  color: #ffffff;
+}
+
 .container-encabezado{
   display: flex;
   align-items: center;

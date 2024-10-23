@@ -22,10 +22,9 @@
     <div class="container-fluid">
         <!-- Logo en lugar del nombre -->
         <a class="navbar-brand me-auto" asp-area="" asp-controller="Home" asp-action="Index">
-            <img src="~/img/LogoRedondo.png" alt="" style="height: 70px; padding-bottom: 5px;"/>
+            <img src="~/img/LogoRedondo.png" alt="" style="height: 70px; padding-bottom: 5px;" />
         </a>
-        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar"
-            aria-labelledby="offcanvasNavbarLabel">
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
             <div class="offcanvas-header" style="background-color: #363738;">
                 <h5 class="offcanvas-title" style="color: #fafafa;" id="offcanvasNavbarLabel">Rouse</h5>
                 <button type="button" class="btn-close" style="color: #fafafa;" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -56,18 +55,20 @@
                             <span class="titulo-navbar">Mesas</span>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link mx-lg-2" asp-area="" asp-controller="Menus" asp-action="Index">
+
+                    <!-- Dropdown Menus -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle mx-lg-2" href="#" id="dropdownMenus" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="lni lni-menu"></i>
-                            <span class="titulo-navbar">Menus</span>
+                            <span class="titulo-navbar">Gestión de Menús</span>
                         </a>
+                        <ul class="dropdown-menu custom-dropdown" aria-labelledby="dropdownMenus">
+                            <li><a class="dropdown-item" asp-area="" asp-controller="Menus" asp-action="Listados">Listados</a></li>
+                            <li><a class="dropdown-item" asp-area="" asp-controller="Menus" asp-action="Platos">Crear Platos</a></li>
+                            <li><a class="dropdown-item" asp-area="" asp-controller="Menus" asp-action="Index">Crear Menu</a></li>
+                        </ul>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link mx-lg-2" asp-area="" asp-controller="Menus" asp-action="Platos">
-                            <i class="lni lni-airtable"></i>
-                            <span class="titulo-navbar">Platos</span>
-                        </a>
-                    </li>
+
                     <li class="nav-item">
                         <a class="nav-link mx-lg-2" asp-area="" asp-controller="Pedidos" asp-action="Index">
                             <i class="lni lni-airtable"></i>
@@ -83,13 +84,14 @@
                 </ul>
             </div>
         </div>
-        <partial name="_LoginPartial"/>
+        <partial name="_LoginPartial" />
         <button class="navbar-toggler pe-3" style="color: #fafafa; margin: 10px;" type="button" data-bs-toggle="offcanvas"
                 data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
             <i class="lni lni-angle-double-right"></i>
         </button>
     </div>
 </nav>
+
 </header>
 
 <footer class="custom-footer">
