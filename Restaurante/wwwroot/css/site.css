@@ -65,6 +65,30 @@ body {
   margin-right: 10px;
 }
 
+/* Media queries para pantallas más pequeñas */
+@media (max-width: 768px) {
+  .container-encabezado {
+    flex-direction: column; /* Coloca los elementos en una columna en lugar de una fila */
+    text-align: center;
+    width: 90%; /* Reduce el ancho en pantallas pequeñas */
+    padding: 15px;
+  }
+
+  .titulos {
+    margin-bottom: 10px;
+    font-size: 1.2rem; /* Reducir el tamaño de la fuente en pantallas pequeñas */
+  }
+
+  .Btn {
+    width: 100%; /* Hacer que el botón ocupe todo el ancho */
+    justify-content: center;
+  }
+
+  .sign, .text {
+    font-size: 1rem; /* Ajustar el tamaño del signo y el texto */
+  }
+}
+
 .edit-button {
   width: 40px;
   height: 40px;
