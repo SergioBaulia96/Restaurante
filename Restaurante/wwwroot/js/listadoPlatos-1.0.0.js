@@ -28,9 +28,9 @@ function ListadosPlatos() {
                         <tr>
                             <td></td>
                             <td>${plato.nombrePlato}</td>
-                            <td>${plato.descripcion}</td>
+                            <td class="d-none d-md-table-cell">${plato.descripcion}</td>
                             <td>${precioFormateado}</td>
-                            <td>${estadoPlatos}</td>
+                            <td class="d-none d-md-table-cell">${estadoPlatos}</td>
                         </tr>
                     `;
 

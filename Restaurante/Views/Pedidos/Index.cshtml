@@ -2,18 +2,34 @@
     ViewData["Title"] = "Pedidos";
 }
 
+<style>
+    /* Estilo para el borde verde cuando el input está seleccionado */
+    #FechaListado:focus {
+        border-color: #00c763;
+        box-shadow: 0 0 5px #00c763;
+        align-items: center;
+    }
+</style>
+
 <body>
 
-<section class="container-encabezado">
+<section class="container-encabezado container">
 <h1 class="titulos">Pedidos</h1>
 <div>
     <button type="button" class="Btn" data-bs-toggle="modal" data-bs-target="#modalPedido">
         <div class="sign">+</div>
         <div class="text">Agregar</div>
     </button>
-    <input type="date" id="FechaListado" value="@DateTime.UtcNow" onchange="ListadoPedidos(this.value)">
 </section>
 
+<input
+    type="date"
+    id="FechaListado"
+    class="form-control"
+    style="max-width: 250px; margin: 20px;"
+    value="@DateTime.Now.ToString("yyyy-MM-dd")"
+    onchange="ListadoPedidos(this.value)"
+>
 
         <!-- Modal -->
         <div class="modal fade" id="modalPedido" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -88,11 +104,11 @@
             <tr>
                 <th style="background-color: #019a4e; text-align: center;">Detalles</th>
                 <th style="background-color: #019a4e; text-align: center;">Cliente</th>
-                <th style="background-color: #019a4e; text-align: center;">Mesero</th>
-                <th style="background-color: #019a4e; text-align: center;">Mesa</th>
-                <th style="background-color: #019a4e; text-align: center;">Fecha y Hora</th>
-                <th style="background-color: #019a4e; text-align: center;">Estado</th>
-                <th style="background-color: #019a4e; text-align: center;">Total</th>
+                <th class="d-none d-md-table-cell" style="background-color: #019a4e; text-align: center;">Mesero</th>
+                <th class="d-none d-md-table-cell" style="background-color: #019a4e; text-align: center;">Mesa</th>
+                <th class="d-none d-md-table-cell" style="background-color: #019a4e; text-align: center;">Fecha y Hora</th>
+                <th class="d-none d-md-table-cell" style="background-color: #019a4e; text-align: center;">Estado</th>
+                <th class="d-none d-md-table-cell" style="background-color: #019a4e; text-align: center;">Total</th>
                 <th style="width: 150px; background-color: #019a4e;">Editar</th>
                 <th style="width: 150px; background-color: #019a4e;">Eliminar</th>
             </tr>

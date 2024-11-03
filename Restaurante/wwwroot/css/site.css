@@ -48,9 +48,8 @@ body {
   display: flex;
   align-items: center;
   text-align: center;
-
-  width: 370px;
-  height: 100px;
+  max-width: 370px;
+  max-height: 100px;
   padding: 5px;
   padding-left: 30px;
   border-radius: 20px;
