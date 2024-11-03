@@ -1,10 +1,12 @@
-window.onload = ListadoPedidos();
+window.onload = ListadoPedidos(new Date().toISOString());
 
-function ListadoPedidos()
+function ListadoPedidos(fecha)
 {
     $.ajax({
         url: '../../Pedidos/ListadoPedidos',
-        data: {},
+        data: {
+            fecha: new Date(fecha).toISOString()
+        },
         type: 'POST',
         dataType: 'json',
         success: function(listadoPedidos) {

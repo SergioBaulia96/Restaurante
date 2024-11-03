@@ -22,6 +22,7 @@
             <th>Número de Mesa</th>
             <th>Capacidad</th>
             <th>Disponible</th>
+            <th>Cliente</th>
         </tr>
     </thead>
     <tbody>
@@ -30,7 +31,8 @@
             <tr>
                 <td>@mesa.Numero</td>
                 <td>@mesa.Capacidad</td>
-                <td>@(mesa.Disponible ? "Sí" : "No")</td>
+                <td>@(Model.Reservaciones.Any(r => r.MesaID == mesa.MesaID)? "No" : "Sí")</td>
+                <td>@Model.Reservaciones.Where(r => r.MesaID == mesa.MesaID).Select(r => r.Clientes.NombreCompleto).FirstOrDefault()</td>
             </tr>
         }
     </tbody>

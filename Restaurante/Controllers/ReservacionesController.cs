@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Restaurante.Data;
 using Restaurante.Models;
 
@@ -21,9 +22,10 @@ public class ReservacionesController : Controller
     public IActionResult HorariosDisponibles(DateTime fecha)
 {
     // Obtener mesas disponibles para la fecha seleccionada
-    var mesasDisponibles = _context.Mesas
-        .Where(m => !m.Reservaciones.Any(r => r.FechaReservacion.Date == fecha.Date))
+    var mesas = _context.Mesas
         .ToList();
+
+    var reservaciones = _context.Reservaciones.Include(r => r.Clientes).Include(m => m.Mesas).Where(r => r.FechaReservacion.Date == fecha.Date).ToList();
 
     // Definir horarios disponibles (puedes ajustar estos valores según tu lógica)
     List<string> horarios = new List<string> 
@@ -37,7 +39,8 @@ public class ReservacionesController : Controller
     // Crear el ViewModel y pasar los datos
     var viewModel = new VistaReservacion
     {
-        Mesas = mesasDisponibles,
+        Mesas = mesas,
+        Reservaciones = reservaciones,
         HorariosDisponibles = horarios,
         FechaSeleccionada = fecha
     };

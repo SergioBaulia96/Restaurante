@@ -18,7 +18,8 @@ namespace Restaurante.Models;
 
 public class VistaReservacion
 {
-    public IEnumerable<Mesa> Mesas { get; set; }
+    public IEnumerable<Mesa> Mesas { get; set; } = Enumerable.Empty<Mesa>();
+    public IEnumerable<Reservacion> Reservaciones { get; set; } = Enumerable.Empty<Reservacion>();
     public List<string> HorariosDisponibles { get; set; }
     public DateTime FechaSeleccionada { get; set; }
 }
