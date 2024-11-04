@@ -1,42 +1,28 @@
 @model Restaurante.Models.VistaReservacion
 
-<h2>Horarios disponibles para @Model.FechaSeleccionada.ToShortDateString()</h2>
+<h2 class="mb-4">Mesas disponibles para @Model.FechaSeleccionada.ToShortDateString()</h2>
 
-<!-- Mostrar los horarios disponibles -->
-<h3>Horarios</h3>
-<ul>
-    @foreach (var horario in Model.HorariosDisponibles)
+<div class="row">
+    @foreach (var mesa in Model.Mesas)
     {
-        <li>
-            @Html.ActionLink(horario, "ConfirmarReservacion", new { fecha = Model.FechaSeleccionada, horario = horario })
-        </li>
+        // Determinamos si la mesa está disponible o no
+        bool disponible = !Model.Reservaciones.Any(r => r.MesaID == mesa.MesaID);
+        string cardColor = disponible ? "bg-success" : "bg-danger"; // Verde si está disponible, rojo si no
+
+        <div class="col-md-3 mb-3">
+            <div class="card text-white @cardColor">
+                <div class="card-body">
+                    <h5 class="card-title"> #@mesa.Numero</h5>
+                    <p class="card-text">
+                        Capacidad: @mesa.Capacidad<br />
+                        
+                        Cliente: @Model.Reservaciones.Where(r => r.MesaID == mesa.MesaID).Select(r => r.Clientes.NombreCompleto).FirstOrDefault()
+                    </p>
+                </div>
+            </div>
+        </div>
     }
-</ul>
-
-
-<!-- Mostrar las mesas disponibles -->
-<h3>Mesas Disponibles</h3>
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Número de Mesa</th>
-            <th>Capacidad</th>
-            <th>Disponible</th>
-            <th>Cliente</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var mesa in Model.Mesas)
-        {
-            <tr>
-                <td>@mesa.Numero</td>
-                <td>@mesa.Capacidad</td>
-                <td>@(Model.Reservaciones.Any(r => r.MesaID == mesa.MesaID)? "No" : "Sí")</td>
-                <td>@Model.Reservaciones.Where(r => r.MesaID == mesa.MesaID).Select(r => r.Clientes.NombreCompleto).FirstOrDefault()</td>
-            </tr>
-        }
-    </tbody>
-</table>
+</div>
 
 @section Scripts {
     <script src="~/js/reservaciones.js"></script>

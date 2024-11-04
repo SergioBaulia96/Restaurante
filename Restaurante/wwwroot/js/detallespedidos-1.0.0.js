@@ -52,7 +52,7 @@ function CargarDetalles(pedidoID) {
         success: function (response) {
             var tbody = $('#tbody-detallespedidos');
             tbody.empty(); // Limpiar el cuerpo de la tabla
-
+            
             var subtotal = 0;
 
             // Itera sobre los detalles del pedido y agrega filas a la tabla
@@ -87,23 +87,56 @@ function CargarDetalles(pedidoID) {
     });
 }
 
+function LimpiarModal(){
+    document.getElementById("PedidoID").value = 0;
+    document.getElementById("MenuID").value = 0; 
+    document.getElementById("PlatoID").value = 0;
+    document.getElementById("Cantidad").value = "";
+}
+
 function EliminarDetalle(detallePedidoID) {
-    // Llamada AJAX para eliminar el detalle del pedido
-    $.ajax({
-        url: '/Pedidos/EliminarDetalle',
-        type: 'POST',
-        data: { DetallePedidoID: detallePedidoID },
-        success: function (response) {
-            if (response.exito) {
-                var pedidoID = $('#PedidoID').val();
-                CargarDetalles(pedidoID); // Recarga los detalles después de eliminar
-            }
-        },
-        error: function (error) {
-            console.log(error);
+    Swal.fire({
+        title: '¿Estás seguro?',
+        text: "Esta acción no se puede deshacer",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí, eliminar',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // Llamada AJAX para eliminar el detalle del pedido
+            $.ajax({
+                url: '/Pedidos/EliminarDetalle',
+                type: 'POST',
+                data: { DetallePedidoID: detallePedidoID },
+                success: function (response) {
+                    if (response.exito) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: '¡Eliminado!',
+                            text: 'El detalle del pedido ha sido eliminado correctamente.',
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                        var pedidoID = $('#PedidoID').val();
+                        CargarDetalles(pedidoID); // Recarga los detalles después de eliminar
+                    }
+                },
+                error: function (error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Hubo un problema al eliminar el detalle del pedido.',
+                    });
+                    console.log(error);
+                }
+            });
         }
     });
 }
+
 
 
 function actualizarSubtotal(pedidoID) {

@@ -51,11 +51,16 @@ public class PedidosController : Controller
         return View();
     }
 
-    public JsonResult ListadoPedidos(DateTime fecha)
+    public JsonResult ListadoPedidos(DateTime? fechaListado)
     {
         List<VistaPedido> pedidosMostrar = new List<VistaPedido>();
 
-        var pedidos = _context.Pedidos.Where(x => x.FechaPedido.Date == fecha.Date).ToList();
+        var pedidos = _context.Pedidos.ToList();
+
+        if (fechaListado != null)
+        {
+            pedidos = pedidos.Where(p => p.FechaPedido.Date == fechaListado.Value.Date).ToList();
+        }
 
         var clientes = _context.Clientes.ToList();
         var meseros = _context.Meseros.ToList();

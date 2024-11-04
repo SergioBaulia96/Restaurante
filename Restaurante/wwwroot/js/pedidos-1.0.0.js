@@ -1,11 +1,12 @@
-window.onload = ListadoPedidos(new Date().toISOString());
+window.onload = ListadoPedidos();
 
-function ListadoPedidos(fecha)
+function ListadoPedidos()
 {
+    let fechaListado = document.getElementById("FechaListado").value;
     $.ajax({
         url: '../../Pedidos/ListadoPedidos',
         data: {
-            fecha: new Date(fecha).toISOString()
+            fechaListado: fechaListado
         },
         type: 'POST',
         dataType: 'json',
@@ -115,63 +116,124 @@ function GuardarPedido() {
         success: function(resultado) {
             if (resultado.exito) {
                 ListadoPedidos();
-                alert(resultado.mensaje);
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Pedido Guardado',
+                    text: resultado.mensaje,
+                    showConfirmButton: false,
+                    timer: 2000
+                });
             } else {
-                alert(resultado.mensaje);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error al guardar',
+                    text: resultado.mensaje
+                });
             }
         },
         error: function(xhr, status) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Hubo un problema al guardar el pedido. Intente nuevamente.',
+            });
             console.log('Problemas al guardar Pedido');
         },
     });
 }
 
-function ModalEditar(PedidoID){
+
+function ModalEditar(PedidoID) {
     $.ajax({
         url: '../../Pedidos/TraerPedidosAlModal',
-        data: { pedidoID : PedidoID },
+        data: { pedidoID: PedidoID },
         type: 'POST',
         dataType: 'json',
-        success: function(listadoPedidos){
+        success: function (listadoPedidos) {
+            // Verifica si el listadoPedidos contiene datos y muestra alerta si está vacío
+            if (!listadoPedidos || listadoPedidos.length === 0) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error al cargar',
+                    text: 'No se encontraron datos del pedido. Intente de nuevo.',
+                });
+                return;  // Detener la ejecución si no hay datos
+            }
+
+            // Asignación de datos si todo está bien
             let listadoPedido = listadoPedidos[0];
-            
-            document.getElementById("PedidoID").value = PedidoID
+            document.getElementById("PedidoID").value = PedidoID;
             $("#tituloModal").text("Editar Pedido");
-            document.getElementById("ClienteID").value = listadoPedido.clienteID
+            document.getElementById("ClienteID").value = listadoPedido.clienteID;
             document.getElementById("MeseroID").value = listadoPedido.meseroID;
             document.getElementById("MesaID").value = listadoPedido.mesaID;
             document.getElementById("Estado").value = listadoPedido.estado;
             document.getElementById("FechaPedido").value = listadoPedido.fechaPedido;
 
-            // Mostramos los campos solo si estamos editando
+            // Mostrar campos solo si estamos editando
             document.getElementById("EditarCampos").style.display = "block";
             $("#modalPedido").modal("show");
         },
-        error: function(xhr, status){
-            console.log('Problemas al cargar Pedido');
+        error: function (xhr, status) {
+            // Error en la llamada AJAX
+            Swal.fire({
+                icon: 'error',
+                title: 'Error al cargar',
+                text: 'No se pudo cargar el pedido. Intente de nuevo.',
+            });
+            console.log('Problemas al cargar Pedido:', status, xhr.responseText);
         }
     });
 }
 
-function ValidarEliminacion(PedidoID)
-{
-    var elimina = confirm("¿Esta seguro que desea eliminar?");
-    if(elimina == true)
-        {
+
+function ValidarEliminacion(PedidoID) {
+    Swal.fire({
+        title: '¿Estás seguro?',
+        text: "Esta acción no se puede deshacer",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí, eliminar',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
             EliminarPedido(PedidoID);
         }
+    });
 }
 
-function EliminarPedido(PedidoID){
+function EliminarPedido(PedidoID) {
     $.ajax({
         url: '../../Pedidos/EliminarPedido',
         data: { pedidoID: PedidoID },
         type: 'POST',
         dataType: 'json',
-        success: function(EliminarPedido){
-            ListadoPedidos()
+        success: function (response) {
+            if (response.exito) {
+                Swal.fire({
+                    icon: 'success',
+                    title: '¡Eliminado!',
+                    text: 'El pedido ha sido eliminado correctamente.',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+                ListadoPedidos();
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'No se pudo eliminar el pedido. Intente de nuevo.',
+                });
+            }
         },
-        error: function(xhr, status){
+        error: function (xhr, status) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Hubo un problema al eliminar el pedido.',
+            });
             console.log('Problemas al eliminar Pedido');
         }
     });
