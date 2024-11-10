@@ -16,46 +16,45 @@ document.addEventListener('DOMContentLoaded', function() {
     calendar.render();
 });
 
-function VerHorariosDisponibles(fechaSeleccionada) {
-    $.ajax({
-      url: '/Reservaciones/ObtenerHorariosDisponibles', // Controlador que obtendrá los horarios
-      type: 'POST',
-      data: { fecha: fechaSeleccionada },
-      success: function(horarios) {
-        // Mostrar los horarios en un div o modal
-        var horariosHTML = '<h3>Horarios disponibles para ' + fechaSeleccionada + ':</h3>';
-        horarios.forEach(function(horario) {
-          horariosHTML += '<button onclick="Reservar(\'' + fechaSeleccionada + '\', \'' + horario + '\')">' + horario + '</button>';
-        });
-        document.getElementById('horariosDisponibles').innerHTML = horariosHTML;
-      },
-      error: function(error) {
-        console.error('Error al obtener los horarios:', error);
-      }
-    });
+
+// Función para abrir el modal y pasar los datos de la mesa seleccionada
+function openReservationModal(mesaID, mesaNumero) {
+  console.log(`Abriendo modal para Mesa ID: ${mesaID}, Número: ${mesaNumero}`);
+  document.getElementById('mesaID').value = mesaID;
+  document.getElementById('mesaNumero').textContent = mesaNumero;
+  
+  const reservationModal = new bootstrap.Modal(document.getElementById('reservationModal'));
+  reservationModal.show();
+}
+
+
+// Manejar el envío del formulario de reservación
+document.getElementById('reservationForm').addEventListener('submit', function(event) {
+  event.preventDefault();
+  
+  const mesaID = document.getElementById('mesaID').value;
+  const clienteID = document.getElementById('ClienteID').value;
+  if (clienteID == "0") {
+      document.getElementById('errorMensajeCliente').style.display = 'block';
+      return; // Detener el envío si no hay cliente seleccionado
   }
+  
+  // Ocultar el mensaje de error si todo es válido
+  document.getElementById('errorMensajeCliente').style.display = 'none';
 
-function Reservar(fecha, horario) {
-  $.ajax({
-    url: '/Reservaciones/CrearReservacion',
-    type: 'POST',
-    data: {
-      ClienteID: 1, // Puedes obtener este valor desde el usuario logueado o un campo
-      MesaID: 2,    // Puedes tener una lógica para asignar la mesa
-      FechaReservacion: `${fecha} ${horario}`, // Combinas la fecha y el horario
-      Notas: 'Preferencia de ubicación cerca de la ventana'
-    },
-    success: function(response) {
-      alert('¡Reservación realizada con éxito!');
-      // Aquí puedes actualizar la vista o mostrar un mensaje de éxito
-    },
-    error: function(error) {
-      console.error('Error al realizar la reservación:', error);
-    }
-  });
-}
+  fetch('/Reservaciones/Create', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ MesaID: mesaID, ClienteID: clienteID })
+  })
+  .then(response => {
+      if (response.ok) {
+          alert('Reservación realizada con éxito');
+          location.reload(); // Recargar la página para ver los cambios
+      } else {
+          alert('Error al realizar la reservación');
+      }
+  })
+  .catch(error => console.error('Error:', error));
+});
 
-function redirigirHorarios(fecha) {
-    // Redirigir a la vista de horarios disponibles
-    window.location.href = `/Reservaciones/HorariosDisponibles?fecha=${fecha}`;
-}

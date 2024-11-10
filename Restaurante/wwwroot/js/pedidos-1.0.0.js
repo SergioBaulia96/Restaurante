@@ -2,7 +2,7 @@ window.onload = ListadoPedidos();
 
 function ListadoPedidos()
 {
-    let fechaListado = document.getElementById("FechaListado").value;
+    let fechaListado = document.getElementById("FechaListado").value || null;
     $.ajax({
         url: '../../Pedidos/ListadoPedidos',
         data: {

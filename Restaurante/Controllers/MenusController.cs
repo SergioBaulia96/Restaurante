@@ -163,6 +163,16 @@ public class MenusController : Controller
 
         NombrePlato = NombrePlato.ToUpper();
 
+        var platoExistente = _context.Platos
+            .Where(p => p.Nombre == NombrePlato && p.PlatoID != PlatoID) // Excluir el plato actual si está en modo de edición
+            .SingleOrDefault();
+
+        if (platoExistente != null)
+        {
+            // Si ya existe un plato con ese nombre, devolver un mensaje de error
+            return Json("El plato ya existe.");
+        }
+
         if (PlatoID == 0)
         {
             if (MenuID > 0)

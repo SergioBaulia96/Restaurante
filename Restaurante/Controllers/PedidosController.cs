@@ -62,6 +62,12 @@ public class PedidosController : Controller
             pedidos = pedidos.Where(p => p.FechaPedido.Date == fechaListado.Value.Date).ToList();
         }
 
+            // Verificar si hay pedidos después de aplicar el filtro
+        if (!pedidos.Any())
+        {
+            return Json(pedidosMostrar); // Retorna una lista vacía si no hay pedidos en la fecha
+        }
+
         var clientes = _context.Clientes.ToList();
         var meseros = _context.Meseros.ToList();
         var mesas = _context.Mesas.ToList();

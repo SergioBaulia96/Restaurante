@@ -27,7 +27,6 @@
     id="FechaListado"
     class="form-control"
     style="max-width: 250px; margin: 20px;"
-    value="@DateTime.Now.ToString("yyyy-MM-dd")"
     onchange="ListadoPedidos()"
 >
 
@@ -40,6 +39,7 @@
             </div>
             <div class="modal-body p-4">
                 <form action="" class="needs-validation" novalidate>
+                    <p style="color: gray;">!Todos los campos son obligatorios!</p>
                     <input type="hidden" id="PedidoID" value="0" />
 
                     <div class="mb-3">
@@ -56,7 +56,7 @@
                         @Html.DropDownList("MeseroID", null, htmlAttributes: new { @class = "form-control shadow-sm" })
                         <span id="errorMensajeMesero"
                         style="color:red; display:none; font-size: 15px; padding-left: 4px;">
-                        <i class="lni lni-warning pe-1"></i>Debe seleccionar asignar un Mesero.
+                        <i class="lni lni-warning pe-1"></i>Debe asignar un mesero.
                         </span>
                     </div>
 

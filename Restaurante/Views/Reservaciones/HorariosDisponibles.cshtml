@@ -5,23 +5,49 @@
 <div class="row">
     @foreach (var mesa in Model.Mesas)
     {
-        // Determinamos si la mesa está disponible o no
         bool disponible = !Model.Reservaciones.Any(r => r.MesaID == mesa.MesaID);
-        string cardColor = disponible ? "bg-success" : "bg-danger"; // Verde si está disponible, rojo si no
+        string cardColor = disponible ? "bg-success" : "bg-danger";
 
         <div class="col-md-3 mb-3">
-            <div class="card text-white @cardColor">
-                <div class="card-body">
-                    <h5 class="card-title"> #@mesa.Numero</h5>
-                    <p class="card-text">
-                        Capacidad: @mesa.Capacidad<br />
-                        
-                        Cliente: @Model.Reservaciones.Where(r => r.MesaID == mesa.MesaID).Select(r => r.Clientes.NombreCompleto).FirstOrDefault()
-                    </p>
-                </div>
+    <div class="card text-white @cardColor" onclick="openReservationModal('@mesa.MesaID', '@mesa.Numero')">
+        <div class="card-body">
+            <h5 class="card-title"> @mesa.Numero</h5>
+            <p class="card-text">
+                Capacidad: @mesa.Capacidad<br />
+                Cliente: @Model.Reservaciones.Where(r => r.MesaID == mesa.MesaID).Select(r => r.Clientes.NombreCompleto).FirstOrDefault()
+            </p>
+        </div>
+    </div>
+</div>
+
+    }
+</div>
+
+<!-- Modal de reservación -->
+<div class="modal fade" id="reservationModal" tabindex="-1" aria-labelledby="reservationModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="reservationModalLabel">Reservar #<span id="mesaNumero"></span></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="reservationForm">
+                    <input type="hidden" id="mesaID" name="MesaID" />
+                    <div class="mb-3">
+                        <label for="ClienteID" class="form-label">Cliente</label>
+                        @Html.DropDownList("ClienteID", null, htmlAttributes: new { @class = "form-control shadow-sm" })
+                        <span id="errorMensajeCliente"
+                        style="color:red; display:none; font-size: 15px; padding-left: 4px;">
+                        <i class="lni lni-warning pe-1"></i>Debe seleccionar un tipo de cliente.
+                        </span>
+                    </div>
+                
+                    <button type="submit" class="btn btn-primary">Reservar</button>
+                </form>
             </div>
         </div>
-    }
+    </div>
 </div>
 
 @section Scripts {

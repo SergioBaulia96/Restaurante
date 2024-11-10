@@ -40,6 +40,16 @@ public class ClientesController : Controller
         Nombre = Nombre.ToUpper();
         Apellido = Apellido.ToUpper();
 
+        var clienteExistente = _context.Clientes
+            .Where(c => c.Nombre == Nombre && c.Apellido == Apellido && c.ClienteID != ClienteID) // Excluir el cliente actual si está en modo de edición
+            .SingleOrDefault();
+
+        if (clienteExistente != null)
+        {
+            // Si ya existe un cliente con ese nombre, devolver un mensaje de error
+            return Json("El cliente ya existe.");
+        }
+
         if(ClienteID == 0)
         {
             var nuevoCliente = new Cliente

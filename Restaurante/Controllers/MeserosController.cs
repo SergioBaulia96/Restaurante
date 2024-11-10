@@ -39,6 +39,16 @@ public class MeserosController : Controller
         Nombre = Nombre.ToUpper();
         Apellido = Apellido.ToUpper();
 
+        var meseroExistente = _context.Meseros
+            .Where(m => m.Nombre == Nombre && m.Apellido == Apellido && m.MeseroID != MeseroID) // Excluir el mesero actual si está en modo de edición
+            .SingleOrDefault();
+
+        if (meseroExistente != null)
+        {
+            // Si ya existe un mesero con ese nombre, devolver un mensaje de error
+            return Json("El mesero ya existe.");
+        }
+
         if(MeseroID == 0)
         {
             var nuevoMesero = new Mesero

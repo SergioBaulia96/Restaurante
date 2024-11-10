@@ -95,7 +95,7 @@ function GuardarMesero(){
         type: 'POST',
         dataType: 'json',
         success: function(resultado){
-            if (resultado === "") {
+            if (resultado === "El mesero ya existe.") {
                 Swal.fire({
                     icon: 'error',
                     title: 'Oops...',
