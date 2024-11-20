@@ -26,7 +26,6 @@ namespace Restaurante.Models;
         Preparando = 1,
         Listo,
         Servido,
-        Cancelado,
     }
 
     public class VistaPedido

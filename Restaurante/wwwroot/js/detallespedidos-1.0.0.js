@@ -8,7 +8,6 @@ function GuardarDetalle() {
     var platoID = $('#PlatoID').val();
     var cantidad = $('#Cantidad').val();
 
-
     if (platoID == 0) {
         $('#errorMensajePlato').show();
         return;
@@ -30,18 +29,38 @@ function GuardarDetalle() {
         data: { PedidoID: pedidoID, PlatoID: platoID, Cantidad: cantidad },
         success: function (response) {
             if (response.exito) {
+                // Mostrar alerta de éxito
+                Swal.fire({
+                    icon: 'success',
+                    title: '¡Éxito!',
+                    text: 'El detalle del pedido ha sido guardado correctamente.',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+
                 // Actualiza la tabla de detalles del pedido
                 CargarDetalles(pedidoID);
                 $('#ModalDetalle').modal('hide'); // Cierra el modal
             } else {
-                alert(response.mensaje);
+                // Mostrar alerta de error
+                Swal.fire({
+                    icon: 'error',
+                    title: '¡Error!',
+                    text: response.mensaje,
+                });
             }
         },
         error: function (error) {
+            Swal.fire({
+                icon: 'error',
+                title: '¡Error!',
+                text: 'Hubo un problema al guardar el detalle del pedido.',
+            });
             console.log(error);
         }
     });
 }
+
 
 function CargarDetalles(pedidoID) {
     // Llamada AJAX para obtener el listado de detalles del pedido
@@ -113,6 +132,7 @@ function EliminarDetalle(detallePedidoID) {
                 data: { DetallePedidoID: detallePedidoID },
                 success: function (response) {
                     if (response.exito) {
+                        // Alerta de éxito tras eliminación
                         Swal.fire({
                             icon: 'success',
                             title: '¡Eliminado!',
@@ -120,15 +140,24 @@ function EliminarDetalle(detallePedidoID) {
                             showConfirmButton: false,
                             timer: 1500
                         });
+
                         var pedidoID = $('#PedidoID').val();
                         CargarDetalles(pedidoID); // Recarga los detalles después de eliminar
+                    } else {
+                        // Mostrar el mensaje de error proporcionado por el servidor
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: response.mensaje,  // Mostrar el mensaje de error que devuelve el servidor
+                        });
                     }
                 },
                 error: function (error) {
+                    // Alerta de error si hay un problema con la solicitud
                     Swal.fire({
                         icon: 'error',
                         title: 'Error',
-                        text: 'Hubo un problema al eliminar el detalle del pedido.',
+                        text: 'Hubo un problema al procesar la solicitud.',
                     });
                     console.log(error);
                 }
@@ -136,6 +165,8 @@ function EliminarDetalle(detallePedidoID) {
         }
     });
 }
+
+
 
 
 
@@ -149,3 +180,5 @@ function actualizarSubtotal(pedidoID) {
         }
     });
 }
+
+

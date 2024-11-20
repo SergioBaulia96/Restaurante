@@ -203,6 +203,17 @@ public class PedidosController : Controller
         return View();
     }
 
+    public IActionResult ObtenerPlatosPorMenu(int menuID)
+{
+    var platos = _context.Platos
+                        .Where(p => p.MenuID == menuID)
+                        .Select(p => new { p.PlatoID, p.Nombre })
+                        .ToList();
+
+    return Json(platos);
+}
+
+
     // Listar los detalles del pedido
 public JsonResult ListadoDetalle(int PedidoID)
 {
@@ -227,6 +238,11 @@ public JsonResult EliminarDetalle(int DetallePedidoID)
     if (detalle != null)
     {
         var pedido = _context.Pedidos.Find(detalle.PedidoID);
+        if (pedido?.Estado == Estado.Listo)
+        {
+            return Json(new { exito = false, mensaje = "No se pueden eliminar detalles de un pedido que ya está listo." });
+        }
+
         if (pedido != null)
         {
             pedido.Total -= detalle.Subtotal;
@@ -245,6 +261,18 @@ public JsonResult EliminarDetalle(int DetallePedidoID)
 {
     string resultado = "Error al guardar el detalle del pedido";
     bool exito = false;
+
+    var pedidos = _context.Pedidos.Find(PedidoID);
+    if (pedidos == null)
+    {
+        return Json(new { exito = false, mensaje = "No se encontró el pedido" });
+    }
+
+    // Verificar si el estado del pedido es "Listo"
+    if (pedidos.Estado == Estado.Listo)
+    {
+        return Json(new { exito = false, mensaje = "No se pueden agregar detalles a un pedido que ya está listo." });
+    }
 
     // Buscar el plato para obtener su precio
     var plato = _context.Platos.SingleOrDefault(p => p.PlatoID == PlatoID);
