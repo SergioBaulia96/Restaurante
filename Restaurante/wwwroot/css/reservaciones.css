@@ -24,3 +24,9 @@
 }
 
 
+.disabled-date {
+    color: #ccc; /* Cambiar color del texto */
+    pointer-events: none; /* Desactivar interactividad */
+    background-color: rgba(0, 0, 0, 0.05); /* Fondo tenue */
+}
+

@@ -12,8 +12,8 @@ namespace Restaurante.Models;
         public int MesaID { get; set; }
         public DateTime FechaReservacion { get; set; }
         public string? Notas { get; set; }
-        public virtual Cliente Clientes { get; set; }
-        public virtual Mesa Mesas { get; set; }
+        public virtual Cliente? Clientes { get; set; }
+        public virtual Mesa? Mesas { get; set; }
     }
 
 public class VistaReservacion

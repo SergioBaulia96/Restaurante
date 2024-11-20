@@ -64,13 +64,51 @@ public IActionResult Create([FromBody] Reservacion reservacion)
 {
     if (ModelState.IsValid)
     {
-        reservacion.FechaReservacion = DateTime.Now; // Agrega la fecha actual o la seleccionada en la vista
+        // Verificar si el cliente ya tiene una reservación en la misma fecha
+        bool existeReservacion = _context.Reservaciones
+            .Any(r => r.ClienteID == reservacion.ClienteID && r.FechaReservacion.Date == reservacion.FechaReservacion.Date);
+
+        if (existeReservacion)
+        {
+            return BadRequest("El cliente ya tiene una reservación en esta fecha.");
+        }
+
+        bool mesaReservada = _context.Reservaciones
+        .Any(r => r.MesaID == reservacion.MesaID && r.FechaReservacion.Date == reservacion.FechaReservacion.Date);
+
+        if (mesaReservada)
+        {
+            return BadRequest("La mesa ya está reservada para esta fecha.");
+        }
+
+        
         _context.Reservaciones.Add(reservacion);
         _context.SaveChanges();
         return Ok();
     }
     return BadRequest("Datos inválidos");
 }
+
+[HttpPost]
+public IActionResult CancelarReservacion([FromBody] int mesaID)
+{
+    if (mesaID <= 0)
+    {
+        return BadRequest("ID de mesa inválido.");
+    }
+
+    var reservacion = _context.Reservaciones.FirstOrDefault(r => r.MesaID == mesaID);
+    if (reservacion == null)
+    {
+        return BadRequest("No se encontró una reservación para esta mesa.");
+    }
+
+    _context.Reservaciones.Remove(reservacion);
+    _context.SaveChanges();
+    return Ok();
+}
+
+
 
 
 

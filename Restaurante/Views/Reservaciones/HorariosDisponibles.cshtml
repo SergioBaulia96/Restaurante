@@ -17,7 +17,12 @@
                 Cliente: @Model.Reservaciones.Where(r => r.MesaID == mesa.MesaID).Select(r => r.Clientes.NombreCompleto).FirstOrDefault()
             </p>
         </div>
+        
     </div>
+    @if (!disponible)
+                {
+                    <button class="btn btn-danger w-100" onclick="cancelarReservacion('@mesa.MesaID')">Cancelar Reservación</button>
+                }
 </div>
 
     }
