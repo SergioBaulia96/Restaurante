@@ -182,3 +182,38 @@ function actualizarSubtotal(pedidoID) {
 }
 
 
+$(document).ready(function () {
+    $('#MenuID').change(function () {
+        var menuID = $(this).val();
+        
+        if (menuID) {
+            // Hacer la llamada AJAX para obtener los platos del menú seleccionado
+            $.ajax({
+                url: '/Pedidos/ObtenerPlatosPorMenu', // La ruta de la acción en el controlador
+                type: 'GET',
+                data: { menuID: menuID },
+                success: function (response) {
+                    var platoDropdown = $('#PlatoID');
+                    platoDropdown.empty(); // Limpiar el dropdown de platos
+
+                    if (response.length > 0) {
+                        // Agregar los platos al dropdown
+                        platoDropdown.append('<option value="">Seleccione un plato</option>'); // Primer opción por defecto
+                        response.forEach(function (plato) {
+                            platoDropdown.append('<option value="' + plato.platoID + '">' + plato.nombre + '</option>');
+                        });
+                    } else {
+                        platoDropdown.append('<option value="">No hay platos disponibles para este menú</option>');
+                    }
+                },
+                error: function (error) {
+                    console.log(error);
+                    alert('Hubo un problema al cargar los platos.');
+                }
+            });
+        } else {
+            // Si no se selecciona un menú, limpiar el dropdown de platos
+            $('#PlatoID').empty();
+        }
+    });
+});

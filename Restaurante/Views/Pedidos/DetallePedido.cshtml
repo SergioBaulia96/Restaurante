@@ -57,22 +57,21 @@
           <input type="hidden" id="PedidoID" value="@ViewBag.PedidoID" />
 
           <div class="mb-3">
-            <label for="MenuID" class="form-label"></label>
-            @Html.DropDownList("MenuID", null, htmlAttributes: new { @class = "form-control shadow-sm" })
-            <span id="errorMensajeTipoMenu"
-                  style="color:red; display:none; font-size: 15px; padding-left: 4px;">
-                  <i class="lni lni-warning pe-1"></i>Debe seleccionar un tipo de menú.
-            </span>
-          </div>
+    <label for="MenuID" class="form-label">Selecciona el Menú</label>
+    @Html.DropDownList("MenuID", new SelectList(ViewBag.Menus, "MenuID", "Nombre"), "Seleccione un menú", new { @class = "form-control shadow-sm" })
+    <span id="errorMensajeTipoMenu" style="color:red; display:none; font-size: 15px; padding-left: 4px;">
+        <i class="lni lni-warning pe-1"></i>Debe seleccionar un tipo de menú.
+    </span>
+</div>
 
-          <div class="mb-3">
-            <label for="PlatoID" class="form-label"></label>
-            @Html.DropDownList("PlatoID", null, htmlAttributes: new { @class = "form-control shadow-sm" })
-            <span id="errorMensajePlato"
-                  style="color:red; display:none; font-size: 15px; padding-left: 4px;">
-                  <i class="lni lni-warning pe-1"></i>Debe seleccionar un plato.
-            </span>
-          </div>
+<div class="mb-3">
+    <label for="PlatoID" class="form-label">Selecciona el Plato</label>
+    @Html.DropDownList("PlatoID", null, "Seleccione un plato", new { @class = "form-control shadow-sm" })
+    <span id="errorMensajePlato" style="color:red; display:none; font-size: 15px; padding-left: 4px;">
+        <i class="lni lni-warning pe-1"></i>Debe seleccionar un plato.
+    </span>
+</div>
+
 
           <div class="mb-3">
             <label for="Cantidad" class="form-label"></label>

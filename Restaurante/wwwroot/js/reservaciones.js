@@ -95,29 +95,33 @@ function cancelarReservacion(mesaID) {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ mesaID: mesaID })
             })
-                .then(response => {
-                    if (response.ok) {
-                        Swal.fire(
-                            "Reservación Cancelada",
-                            "La reservación ha sido eliminada correctamente.",
-                            "success"
-                        ).then(() => location.reload());
-                    } else {
+            .then(response => {
+                console.log("Status:", response.status);  // Verifica el código de estado HTTP
+                if (response.ok) {
+                    Swal.fire(
+                        "Reservación Cancelada",
+                        "La reservación ha sido eliminada correctamente.",
+                        "success"
+                    ).then(() => location.reload());
+                } else {
+                    return response.text().then((text) => {
                         Swal.fire(
                             "Error",
-                            "No se pudo cancelar la reservación. Inténtalo de nuevo.",
+                            `No se pudo cancelar la reservación. Error: ${text}`,
                             "error"
                         );
-                    }
-                })
-                .catch(error => {
-                    Swal.fire(
-                        "Error",
-                        "Ocurrió un error inesperado.",
-                        "error"
-                    );
-                    console.error(error);
-                });
+                    });
+                }
+            })
+            .catch(error => {
+                Swal.fire(
+                    "Error",
+                    "Ocurrió un error inesperado.",
+                    "error"
+                );
+                console.error(error);
+            });
+            
         }
     });
 }

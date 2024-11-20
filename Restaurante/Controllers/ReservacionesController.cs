@@ -89,7 +89,7 @@ public IActionResult Create([FromBody] Reservacion reservacion)
     return BadRequest("Datos inválidos");
 }
 
-[HttpPost]
+
 public IActionResult CancelarReservacion([FromBody] int mesaID)
 {
     if (mesaID <= 0)

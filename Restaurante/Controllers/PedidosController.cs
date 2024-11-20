@@ -168,6 +168,8 @@ public class PedidosController : Controller
 
     public IActionResult DetallePedido(int id)
     {
+
+
         var pedido = _context.Pedidos.Find(id);
 
         if (pedido == null)
@@ -191,12 +193,13 @@ public class PedidosController : Controller
         ViewBag.PlatoID = selectListItems.OrderBy(t => t.Text).ToList();
 
         var menus = _context.Menus.ToList();
+        ViewBag.Menus = menus;
         var platos = _context.Platos.ToList();
 
-        menus.Add(new Menu { MenuID = 0, Nombre = "[MENUS...]" });
+        
         ViewBag.MenuID = new SelectList(menus.OrderBy(c => c.Nombre), "MenuID", "Nombre");
 
-        platos.Add(new Plato { PlatoID = 0, Nombre = "[PLATOS...]" });
+        
         ViewBag.PlatoID = new SelectList(platos.OrderBy(c => c.Nombre), "PlatoID", "Nombre");
 
 

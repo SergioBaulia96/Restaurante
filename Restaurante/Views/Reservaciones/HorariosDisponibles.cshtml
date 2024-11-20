@@ -2,6 +2,9 @@
 
 <h2 class="mb-4">Mesas disponibles para @Model.FechaSeleccionada.ToShortDateString()</h2>
 
+<p style="color: #000; font-size: 16px;">Las mesas <span class="text-success">verdes</span> están disponibles, mientras que las mesas <span class="text-danger">rojas</span> ya están reservadas.</p>
+
+
 <div class="row">
     @foreach (var mesa in Model.Mesas)
     {
@@ -30,14 +33,14 @@
 
 <!-- Modal de reservación -->
 <div class="modal fade" id="reservationModal" tabindex="-1" aria-labelledby="reservationModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content shadow-lg border-0">
+            <div class="modal-header text-white" style="background-color: #00c763;">
                 <h5 class="modal-title" id="reservationModalLabel">Reservar #<span id="mesaNumero"></span></h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
-                <form id="reservationForm">
+            <div class="modal-body p-4">
+                <form id="reservationForm" class="needs-validation" novalidate>
                     <input type="hidden" id="mesaID" name="MesaID" />
                     <div class="mb-3">
                         <label for="ClienteID" class="form-label">Cliente</label>
@@ -48,7 +51,13 @@
                         </span>
                     </div>
                 
-                    <button type="submit" class="btn btn-primary">Reservar</button>
+                    <button type="submit" class="btn text-white" style="background-color: #00c763;">
+                        <i class="lni lni-save"></i> Reservar
+                    </button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <i class="lni lni-close"></i> Cancelar
+                    </button>
+
                 </form>
             </div>
         </div>
