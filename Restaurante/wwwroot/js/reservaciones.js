@@ -78,7 +78,8 @@ document.getElementById('reservationForm').addEventListener('submit', function (
         .catch(error => console.error('Error:', error));
 });
 
-function cancelarReservacion(mesaID) {
+function cancelarReservacion(reservacionID) {
+    console.log("ReservacionID:", reservacionID); // Depuración
     Swal.fire({
         title: "¿Estás seguro?",
         text: "Esta acción cancelará la reservación de la mesa seleccionada.",
@@ -90,38 +91,27 @@ function cancelarReservacion(mesaID) {
         cancelButtonText: "No"
     }).then((result) => {
         if (result.isConfirmed) {
-            fetch(`/Reservaciones/CancelarReservacion`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ mesaID: mesaID })
-            })
-            .then(response => {
-                console.log("Status:", response.status);  // Verifica el código de estado HTTP
-                if (response.ok) {
+            $.ajax({
+                url: '/Reservaciones/CancelarReservacion',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({ reservacionID: reservacionID }),
+                success: function () {
                     Swal.fire(
                         "Reservación Cancelada",
                         "La reservación ha sido eliminada correctamente.",
                         "success"
                     ).then(() => location.reload());
-                } else {
-                    return response.text().then((text) => {
-                        Swal.fire(
-                            "Error",
-                            `No se pudo cancelar la reservación. Error: ${text}`,
-                            "error"
-                        );
-                    });
+                },
+                error: function (xhr) {
+                    const errorMessage = xhr.responseText || "Ocurrió un error inesperado.";
+                    Swal.fire(
+                        "Error",
+                        `No se pudo cancelar la reservación. Error: ${errorMessage}`,
+                        "error"
+                    );
                 }
-            })
-            .catch(error => {
-                Swal.fire(
-                    "Error",
-                    "Ocurrió un error inesperado.",
-                    "error"
-                );
-                console.error(error);
             });
-            
         }
     });
 }

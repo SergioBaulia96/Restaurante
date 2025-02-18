@@ -24,7 +24,9 @@
     </div>
     @if (!disponible)
                 {
-                    <button class="btn btn-danger w-100" onclick="cancelarReservacion('@mesa.MesaID')">Cancelar Reservación</button>
+                    <button class="btn btn-danger w-100" onclick="cancelarReservacion(@Model.Reservaciones.Where(r => r.MesaID == mesa.MesaID).Select(r => r.ReservacionID).FirstOrDefault())">
+    Cancelar Reservación
+</button>
                 }
 </div>
 

@@ -89,28 +89,18 @@ public IActionResult Create([FromBody] Reservacion reservacion)
     return BadRequest("Datos inválidos");
 }
 
-
-public IActionResult CancelarReservacion([FromBody] int mesaID)
+[HttpPost]
+public IActionResult CancelarReservacion(int reservacionID)
 {
-    if (mesaID <= 0)
+    Console.WriteLine("ReservacionID recibido:", reservacionID); // Depuración
+    var cancelarReservacion = _context.Reservaciones.Find(reservacionID);
+    if (cancelarReservacion != null)
     {
-        return BadRequest("ID de mesa inválido.");
+        _context.Reservaciones.Remove(cancelarReservacion);
+        _context.SaveChanges();
+        return Ok();
     }
-
-    var reservacion = _context.Reservaciones.FirstOrDefault(r => r.MesaID == mesaID);
-    if (reservacion == null)
-    {
-        return BadRequest("No se encontró una reservación para esta mesa.");
-    }
-
-    _context.Reservaciones.Remove(reservacion);
-    _context.SaveChanges();
-    return Ok();
+    return NotFound("No se encontró la reservación.");
 }
-
-
-
-
-
 
 }
