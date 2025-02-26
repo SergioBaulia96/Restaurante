@@ -12,22 +12,21 @@
         string cardColor = disponible ? "bg-success" : "bg-danger";
 
         <div class="col-md-3 mb-3">
-    <div class="card text-white @cardColor" onclick="openReservationModal('@mesa.MesaID', '@mesa.Numero')">
+    <div id="mesa-@mesa.MesaID" class="card text-white @cardColor" data-capacidad="@mesa.Capacidad" onclick="openReservationModal('@mesa.MesaID', '@mesa.Numero')">
         <div class="card-body">
-            <h5 class="card-title"> @mesa.Numero</h5>
+            <h5 class="card-title">@mesa.Numero</h5>
             <p class="card-text">
                 Capacidad: @mesa.Capacidad<br />
                 Cliente: @Model.Reservaciones.Where(r => r.MesaID == mesa.MesaID).Select(r => r.Clientes.NombreCompleto).FirstOrDefault()
             </p>
         </div>
-        
     </div>
     @if (!disponible)
-                {
-                    <button class="btn btn-danger w-100" onclick="cancelarReservacion(@Model.Reservaciones.Where(r => r.MesaID == mesa.MesaID).Select(r => r.ReservacionID).FirstOrDefault())">
-    Cancelar Reservación
-</button>
-                }
+    {
+        <button class="btn btn-danger w-100" onclick="cancelarReservacion(@Model.Reservaciones.Where(r => r.MesaID == mesa.MesaID).Select(r => r.ReservacionID).FirstOrDefault(), '@mesa.MesaID')">
+            Cancelar Reservación
+        </button>
+    }
 </div>
 
     }

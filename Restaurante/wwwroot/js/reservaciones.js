@@ -78,7 +78,7 @@ document.getElementById('reservationForm').addEventListener('submit', function (
         .catch(error => console.error('Error:', error));
 });
 
-function cancelarReservacion(reservacionID) {
+function cancelarReservacion(reservacionID, mesaID) {
     console.log("ReservacionID:", reservacionID); // Depuración
     Swal.fire({
         title: "¿Estás seguro?",
@@ -92,22 +92,33 @@ function cancelarReservacion(reservacionID) {
     }).then((result) => {
         if (result.isConfirmed) {
             $.ajax({
-                url: '/Reservaciones/CancelarReservacion',
-                type: 'POST',
-                contentType: 'application/json',
-                data: JSON.stringify({ reservacionID: reservacionID }),
+                url: `/Reservaciones/CancelarReservacion/${reservacionID}`,
+                type: 'DELETE',
                 success: function () {
+                    // Actualizar la UI
+                    const mesaCard = $(`#mesa-${mesaID}`);
+                    mesaCard.removeClass("bg-danger").addClass("bg-success"); // Cambiar color a verde
+                    mesaCard.find(".card-text").html(`Capacidad: ${mesaCard.data("capacidad")}<br />Cliente: -`); // Limpiar nombre del cliente
+                    mesaCard.next(".btn-danger").remove(); // Eliminar el botón de cancelación
+
                     Swal.fire(
                         "Reservación Cancelada",
                         "La reservación ha sido eliminada correctamente.",
                         "success"
-                    ).then(() => location.reload());
+                    );
                 },
                 error: function (xhr) {
-                    const errorMessage = xhr.responseText || "Ocurrió un error inesperado.";
+                    let errorMessage = "Ocurrió un error inesperado.";
+                    if (xhr.status === 404) {
+                        errorMessage = "La reservación no fue encontrada.";
+                    } else if (xhr.status === 500) {
+                        errorMessage = "Error en el servidor. Inténtelo de nuevo más tarde.";
+                    } else {
+                        errorMessage = xhr.responseText || errorMessage;
+                    }
                     Swal.fire(
                         "Error",
-                        `No se pudo cancelar la reservación. Error: ${errorMessage}`,
+                        `No se pudo cancelar la reservación. ${errorMessage}`,
                         "error"
                     );
                 }
@@ -115,6 +126,5 @@ function cancelarReservacion(reservacionID) {
         }
     });
 }
-
 
 

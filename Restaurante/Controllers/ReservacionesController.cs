@@ -89,18 +89,40 @@ public IActionResult Create([FromBody] Reservacion reservacion)
     return BadRequest("Datos inválidos");
 }
 
-[HttpPost]
-public IActionResult CancelarReservacion(int reservacionID)
+[HttpDelete]
+public JsonResult CancelarReservacion(int reservacionID)
 {
-    Console.WriteLine("ReservacionID recibido:", reservacionID); // Depuración
-    var cancelarReservacion = _context.Reservaciones.Find(reservacionID);
-    if (cancelarReservacion != null)
+    Console.WriteLine($"ReservacionID recibido: {reservacionID}"); // Depuración
+
+    // Validación del ID
+    if (reservacionID <= 0)
     {
-        _context.Reservaciones.Remove(cancelarReservacion);
-        _context.SaveChanges();
-        return Ok();
+        return Json(new { success = false, message = "ID de reservación no válido." });
     }
-    return NotFound("No se encontró la reservación.");
+
+    try
+    {
+        var cancelarReservacion = _context.Reservaciones.Find(reservacionID);
+        if (cancelarReservacion != null)
+        {
+            _context.Reservaciones.Remove(cancelarReservacion);
+            int rowsAffected = _context.SaveChanges();
+            if (rowsAffected > 0)
+            {
+                return Json(new { success = true, message = "Reservación cancelada correctamente." });
+            }
+            else
+            {
+                return Json(new { success = false, message = "No se pudo eliminar la reservación." });
+            }
+        }
+        return Json(new { success = false, message = "No se encontró la reservación." });
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Error al cancelar la reservación: {ex.Message}");
+        return Json(new { success = false, message = "Ocurrió un error al cancelar la reservación." });
+    }
 }
 
 }
