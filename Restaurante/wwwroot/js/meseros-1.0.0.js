@@ -1,20 +1,26 @@
 window.onload = ListadoMeseros();
 
-function ListadoMeseros()
-{
+function ListadoMeseros() {
+    let tbodyMeseros = document.getElementById("tbody-meseros");
+
+    // Verificar que el elemento del DOM esté disponible
+    if (!tbodyMeseros) {
+        console.error('Elemento tbody-meseros no encontrado.');
+        return;
+    }
+
     $.ajax({
         url: '../../Meseros/ListadoMeseros',
         data: {},
         type: 'POST',
         dataType: 'json',
-        success: function(listadoMeseros){
+        success: function (listadoMeseros) {
             $("#ModalMesero").modal("hide");
             LimpiarModal();
-            
-            let tabla = ``
 
-            $.each(listadoMeseros, function(index, meseros){
+            let tabla = '';
 
+            $.each(listadoMeseros, function (index, meseros) {
                 tabla += `
                 <tr>
                     <td>${meseros.nombre}</td>
@@ -29,10 +35,11 @@ function ListadoMeseros()
                 </tr>
                 `;
             });
-            document.getElementById("tbody-meseros").innerHTML = tabla;                                
+
+            tbodyMeseros.innerHTML = tabla;
         },
-        error: function(xhr, status){
-            console.log('Problemas al cargar la tabla');
+        error: function (xhr, status) {
+            console.error('Problemas al cargar la tabla. Estado:', status, 'Detalles:', xhr);
         }
     });
 }

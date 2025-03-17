@@ -112,7 +112,7 @@ public class PedidosController : Controller
         return Json(pedidosPorID.ToList());
     }
 
-        public JsonResult GuardarPedido(int? PedidoID, int ClienteID, int MeseroID, int MesaID, Estado Estado, DateTime FechaPedido)
+public JsonResult GuardarPedido(int? PedidoID, int ClienteID, int MeseroID, int MesaID, Estado Estado, DateTime FechaPedido)
 {
     string resultado = "Error al guardar el pedido";
     bool exito = false;
@@ -141,6 +141,12 @@ public class PedidosController : Controller
         var editarPedido = _context.Pedidos.Where(e => e.PedidoID == PedidoID).SingleOrDefault();
         if (editarPedido != null)
         {
+            // Validar si el pedido está en estado "Listo"
+            if (editarPedido.Estado == Estado.Listo)
+            {
+                return Json(new { exito = false, mensaje = "No se puede editar un pedido que está en estado 'Listo'." });
+            }
+
             editarPedido.ClienteID = ClienteID;
             editarPedido.MeseroID = MeseroID;
             editarPedido.MesaID = MesaID;
@@ -154,7 +160,7 @@ public class PedidosController : Controller
     return Json(new { exito, mensaje = resultado });
 }
 
-        public JsonResult EliminarPedido(int PedidoID)
+public JsonResult EliminarPedido(int PedidoID)
 {
     try
     {
@@ -162,6 +168,12 @@ public class PedidosController : Controller
         if (pedido == null)
         {
             return Json(new { exito = false, mensaje = "El pedido no existe." });
+        }
+
+        // Validar si el pedido está en estado "Listo"
+        if (pedido.Estado == Estado.Listo)
+        {
+            return Json(new { exito = false, mensaje = "No se puede eliminar un pedido que está en estado 'Listo'." });
         }
 
         var detalles = _context.DetallesPedidos.Where(d => d.PedidoID == PedidoID).ToList();
