@@ -106,12 +106,25 @@ function CargarDetalles(pedidoID) {
     });
 }
 
-function LimpiarModal(){
-    document.getElementById("PedidoID").value = 0;
-    document.getElementById("MenuID").value = 0; 
-    document.getElementById("PlatoID").value = 0;
+function LimpiarModal() {
+    // Limpiar los valores de los campos del modal
+    document.getElementById("PedidoID").value = "0";
     document.getElementById("Cantidad").value = "";
+
+    // Restablecer los DropdownList a su estado inicial
+    $('#MenuID').val('').trigger('change'); // Restablecer el DropdownList de MenuID
+    $('#PlatoID').val('').trigger('change'); // Restablecer el DropdownList de PlatoID
+
+    // Ocultar mensajes de error
+    $('#errorMensajeTipoMenu').hide();
+    $('#errorMensajePlato').hide();
+    $('#errorMensajeCantidad').hide();
 }
+
+// Asegúrate de que la función LimpiarModal se llame cuando el modal se cierre
+$('#ModalDetalle').on('hidden.bs.modal', function () {
+    LimpiarModal();
+});
 
 function EliminarDetalle(detallePedidoID) {
     Swal.fire({
@@ -141,6 +154,7 @@ function EliminarDetalle(detallePedidoID) {
                             timer: 1500
                         });
 
+                        // Recargar la tabla de detalles
                         var pedidoID = $('#PedidoID').val();
                         CargarDetalles(pedidoID); // Recarga los detalles después de eliminar
                     } else {
@@ -148,7 +162,7 @@ function EliminarDetalle(detallePedidoID) {
                         Swal.fire({
                             icon: 'error',
                             title: 'Error',
-                            text: response.mensaje,  // Mostrar el mensaje de error que devuelve el servidor
+                            text: response.mensaje || 'No se pudo eliminar el detalle.',  // Mostrar el mensaje de error que devuelve el servidor
                         });
                     }
                 },

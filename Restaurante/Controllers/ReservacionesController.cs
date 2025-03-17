@@ -90,19 +90,19 @@ public IActionResult Create([FromBody] Reservacion reservacion)
 }
 
 [HttpDelete]
-public JsonResult CancelarReservacion(int reservacionID)
+public JsonResult CancelarReservacion(int id)
 {
-    Console.WriteLine($"ReservacionID recibido: {reservacionID}"); // Depuración
+    Console.WriteLine($"ReservacionID recibido: {id}"); // Depuración
 
     // Validación del ID
-    if (reservacionID <= 0)
+    if (id <= 0)
     {
         return Json(new { success = false, message = "ID de reservación no válido." });
     }
 
     try
     {
-        var cancelarReservacion = _context.Reservaciones.Find(reservacionID);
+        var cancelarReservacion = _context.Reservaciones.Find(id);
         if (cancelarReservacion != null)
         {
             _context.Reservaciones.Remove(cancelarReservacion);

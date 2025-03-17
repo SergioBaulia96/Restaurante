@@ -205,36 +205,48 @@ function ValidarEliminacion(PedidoID) {
 }
 
 function EliminarPedido(PedidoID) {
-    $.ajax({
-        url: '../../Pedidos/EliminarPedido',
-        data: { pedidoID: PedidoID },
-        type: 'POST',
-        dataType: 'json',
-        success: function (response) {
-            if (response.exito) {
-                Swal.fire({
-                    icon: 'success',
-                    title: '¡Eliminado!',
-                    text: 'El pedido ha sido eliminado correctamente.',
-                    showConfirmButton: false,
-                    timer: 1500
-                });
-                ListadoPedidos();
-            } else {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'No se pudo eliminar el pedido. Intente de nuevo.',
-                });
-            }
-        },
-        error: function (xhr, status) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: 'Hubo un problema al eliminar el pedido.',
+    Swal.fire({
+        title: '¿Estás seguro?',
+        text: "¡No podrás revertir esto!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí, eliminar!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                url: '../../Pedidos/EliminarPedido',
+                data: { pedidoID: PedidoID },
+                type: 'POST',
+                dataType: 'json',
+                success: function (response) {
+                    if (response.exito) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: '¡Eliminado!',
+                            text: 'El pedido ha sido eliminado correctamente.',
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                        ListadoPedidos();
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: response.mensaje || 'No se pudo eliminar el pedido. Intente de nuevo.',
+                        });
+                    }
+                },
+                error: function (xhr, status) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Hubo un problema al eliminar el pedido.',
+                    });
+                    console.log('Problemas al eliminar Pedido');
+                }
             });
-            console.log('Problemas al eliminar Pedido');
         }
     });
 }

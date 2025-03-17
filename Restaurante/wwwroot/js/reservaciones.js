@@ -95,17 +95,13 @@ function cancelarReservacion(reservacionID, mesaID) {
                 url: `/Reservaciones/CancelarReservacion/${reservacionID}`,
                 type: 'DELETE',
                 success: function () {
-                    // Actualizar la UI
+                    // Actualiza la UI
                     const mesaCard = $(`#mesa-${mesaID}`);
-                    mesaCard.removeClass("bg-danger").addClass("bg-success"); // Cambiar color a verde
-                    mesaCard.find(".card-text").html(`Capacidad: ${mesaCard.data("capacidad")}<br />Cliente: -`); // Limpiar nombre del cliente
-                    mesaCard.next(".btn-danger").remove(); // Eliminar el botón de cancelación
-
-                    Swal.fire(
-                        "Reservación Cancelada",
-                        "La reservación ha sido eliminada correctamente.",
-                        "success"
-                    );
+                    mesaCard.removeClass("bg-danger").addClass("bg-success");
+                    mesaCard.find(".card-text").html(`Capacidad: ${mesaCard.data("capacidad")}<br />Cliente: -`);
+                    mesaCard.next(".btn-danger").remove();
+                
+                    Swal.fire("Reservación Cancelada", "La reservación ha sido eliminada correctamente.", "success");
                 },
                 error: function (xhr) {
                     let errorMessage = "Ocurrió un error inesperado.";

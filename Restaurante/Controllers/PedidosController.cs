@@ -155,16 +155,32 @@ public class PedidosController : Controller
 }
 
         public JsonResult EliminarPedido(int PedidoID)
+{
+    try
     {
         var pedido = _context.Pedidos.Find(PedidoID);
-        var detalles = _context.DetallesPedidos.Where( d=> d.PedidoID == PedidoID).ToList();
+        if (pedido == null)
+        {
+            return Json(new { exito = false, mensaje = "El pedido no existe." });
+        }
 
-        _context.DetallesPedidos.RemoveRange(detalles);
-        _context.Remove(pedido);
+        var detalles = _context.DetallesPedidos.Where(d => d.PedidoID == PedidoID).ToList();
+        if (detalles.Any())
+        {
+            _context.DetallesPedidos.RemoveRange(detalles);
+        }
+
+        _context.Pedidos.Remove(pedido);
         _context.SaveChanges();
 
-        return Json(true);
+        return Json(new { exito = true });
     }
+    catch (Exception ex)
+    {
+        // Log the exception (ex) here if needed
+        return Json(new { exito = false, mensaje = "Ocurrió un error al eliminar el pedido." });
+    }
+}
 
     public IActionResult DetallePedido(int id)
     {
@@ -237,9 +253,14 @@ public JsonResult ListadoDetalle(int PedidoID)
 // Eliminar un detalle del pedido
 public JsonResult EliminarDetalle(int DetallePedidoID)
 {
-    var detalle = _context.DetallesPedidos.Find(DetallePedidoID);
-    if (detalle != null)
+    try
     {
+        var detalle = _context.DetallesPedidos.Find(DetallePedidoID);
+        if (detalle == null)
+        {
+            return Json(new { exito = false, mensaje = "El detalle del pedido no existe." });
+        }
+
         var pedido = _context.Pedidos.Find(detalle.PedidoID);
         if (pedido?.Estado == Estado.Listo)
         {
@@ -250,12 +271,17 @@ public JsonResult EliminarDetalle(int DetallePedidoID)
         {
             pedido.Total -= detalle.Subtotal;
         }
+
         _context.DetallesPedidos.Remove(detalle);
         _context.SaveChanges();
+
         return Json(new { exito = true });
     }
-
-    return Json(new { exito = false });
+    catch (Exception ex)
+    {
+        // Log the exception (ex) here if needed
+        return Json(new { exito = false, mensaje = "Ocurrió un error al eliminar el detalle del pedido." });
+    }
 }
 
 
