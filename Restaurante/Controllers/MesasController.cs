@@ -86,26 +86,60 @@ public class MesasController : Controller
     return Json(resultado);
 }
 
-    public JsonResult EliminarMesa(int MesaID)
+    [HttpPost]
+public IActionResult VerificarMesaAsociada(int mesaID)
 {
-    var mesa = _context.Mesas.Find(MesaID);
+    // Verificar si existe alguna reserva asociada a la mesa
+    bool tieneReservas = _context.Reservaciones.Any(r => r.MesaID == mesaID);
+
+    // Verificar si existe algún pedido asociado a la mesa
+    bool tienePedidos = _context.Pedidos.Any(p => p.MesaID == mesaID);
+
+    if (tieneReservas || tienePedidos)
+    {
+        // Si la mesa está asociada a una reserva o a un pedido, devolver un objeto JSON con estado "asociada"
+        return Json(new { estado = "asociada" });
+    }
+    else
+    {
+        // Si la mesa no está asociada a ninguna reserva ni a ningún pedido, devolver un objeto JSON con estado "no_asociada"
+        return Json(new { estado = "no_asociada" });
+    }
+}
+
+    // Método para eliminar una mesa
+    [HttpPost]
+public IActionResult EliminarMesa(int mesaID)
+{
+    // Verificar si existe alguna reserva asociada a la mesa
+    bool tieneReservas = _context.Reservaciones.Any(r => r.MesaID == mesaID);
+
+    // Verificar si existe algún pedido asociado a la mesa
+    bool tienePedidos = _context.Pedidos.Any(p => p.MesaID == mesaID);
+
+    if (tieneReservas || tienePedidos)
+    {
+        // Si la mesa está asociada a una reserva o a un pedido, devolver un mensaje de error
+        return Json("No se puede eliminar la mesa porque está asociada a una reserva o a un pedido.");
+    }
+
+    // Buscar la mesa en la base de datos
+    var mesa = _context.Mesas.FirstOrDefault(m => m.MesaID == mesaID);
+
     if (mesa == null)
     {
-        return Json("Mesa no encontrada.");
+        // Si la mesa no existe, devolver un mensaje de error
+        return Json("La mesa no existe.");
     }
 
-    // Verificar si la mesa está habilitada
-    if (mesa.Disponible)
-    {
-        return Json("No se puede eliminar la mesa porque está habilitada.");
-    }
-
-    // Si pasa las validaciones, eliminar la mesa
+    // Eliminar la mesa
     _context.Mesas.Remove(mesa);
     _context.SaveChanges();
 
+    // Devolver un mensaje de éxito
     return Json("Mesa eliminada correctamente.");
 }
+
 
     public JsonResult CambiarEstadoMesa(int MesaID, bool Disponible)
 {

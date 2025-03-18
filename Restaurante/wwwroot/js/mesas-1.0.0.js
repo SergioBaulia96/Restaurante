@@ -208,29 +208,49 @@ function ValidarEliminacion(MesaID)
 
 function EliminarMesa(MesaID) {
     $.ajax({
-        url: '../../Mesas/EliminarMesa',
+        url: '../../Mesas/VerificarMesaAsociada',
         type: 'POST',
         data: { mesaID: MesaID },
         dataType: 'json',
         success: function(resultado) {
-            if (resultado === "Mesa eliminada correctamente.") {
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Mesa eliminada',
-                    text: resultado,
-                }).then(() => {
-                    ListadoMesas(); // Recargar la lista de mesas
-                });
-            } else {
+            if (resultado.estado === "asociada") {
                 Swal.fire({
                     icon: 'error',
-                    title: 'Error',
-                    text: resultado,
+                    title: 'No se puede eliminar',
+                    text: 'La mesa está asociada a una reserva y no puede ser eliminada.',
+                });
+            } else {
+                // Si la mesa no está asociada, proceder con la eliminación
+                $.ajax({
+                    url: '../../Mesas/EliminarMesa',
+                    type: 'POST',
+                    data: { mesaID: MesaID },
+                    dataType: 'json',
+                    success: function(resultado) {
+                        if (resultado === "Mesa eliminada correctamente.") {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Mesa eliminada',
+                                text: resultado,
+                            }).then(() => {
+                                ListadoMesas(); // Recargar la lista de mesas
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: resultado,
+                            });
+                        }
+                    },
+                    error: function(xhr, status) {
+                        console.log('Error al eliminar la mesa');
+                    }
                 });
             }
         },
         error: function(xhr, status) {
-            console.log('Error al eliminar la mesa');
+            console.log('Error al verificar la mesa asociada');
         }
     });
 }
