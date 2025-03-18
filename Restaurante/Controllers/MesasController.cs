@@ -87,4 +87,16 @@ public class MesasController : Controller
 
         return Json(eliminarMesa);
     }
+
+    public JsonResult CambiarEstadoMesa(int MesaID, bool Disponible)
+{
+    var mesa = _context.Mesas.Find(MesaID);
+    if (mesa != null)
+    {
+        mesa.Disponible = Disponible;
+        _context.SaveChanges();
+        return Json("Estado de la mesa actualizado.");
+    }
+    return Json("Mesa no encontrada.");
+}
 }

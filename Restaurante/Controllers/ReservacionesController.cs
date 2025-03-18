@@ -31,8 +31,8 @@ public class ReservacionesController : Controller
         clientes.Add(new Cliente { ClienteID = 0, Apellido = "[CLIENTE...]"});
         ViewBag.ClienteID = new SelectList(clientes.OrderBy(c => c.NombreCompleto), "ClienteID", "NombreCompleto");
 
-    var mesas = _context.Mesas
-        .ToList();
+    var mesas = _context.Mesas.OrderBy(m => m.Numero).ToList();
+
 
     var reservaciones = _context.Reservaciones.Include(r => r.Clientes).Include(m => m.Mesas).Where(r => r.FechaReservacion.Date == fecha.Date).ToList();
 

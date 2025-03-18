@@ -37,7 +37,6 @@ function ListadoPedidos() {
                     <tr>
                         <td><a type="button" class="btn btn-success" href="/Pedidos/DetallePedido/${pedidos.pedidoID}" title="Ver Detalle">
                         <i class="lni lni-eye"></i> Detalle</a>
-                        <td style="text-align: center;">${pedidos.nombreCliente} ${pedidos.apellidoCliente}</td>
                         <td class="d-none d-md-table-cell" style="text-align: center;">${pedidos.nombreMesero} ${pedidos.apellidoMesero}</td>
                         <td class="d-none d-md-table-cell" style="text-align: center;">${pedidos.numeroMesa}</td>
                         <td class="d-none d-md-table-cell" style="text-align: center;">${fecha}<br><span style="font-size: 0.8em;">${hora}</span></td>
@@ -61,7 +60,6 @@ function ListadoPedidos() {
 
 
 function LimpiarModal(){
-    document.getElementById("ClienteID").value = 0;
     document.getElementById("MeseroID").value = 0;
     document.getElementById("MesaID").value = 0;
     document.getElementById("Estado").value = 0;
@@ -76,20 +74,11 @@ function NuevoPedido(){
 }
 
 function GuardarPedido() {
-    let clienteID = document.getElementById("ClienteID").value;
     let meseroID = document.getElementById("MeseroID").value;
     let mesaID = document.getElementById("MesaID").value;
     let estado = document.getElementById("Estado").value;
     let fechaPedido = document.getElementById("FechaPedido").value;
     let isValid = true;
-
-    // Validaciones
-    if (clienteID === "0") {
-        document.getElementById("errorMensajeCliente").style.display = "block";
-        isValid = false;
-    } else {
-        document.getElementById("errorMensajeCliente").style.display = "none";
-    }
 
     if (meseroID === "0") {
         document.getElementById("errorMensajeMesero").style.display = "block";
@@ -113,7 +102,6 @@ function GuardarPedido() {
         url: '../../Pedidos/GuardarPedido',
         data: {
             PedidoID: document.getElementById("PedidoID").value,
-            ClienteID: clienteID,
             MeseroID: meseroID,
             MesaID: mesaID,
             Estado: estado,
@@ -172,7 +160,7 @@ function ModalEditar(PedidoID) {
             let listadoPedido = listadoPedidos[0];
             document.getElementById("PedidoID").value = PedidoID;
             $("#tituloModal").text("Editar Pedido");
-            document.getElementById("ClienteID").value = listadoPedido.clienteID;
+
             document.getElementById("MeseroID").value = listadoPedido.meseroID;
             document.getElementById("MesaID").value = listadoPedido.mesaID;
             document.getElementById("Estado").value = listadoPedido.estado;

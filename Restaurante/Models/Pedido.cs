@@ -11,11 +11,11 @@ namespace Restaurante.Models;
         public int PedidoID { get; set; }
         public int MesaID { get; set; }
         public int MeseroID { get; set; }
-        public int ClienteID { get; set; }
+
         public DateTime FechaPedido { get; set; }
         public Estado Estado { get; set; }
         public decimal Total { get; set; }
-        public virtual Cliente Clientes { get; set; }
+
         public virtual Mesero Meseros { get; set; }
         public virtual Mesa Mesas { get; set; }
         public virtual ICollection<DetallePedido> DetallesPedidos { get; set; }

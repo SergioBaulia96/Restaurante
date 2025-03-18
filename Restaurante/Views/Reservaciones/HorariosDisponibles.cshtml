@@ -2,33 +2,37 @@
 
 <h2 class="mb-4">Mesas disponibles para @Model.FechaSeleccionada.ToShortDateString()</h2>
 
-<p style="color: #000; font-size: 16px;">Las mesas <span class="text-success">verdes</span> están disponibles, mientras que las mesas <span class="text-danger">rojas</span> ya están reservadas.</p>
+<p style="color: #000; font-size: 16px;">Las mesas <span class="text-success">verdes</span> están disponibles, las mesas <span class="text-secondary">grises</span> no estan habilitadas, mientras que las mesas <span class="text-danger">rojas</span> ya están reservadas.</p>
 
 
 <div class="row">
     @foreach (var mesa in Model.Mesas)
     {
         bool disponible = !Model.Reservaciones.Any(r => r.MesaID == mesa.MesaID);
-        string cardColor = disponible ? "bg-success" : "bg-danger";
+        bool mesaDeshabilitada = !mesa.Disponible; // Verifica si la mesa está deshabilitada
+        string cardColor = mesaDeshabilitada ? "bg-secondary" : (disponible ? "bg-success" : "bg-danger");
+        string cursorStyle = mesaDeshabilitada ? "not-allowed" : "pointer";
 
         <div class="col-md-3 mb-3">
-    <div id="mesa-@mesa.MesaID" class="card text-white @cardColor" data-capacidad="@mesa.Capacidad" onclick="openReservationModal('@mesa.MesaID', '@mesa.Numero')">
-        <div class="card-body">
-            <h5 class="card-title">@mesa.Numero</h5>
-            <p class="card-text">
-                Capacidad: @mesa.Capacidad<br />
-                Cliente: @Model.Reservaciones.Where(r => r.MesaID == mesa.MesaID).Select(r => r.Clientes.NombreCompleto).FirstOrDefault()
-            </p>
+            <div id="mesa-@mesa.MesaID" class="card text-white @cardColor" 
+                data-capacidad="@mesa.Capacidad" 
+                style="cursor: @cursorStyle;" 
+                @if (!mesaDeshabilitada) { <text>onclick="openReservationModal('@mesa.MesaID', '@mesa.Numero')"</text> }>
+                <div class="card-body">
+                    <h5 class="card-title">@mesa.Numero</h5>
+                    <p class="card-text">
+                        Capacidad: @mesa.Capacidad<br />
+                        Cliente: @Model.Reservaciones.Where(r => r.MesaID == mesa.MesaID).Select(r => r.Clientes.NombreCompleto).FirstOrDefault()
+                    </p>
+                </div>
+            </div>
+            @if (!disponible && !mesaDeshabilitada)
+            {
+                <button class="btn btn-danger w-100" onclick="cancelarReservacion(@Model.Reservaciones.Where(r => r.MesaID == mesa.MesaID).Select(r => r.ReservacionID).FirstOrDefault(), '@mesa.MesaID')">
+                    Cancelar Reservación
+                </button>
+            }
         </div>
-    </div>
-    @if (!disponible)
-    {
-        <button class="btn btn-danger w-100" onclick="cancelarReservacion(@Model.Reservaciones.Where(r => r.MesaID == mesa.MesaID).Select(r => r.ReservacionID).FirstOrDefault(), '@mesa.MesaID')">
-            Cancelar Reservación
-        </button>
-    }
-</div>
-
     }
 </div>
 

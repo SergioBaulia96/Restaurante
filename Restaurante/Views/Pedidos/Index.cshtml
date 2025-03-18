@@ -42,14 +42,7 @@
                     <p style="color: gray;">!Todos los campos son obligatorios!</p>
                     <input type="hidden" id="PedidoID" value="0" />
 
-                    <div class="mb-3">
-                        <label for="ClienteID" class="form-label">Cliente</label>
-                        @Html.DropDownList("ClienteID", null, htmlAttributes: new { @class = "form-control shadow-sm" })
-                        <span id="errorMensajeCliente"
-                        style="color:red; display:none; font-size: 15px; padding-left: 4px;">
-                        <i class="lni lni-warning pe-1"></i>Debe seleccionar un tipo de cliente.
-                        </span>
-                    </div>
+                    
 
                     <div class="mb-3">
                         <label for="MeseroID" class="form-label">Mesero</label>
@@ -103,7 +96,6 @@
         <thead>
             <tr>
                 <th style="background-color: #019a4e; text-align: center;">Detalles</th>
-                <th style="background-color: #019a4e; text-align: center;">Cliente</th>
                 <th class="d-none d-md-table-cell" style="background-color: #019a4e; text-align: center;">Mesero</th>
                 <th class="d-none d-md-table-cell" style="background-color: #019a4e; text-align: center;">Mesa</th>
                 <th class="d-none d-md-table-cell" style="background-color: #019a4e; text-align: center;">Fecha y Hora</th>
