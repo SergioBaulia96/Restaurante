@@ -1,10 +1,10 @@
-document.addEventListener('DOMContentLoaded', function(){
+document.addEventListener('DOMContentLoaded', function () {
     var pedidoID = document.getElementById("PedidoID").value;
     CargarDetalles(pedidoID);
 });
 
 function GuardarDetalle() {
-    var pedidoID = $('#PedidoID').val(); // Asegúrate de que el ID del pedido esté en un campo oculto.
+    var pedidoID = $('#PedidoID').val();
     var platoID = $('#PlatoID').val();
     var cantidad = $('#Cantidad').val();
 
@@ -36,7 +36,6 @@ function GuardarDetalle() {
                     timer: 1500
                 });
 
-                // Actualiza la tabla de detalles del pedido
                 CargarDetalles(pedidoID);
                 $('#ModalDetalle').modal('hide'); // Cierra el modal
             } else {
@@ -69,7 +68,7 @@ function CargarDetalles(pedidoID) {
         success: function (response) {
             var tbody = $('#tbody-detallespedidos');
             tbody.empty(); // Limpiar el cuerpo de la tabla
-            
+
             var subtotal = 0;
 
             // Itera sobre los detalles del pedido y agrega filas a la tabla
@@ -89,7 +88,7 @@ function CargarDetalles(pedidoID) {
                     </svg></button></td>
                 </tr>
                 `;
-                
+
                 tbody.append(fila);
 
                 subtotal += detalle.subtotal;
@@ -197,7 +196,7 @@ function actualizarSubtotal(pedidoID) {
         url: '/Pedidos/CalcularSubtotal',
         type: 'GET',
         data: { PedidoID: pedidoID },
-        success: function(response) {
+        success: function (response) {
             $('#Subtotal').text('Subtotal: $' + response.subtotal);
         }
     });
@@ -207,7 +206,7 @@ function actualizarSubtotal(pedidoID) {
 $(document).ready(function () {
     $('#MenuID').change(function () {
         var menuID = $(this).val();
-        
+
         if (menuID) {
             // Hacer la llamada AJAX para obtener los platos del menú seleccionado
             $.ajax({

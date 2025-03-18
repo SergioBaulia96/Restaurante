@@ -2,9 +2,12 @@ window.onload = ListadoPlatos();
 
 function ListadoPlatos()
 {
+    let buscarMenu = $("#BuscarMenu").val();
     $.ajax({
         url: '../../Menus/ListadoPlatos',
-        data: {},
+        data: {
+            buscarMenu: buscarMenu
+        },
         type: 'POST',
         dataType: 'json',
         success: function(listadoPlatos){

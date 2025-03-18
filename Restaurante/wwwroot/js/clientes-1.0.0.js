@@ -9,14 +9,14 @@ function ListadoClientes() {
         },
         type: 'POST',
         dataType: 'json',
-        success: function(listadoClientes) {
+        success: function (listadoClientes) {
             $("#ModalCliente").modal("hide");
             LimpiarModal();
 
             let tabla = ``;
 
-            $.each(listadoClientes, function(index, clientes) {
-                let botonEstado = clientes.activo ? 
+            $.each(listadoClientes, function (index, clientes) {
+                let botonEstado = clientes.activo ?
                     `<button type="button" class="state-button" onclick="CambiarEstadoCliente(${clientes.clienteID}, false)" data-text="Habilitado" style="background-color: #00c763;">
                         <i class="lni lni-eye"></i>
                     </button>` :
@@ -42,7 +42,7 @@ function ListadoClientes() {
             });
             document.getElementById("tbody-clientes").innerHTML = tabla;
         },
-        error: function(xhr, status) {
+        error: function (xhr, status) {
             console.log('Problemas al cargar la tabla');
         }
     });
@@ -54,7 +54,7 @@ function CambiarEstadoCliente(ClienteID, Activo) {
         data: { clienteID: ClienteID, activo: Activo },
         type: 'POST',
         dataType: 'json',
-        success: function(resultado) {
+        success: function (resultado) {
             Swal.fire({
                 icon: 'success',
                 title: 'Estado Actualizado',
@@ -65,14 +65,14 @@ function CambiarEstadoCliente(ClienteID, Activo) {
                 ListadoClientes();
             });
         },
-        error: function(xhr, status) {
+        error: function (xhr, status) {
             console.log('Problemas al cambiar el estado del cliente');
         }
     });
 }
 
 
-function LimpiarModal(){
+function LimpiarModal() {
     document.getElementById("ClienteID").value = 0;
     document.getElementById("Nombre").value = "";
     document.getElementById("Apellido").value = "";
@@ -84,7 +84,7 @@ function LimpiarModal(){
     document.getElementById("errorMensajeTelefono").style.display = "none"
 }
 
-function NuevoCliente(){
+function NuevoCliente() {
     $("#tituloModal").text("Nuevo Cliente");
 }
 
@@ -213,7 +213,7 @@ function EliminarCliente(ClienteID) {
         data: { clienteID: ClienteID },
         type: 'POST',
         dataType: 'json',
-        success: function(EliminarCliente) {
+        success: function (EliminarCliente) {
             Swal.fire({
                 icon: 'success',
                 title: '¡Eliminado!',
@@ -223,7 +223,7 @@ function EliminarCliente(ClienteID) {
             });
             ListadoClientes();
         },
-        error: function(xhr, status) {
+        error: function (xhr, status) {
             console.log('Problemas al eliminar Cliente');
         }
     });

@@ -98,29 +98,41 @@ public class MenusController : Controller
         ViewBag.MenuID = selectListItems.OrderBy(t => t.Text).ToList();
         var menus = _context.Menus.ToList();
 
+        var menu = _context.Menus.ToList();
+
         menus.Add(new Menu { MenuID = 0, Nombre = "[MENUS...]" });
         ViewBag.MenuID = new SelectList(menus.OrderBy(c => c.Nombre), "MenuID", "Nombre");
+
+        menu.Insert(0, new Menu { MenuID = 0, Nombre = "[MENÚ]" });
+        ViewBag.BuscarMenu = new SelectList(menu, "MenuID", "Nombre");
+
         return View();
     }
 
 
 
-    public JsonResult ListadoPlatos(int? id)
+    public JsonResult ListadoPlatos(int? id, int? buscarMenu)
     {
         List<VistaPlato> platosMostrar = new List<VistaPlato>();
 
-        var platos = _context.Platos.AsQueryable();
+        var platos = _context.Platos.ToList();
+        var menues = _context.Menus.ToList();
+
+        if (buscarMenu != null && buscarMenu != 0)
+    {
+        platos = platos.Where(p => p.MenuID == buscarMenu).ToList();
+    }
 
         if (id != null)
         {
-            platos = platos.Where(t => t.PlatoID == id);
+            platos = platos.Where(t => t.PlatoID == id).ToList();
         }
 
         var menus = _context.Menus.ToList();
 
-        foreach (var p in platos)
+        foreach (var p in platos .OrderBy(p => menus.FirstOrDefault(m => m.MenuID == p.MenuID)?.Nombre))
         {
-            var menu = menus.Where(t => t.MenuID == p.MenuID).Single();
+            var menu = menus.Where(t => t.MenuID == p.MenuID).SingleOrDefault();
 
             var platoMostrar = new VistaPlato
             {

@@ -2,6 +2,41 @@
     ViewData["Title"] = "Platos";
 }
 
+<style>
+    .dropdown-container {
+        margin-bottom: 20px;
+    }
+
+    .input-transparent {
+        width: 300px;
+        padding: 10px;
+        border: 2px solid #00c763;
+        border-radius: 8px;
+        background-color: transparent;
+        color: #333;
+        font-size: 16px;
+        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .input-transparent:focus {
+        border-color: #019a4e;
+        outline: none;
+        box-shadow: 0 0 8px rgba(1, 154, 78, 0.5);
+    }
+
+    .input-transparent:hover {
+        border-color: #019a4e;
+    }
+
+    .form-label.titulo {
+        display: block;
+        margin-bottom: 8px;
+        font-size: 18px;
+        font-weight: bold;
+        color: #333;
+    }
+</style>
+
 <body>
 
 <section class="container-encabezado container">
@@ -12,6 +47,15 @@
       <div class="text">Agregar</div>
     </button>
 </section>
+
+<div class="dropdown-container">
+    <label for="BuscarMenu" class="form-label titulo">Selecciona un Menú</label>
+    @Html.DropDownList("BuscarMenu", null, htmlAttributes: new
+    {
+        @class = "form-control input-transparent",
+        onchange = "ListadoPlatos()"
+    })
+</div>
 
 
         <!-- Modal -->
@@ -62,10 +106,6 @@
             </span>
           </div>
 
-          @* <div class="form-check mb-3">
-            <input type="checkbox" class="form-check-input" id="Disponible">
-            <label class="form-check-label" for="Disponible">Disponible</label>
-          </div> *@
         </form>
       </div>
       <div class="modal-footer border-0">
