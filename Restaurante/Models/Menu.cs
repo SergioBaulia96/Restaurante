@@ -9,6 +9,7 @@ namespace Restaurante.Models;
         [Key]
         public int MenuID { get; set; }
         public string? Nombre { get; set; }
+        public bool? Disponible { get; set; }
         public virtual ICollection<Plato> Platos { get; set; }
     }
 

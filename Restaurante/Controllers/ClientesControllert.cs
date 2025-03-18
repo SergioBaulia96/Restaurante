@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Restaurante.Data;
 using Restaurante.Models;
 
@@ -17,14 +18,29 @@ public class ClientesController : Controller
     }
 
     public IActionResult Index()
-    {
+    {var selectListItems = new List<SelectListItem>
+        {
+            new SelectListItem { Value = "0", Text = "[SELECCIONE...]"}
+        };
+        ViewBag.ClienteID = selectListItems.OrderBy(t => t.Text).ToList();
+
+        var clientes = _context.Clientes.ToList();
+
+        clientes.Add(new Cliente { ClienteID = 0, Apellido = "*CLIENTES*"});
+
+        ViewBag.buscarApellido = new SelectList(clientes.OrderBy(c => c.NombreCompleto), "ClienteID", "NombreCompleto");
         return View();
     }
 
-    public JsonResult ListadoClientes(int? ClienteID)
+    public JsonResult ListadoClientes(int? ClienteID, int? buscarApellido)
     {
         var listadoClientes = _context.Clientes.ToList();
             listadoClientes = _context.Clientes.OrderBy(l => l.Nombre).ToList();
+
+        if (buscarApellido != 0)
+        {
+            listadoClientes = listadoClientes.Where(t => t.ClienteID == buscarApellido).ToList();
+        }
 
         if(ClienteID != null)
         {
@@ -33,7 +49,7 @@ public class ClientesController : Controller
         return Json(listadoClientes);
     }
 
-        public JsonResult GuardarCliente (int ClienteID, string Nombre, string Apellido, string Email, string Telefono)
+        public JsonResult GuardarCliente (int ClienteID, string Nombre, string Apellido, string Email, string Telefono, bool Activo)
     {
         string resultado = "";
 
@@ -57,7 +73,7 @@ public class ClientesController : Controller
                 Nombre = Nombre,
                 Apellido = Apellido,
                 Email = Email,
-                Telefono = Telefono
+                Telefono = Telefono,
             };
             _context.Add(nuevoCliente);
             _context.SaveChanges();
@@ -88,4 +104,16 @@ public class ClientesController : Controller
 
         return Json(eliminarCliente);
     }
+
+    public JsonResult CambiarEstadoCliente(int ClienteID, bool Activo)
+{
+    var cliente = _context.Clientes.Find(ClienteID);
+    if (cliente != null)
+    {
+        cliente.Activo = Activo;
+        _context.SaveChanges();
+        return Json("Estado del cliente actualizado.");
+    }
+    return Json("Cliente no encontrado.");
+}
 }

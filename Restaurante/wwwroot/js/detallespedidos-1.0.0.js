@@ -22,14 +22,12 @@ function GuardarDetalle() {
         $('#errorMensajeCantidad').hide();
     }
 
-    // Llamada AJAX para guardar el detalle del pedido
     $.ajax({
         url: '/Pedidos/GuardarDetalle',
         type: 'POST',
         data: { PedidoID: pedidoID, PlatoID: platoID, Cantidad: cantidad },
         success: function (response) {
             if (response.exito) {
-                // Mostrar alerta de éxito
                 Swal.fire({
                     icon: 'success',
                     title: '¡Éxito!',
@@ -98,12 +96,22 @@ function CargarDetalles(pedidoID) {
             });
 
             // Mostrar el subtotal en algún elemento (puedes agregarlo a la tabla o un div aparte)
-            $('#Subtotal').text('Subtotal: $' + subtotal.toFixed(2));
+            $('#Subtotal').text('Subtotal: ' + formatearSubtotal(subtotal));
         },
         error: function (error) {
             console.log(error);
         }
     });
+}
+
+function formatearSubtotal(valor) {
+    // Convertir el valor a número y formatearlo
+    return new Intl.NumberFormat('es-AR', {
+        style: 'currency',
+        currency: 'ARS', // Puedes cambiarlo a tu moneda local
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+    }).format(valor);
 }
 
 function LimpiarModal() {

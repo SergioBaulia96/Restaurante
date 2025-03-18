@@ -10,6 +10,7 @@ namespace Restaurante.Models;
         public string? Nombre { get; set; }
         public string? Apellido { get; set; }
         public string? Telefono { get; set; }
+        public bool Activo { get; set; }
         [NotMapped]
         public string? NombreCompleto { get { return $"{Nombre} {Apellido}";} }
         public virtual ICollection<Pedido> Pedidos { get; set; }

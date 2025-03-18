@@ -1,7 +1,40 @@
 @{
   ViewData["Title"] = "Clientes";
 }
+<style>
+    .dropdown-container {
+        margin-bottom: 20px;
+    }
 
+    .input-transparent {
+        width: 300px;
+        padding: 10px;
+        border: 2px solid #00c763;
+        border-radius: 8px;
+        background-color: transparent;
+        color: #333;
+        font-size: 16px;
+        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .input-transparent:focus {
+        border-color: #019a4e;
+        outline: none;
+        box-shadow: 0 0 8px rgba(1, 154, 78, 0.5);
+    }
+
+    .input-transparent:hover {
+        border-color: #019a4e;
+    }
+
+    .form-label.titulo {
+        display: block;
+        margin-bottom: 8px;
+        font-size: 18px;
+        font-weight: bold;
+        color: #333;
+    }
+</style>
 <body class="color-fondo-body">
 <section class="container-encabezado container">
 <h1 class="titulos">Clientes</h1>
@@ -12,6 +45,14 @@
     </button>
 </section>
 
+<div class="dropdown-container">
+    <label for="BuscarApellido" class="form-label titulo">Selecciona un cliente</label>
+    @Html.DropDownList("BuscarApellido", null, htmlAttributes: new
+    {
+        @class = "form-control input-transparent",
+        onchange = "ListadoClientes()"
+    })
+</div>
 
 <!-- Modal -->
 <div class="modal fade" id="ModalCliente" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -87,6 +128,7 @@
         <th style="background-color: #019a4e;">Apellido</th>
         <th class="d-none d-md-table-cell" style="background-color: #019a4e;">Email</th>
         <th class="d-none d-md-table-cell" style="background-color: #019a4e;">Telefono</th>
+        <th style="width: 150px; background-color: #019a4e;">Estado</th>
         <th style="width: 150px; background-color: #019a4e;">Editar</th>
         <th style="width: 150px; background-color: #019a4e;">Eliminar</th>
       </tr>

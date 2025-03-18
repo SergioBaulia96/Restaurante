@@ -4,6 +4,41 @@
   var mozo = (Mesero)@ViewBag.Mesero;
 }
 
+<style>
+    .subtotal-container {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        width: 300px;
+        padding: 16px;
+        background-color: #f8f9fa; /* Fondo claro */
+        border-radius: 8px; /* Bordes redondeados */
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra suave */
+        margin: 16px 0; /* Margen superior e inferior */
+        border-color: #00c763;
+    }
+
+    .subtotal-text {
+        font-size: 1.25em;
+        font-weight: bold;
+        margin: 20px;
+        border-color: #00c763;
+        text-align: end;
+
+        color: #333; /* Color de texto oscuro */
+        padding: 8px 16px;
+        background-color: #ffffff; /* Fondo blanco */
+        border-radius: 4px; /* Bordes redondeados */
+        border: 1px solid #e0e0e0; /* Borde sutil */
+        transition: all 0.3s ease; /* Transición suave */
+    }
+
+    .subtotal-text:hover {
+        background-color: #f1f1f1; /* Cambio de color al pasar el mouse */
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra al pasar el mouse */
+    }
+</style>
+
 <body>
 <section class="container mt-4">
     <!-- Título centrado del pedido -->
@@ -103,13 +138,10 @@
     </table>
 </div>
 
-
-    <!-- Lugar donde se muestra el subtotal -->
-    <div class="d-flex justify-content-end align-items-center p-3">
-        <div id="Subtotal" class="text-dark" style="font-size: 1.25em; font-weight: bold;">
+        <div id="Subtotal" class="subtotal-text">
             Subtotal: $0.00
         </div>
-    </div>
+
 </div>
 </body>
 

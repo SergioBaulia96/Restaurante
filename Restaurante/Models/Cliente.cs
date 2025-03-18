@@ -11,6 +11,7 @@ namespace Restaurante.Models;
         public string? Apellido { get; set; }
         public string? Email { get; set; }
         public string? Telefono { get; set; }
+        public bool Activo { get; set; }
         [NotMapped]
         public string? NombreCompleto { get { return $"{Nombre} {Apellido}";} }
         public virtual ICollection<Pedido> Pedidos { get; set; }
