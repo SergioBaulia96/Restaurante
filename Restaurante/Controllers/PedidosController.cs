@@ -216,7 +216,7 @@ public JsonResult EliminarPedido(int PedidoID)
         ViewBag.MenuID = selectListItems.OrderBy(t => t.Text).ToList();
         ViewBag.PlatoID = selectListItems.OrderBy(t => t.Text).ToList();
 
-        var menus = _context.Menus.ToList();
+        var menus = _context.Menus.OrderBy(m => m.Nombre).ToList();
         ViewBag.Menus = menus;
         var platos = _context.Platos.ToList();
 
@@ -235,6 +235,7 @@ public JsonResult EliminarPedido(int PedidoID)
     var platos = _context.Platos
                         .Where(p => p.MenuID == menuID)
                         .Select(p => new { p.PlatoID, p.Nombre })
+                        .OrderBy(p => p.Nombre)
                         .ToList();
 
     return Json(platos);

@@ -27,7 +27,7 @@ public class ReservacionesController : Controller
             new SelectListItem { Value = "0", Text = "[SELECCIONE...]"}
         };
         ViewBag.ClienteID = selectListItems.OrderBy(t => t.Text).ToList();
-        var clientes = _context.Clientes.ToList();
+        var clientes = _context.Clientes.Where(h => h.Activo == true).ToList();
         clientes.Add(new Cliente { ClienteID = 0, Apellido = "[CLIENTE...]"});
         ViewBag.ClienteID = new SelectList(clientes.OrderBy(c => c.NombreCompleto), "ClienteID", "NombreCompleto");
 
